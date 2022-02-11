@@ -37,6 +37,8 @@
 		<Unit filename="Game.h" />
 		<Unit filename="Item.h" />
 		<Unit filename="MapGen.h" />
+		<Unit filename="OnUserCreate.cpp" />
+		<Unit filename="OnUserUpdate.cpp" />
 		<Unit filename="Tile.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="olcPixelGameEngine.h" />
