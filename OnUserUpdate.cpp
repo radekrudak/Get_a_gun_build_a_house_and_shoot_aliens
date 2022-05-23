@@ -45,7 +45,7 @@
                 {
                     for (int x = 0,xx= 0; x < ScreenWidth()+TileSize; x+=TileSize)
                     {
-
+                        if(xx+(int)fCameraX>0 && yy+(int)fCameraY >0)
                         for (auto &i:vTileMap[ xx+(int)fCameraX  ][ yy+(int)fCameraY ] )
                         {
 

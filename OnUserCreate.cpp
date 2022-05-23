@@ -21,8 +21,6 @@ bool GameJam::OnUserCreate()
         for(auto &i:vTiles)
         {
             i = new Tile(0xBEEF,sMT);
-
-
         }
         sPGELogo =    new olc::Sprite("./assets/PGELogo.png");
         sGrass =      new olc::Sprite("./assets/tiles/Grass.png");
@@ -59,102 +57,9 @@ bool GameJam::OnUserCreate()
 
 
         vTiles.push_back(new Tile(3,sWoodFloor,false,TZpos::floor)); // WoodFloor
-//        vTiles[3]->vItemsRequiredQuantity.push_back(10);
-//        vTiles[3]->vItemsRequired.push_back(vItems[1]);
-//        vBuildableTiles.push_back(vTiles[3]);
+
         vTiles.push_back(new Tile(4,sTest,false,TZpos::dirt)); // cley
-
-
-        //generating map
-        using namespace std::chrono;
-
-
-        auto mapstart = high_resolution_clock::now();
-
-        auto mapstop = high_resolution_clock::now();
-
-        vNodeMap.reserve(NodeMapSize);
-        
-        //Seting up nodemap for a*
-        // for(int x=0;x<MapSize/2;++x)
-        // {
-        //     std::vector<sNode*> v1;
-        //     v1.reserve(MapSize/2);
-        //     for(int y=0;y<MapSize/2;++y)
-        //     {
-        //         std::cout<<"Allocating node "<< x<<" "<<y<<std::endl;
-        //         v1.push_back(new sNode);
-                
-        //         v1[y]->x =x;
-        //         v1[y]->y =y;
-                
-        //         //v1[y]->isColisive = vTileMap[x][y].back()->isColisive() ;
-        //     }
-        //  vNodeMap.push_back(v1);
-
-        // }
-
-
-
-        std::vector<std::thread*> ThreadPool;
-        for(int x=0;x<NodeMapSize;++x)
-        {
-            
-            ThreadPool.push_back(new std::thread(AddNodeRow, std::ref(vNodeMap),MapSize/2));
-            
-
-        }
-
-        for(auto &i: ThreadPool)
-        {
-            i->join();
-        }
-
-        for(int x=0;x<NodeMapSize;++x)
-        {
-
-
-            for(int y=0;y<NodeMapSize;++y)
-            {
-                
-                vNodeMap[x][y]->x =x;
-                vNodeMap[x][y]->y =y;
-                
-                //v1[y]->isColisive = vTileMap[x][y].back()->isColisive() ;
-            }
-
-
-        }
-
-        // it DOSE NOT cover whole map but sinceo only border tiles are sacrivased for less complicated code.
-         for(int x=1;x<NodeMapSize-1;++x)
-        {
-
-            for(int y=1;y<NodeMapSize-1;++y)
-            {
-
-                    
-                    vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x-1][y-1]); vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x][y-1]);   vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x+1][y-1]);
-                    vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x-1][y]);                                                              vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x+1][y]);
-                    vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x-1][y+1]); vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x][y+1]);   vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x+1][y+1]);
-               
-                //                                                              vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x][y-1]);
-                //    vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x-1][y]);                                             vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x+1][y]);
-                //                                                          vNodeMap[x][y]->vNeighbours.push_back(vNodeMap[x][y+1]);
-            }
-        }
-        auto NodeMapStop = high_resolution_clock::now();
-        auto duration = duration_cast<seconds>(mapstop - mapstart);
-        auto duration2 = duration_cast<milliseconds>(mapstop - mapstart);
-        std::cout << "Time taken by MapGen: "
-                  << duration.count() << " seconds"
-                  << duration2.count() << " miliseconds" << std::endl;
-        auto duration3 = duration_cast<seconds>(NodeMapStop - mapstop);
-        auto duration4 = duration_cast<milliseconds>(NodeMapStop - mapstop);
-        std::cout << "Time taken by NodeGen: "
-                  << duration3.count() << " seconds"
-                  << duration4.count() << " miliseconds" << std::endl;
-        
+       
         
         return true;
 

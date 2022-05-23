@@ -20,7 +20,7 @@ inline void GenerateMap(std::vector<std::vector< std::vector<Tile*> > >  &mapa, 
             v2d.push_back(v1d);
 
         }
-        std::cout<<"Row :"<<x<<" Finished ! \n";
+        //std::cout<<"Row :"<<x<<" Finished ! \n";
         mapa.push_back(v2d);
     }
 }
