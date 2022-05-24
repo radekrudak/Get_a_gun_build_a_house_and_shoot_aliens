@@ -124,10 +124,6 @@
 
                 // HUD DRAWING
 
-                for(auto &i: Path)
-                {
-                    FillCircle((i.x-fCameraX)*TileSize+TileSize/2,(i.y-fCameraY)*TileSize+TileSize/2,10, vNodeMap[i.x][i.y]->isColisive ? olc::RED : olc::BLUE); // vTileMap[i.x][i.y].back()->isColisive()
-                }
 
                 DrawString(GetMouseX()-MouseText.size()*8/2,GetMouseY()-20, MouseText);
                 float ClockScale = 4.0f;

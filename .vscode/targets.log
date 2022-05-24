@@ -6,7 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon May 23 20:13:17 2022
+# Make data base, printed on Tue May 24 08:37:07 2022
+ 
 
 # Variables
 
@@ -45,9 +46,11 @@ SHELL = /bin/sh
 # environment
 GDM_LANG = pl
 # environment
-VSCODE_NLS_CONFIG = {"locale":"pl","availableLanguages":{"*":"pl"},"_languagePackId":"7e56318219d94eefb34c6c7cfb7ba5cf.pl","_translationsConfigFile":"/home/krzyzowiec/.config/Code/clp/7e56318219d94eefb34c6c7cfb7ba5cf.pl/tcf.json","_cacheRoot":"/home/krzyzowiec/.config/Code/clp/7e56318219d94eefb34c6c7cfb7ba5cf.pl","_resolvedLanguagePackCoreLocation":"/home/krzyzowiec/.config/Code/clp/7e56318219d94eefb34c6c7cfb7ba5cf.pl/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1","_corruptedFile":"/home/krzyzowiec/.config/Code/clp/7e56318219d94eefb34c6c7cfb7ba5cf.pl/corrupted.info","_languagePackSupport":true}
+VTE_VERSION = 6003
 # environment
-_ = /usr/share/code/code
+VSCODE_NLS_CONFIG = {"locale":"pl","availableLanguages":{"*":"pl"},"_languagePackId":"ff3cb89821bbeca7db66348e0b1d1bfe.pl","_translationsConfigFile":"/home/krzyzowiec/.config/Code/clp/ff3cb89821bbeca7db66348e0b1d1bfe.pl/tcf.json","_cacheRoot":"/home/krzyzowiec/.config/Code/clp/ff3cb89821bbeca7db66348e0b1d1bfe.pl","_resolvedLanguagePackCoreLocation":"/home/krzyzowiec/.config/Code/clp/ff3cb89821bbeca7db66348e0b1d1bfe.pl/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1","_corruptedFile":"/home/krzyzowiec/.config/Code/clp/ff3cb89821bbeca7db66348e0b1d1bfe.pl/corrupted.info","_languagePackSupport":true}
+# environment
+_ = /usr/bin/code
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-cinnamon:/etc/xdg
 # environment
@@ -56,8 +59,6 @@ GTK_OVERLAY_SCROLLING = 1
 MAKEFILE_LIST :=  Makefile
 # automatic
 @F = $(notdir $@)
-# environment
-GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
@@ -73,19 +74,17 @@ LESSOPEN = | /usr/bin/lesspipe %s
 # environment
 LC_NAME = pl_PL.UTF-8
 # environment
-VSCODE_CWD = /home/krzyzowiec
+VSCODE_CWD = /home/krzyzowiec/Dokumenty/C++/Get_a_gun_build_a_house_and_shoot_aliens
 # environment
 XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/krzyzowiec/.local/bin:/home/krzyzowiec/ProgramFiles/box16/build/box16:/home/krzyzowiec/ProgramFiles/x16emu/cc65/bin:/usr/bin/ls:/bin/ls:/home/krzyzowiec/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/krzyzowiec/ProgramFiles/box16/build/box16:/home/krzyzowiec/ProgramFiles/x16emu/cc65/bin:/usr/bin/ls:/bin/ls:/home/krzyzowiec/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-GJS_DEBUG_OUTPUT = stderr
-# environment
-SESSION_MANAGER = local/krzyzowiec-desktop:@/tmp/.ICE-unix/1120,unix/krzyzowiec-desktop:/tmp/.ICE-unix/1120
+SESSION_MANAGER = local/krzyzowiec-desktop:@/tmp/.ICE-unix/1116,unix/krzyzowiec-desktop:/tmp/.ICE-unix/1116
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -99,13 +98,13 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/krzyzowiec
 # environment
-LS_COLORS = 
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# environment
+INSIDE_NEMO_PYTHON = 
 # environment
 XDG_SESSION_DESKTOP = cinnamon
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
-# environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 72021
 # automatic
 %F = $(notdir $%)
 # environment
@@ -121,7 +120,7 @@ QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1192
+SSH_AGENT_PID = 1187
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = X-Cinnamon
 # environment
@@ -133,6 +132,8 @@ HOME = /home/krzyzowiec
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
+VSCODE_CLI = 1
+# environment
 VSCODE_CODE_CACHE_PATH = /home/krzyzowiec/.config/Code/CachedData/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1
 # environment
 LOGNAME = krzyzowiec
@@ -140,6 +141,8 @@ LOGNAME = krzyzowiec
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # environment
@@ -150,14 +153,16 @@ GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 XDG_VTNR = 7
 # environment
 LC_TIME = pl_PL.UTF-8
+# environment
+COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 0
+SHLVL = 1
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b6c4900e-478b-490f-a53a-ae0f1823e1b1.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-55c78b67-329e-49d3-aca1-60987c348399.sock
 # environment
 XDG_SESSION_ID = c1
 # environment
@@ -199,10 +204,13 @@ LC_PAPER = pl_PL.UTF-8
 # environment
 CINNAMON_VERSION = 4.8.6
 # environment
+LC_IDENTIFICATION = pl_PL.UTF-8
+# environment
 QT_ACCESSIBILITY = 1
 # default
 MAKEFILES := 
 # environment
+ 
 LC_NUMERIC = pl_PL.UTF-8
 # automatic
 <F = $(notdir $<)
@@ -212,8 +220,12 @@ LC_MEASUREMENT = pl_PL.UTF-8
 LC_ALL = C
 # environment
 GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/267eba1b_9646_4dee_ac1e_6a10922dd893
 # automatic
 ^F = $(notdir $^)
+# environment
+GNOME_TERMINAL_SERVICE = :1.243
 # default
 SUFFIXES := 
 # environment
@@ -223,7 +235,7 @@ CHROME_DESKTOP = code-url-handler.desktop
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # environment
-LC_IDENTIFICATION = pl_PL.UTF-8
+GJS_DEBUG_OUTPUT = stderr
 # default
 .RECIPEPREFIX := 
 # environment
@@ -231,9 +243,11 @@ LC_ADDRESS = pl_PL.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 72021
+TERM = xterm-256color
+# environment
+VSCODE_PID = 4864
 # variable set hash-table stats:
-# Load=111/1024=11%, Rehash=0, Collisions=13/136=10%
+# Load=117/1024=11%, Rehash=0, Collisions=16/145=11%
 
 # Pattern-specific Variable Values
 
@@ -254,12 +268,19 @@ VSCODE_PID = 72021
 all: GAG
 #  Command line target.
 #  Implicit rule search has not been done.
- 
-#  Last modified 2514-05-30 03:53:03.107374182
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 4):
 	
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Makefile:
@@ -270,9 +291,28 @@ Makefile:
 
 GAG: main.cpp OnUserUpdate.cpp OnUserCreate.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2022-05-23 20:11:38.607570248
+#  Implicit/static pattern stem: ''
+#  Last modified 2022-05-23 20:14:56.667272997
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := GAG
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := main.cpp OnUserUpdate.cpp OnUserCreate.cpp
+# automatic
+# | := 
+# automatic
+# < := main.cpp
+# automatic
+# ^ := main.cpp OnUserUpdate.cpp OnUserCreate.cpp
+# automatic
+# ? := OnUserCreate.cpp
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
 #  recipe to execute (from 'Makefile', line 12):
 	g++ -o $@  main.cpp OnUserUpdate.cpp OnUserCreate.cpp -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 
@@ -299,12 +339,12 @@ OnUserUpdate.cpp:
 # Not a target:
 OnUserCreate.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-23 20:10:49.112653954
+#  Last modified 2022-05-23 20:15:45.682217539
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=8/1024=1%, Rehash=0, Collisions=0/24=0%
+# Load=8/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
@@ -314,9 +354,9 @@ OnUserCreate.cpp:
 # strcache buffers: 1 (0) / strings = 39 / storage = 469 B / avg = 12 B
 # current buf: size = 8162 B / used = 469 B / count = 39 / avg = 12 B
 
-# strcache performance: lookups = 51 / hit rate = 23%
+# strcache performance: lookups = 52 / hit rate = 25%
 # hash-table stats:
-# Load=39/8192=0%, Rehash=0, Collisions=1/51=2%
-# Finished Make data base on Mon May 23 20:13:17 2022
+# Load=39/8192=0%, Rehash=0, Collisions=1/52=2%
+# Finished Make data base on Tue May 24 08:37:07 2022
 
  

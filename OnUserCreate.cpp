@@ -18,9 +18,10 @@ bool GameJam::OnUserCreate()
         lGround = CreateLayer();
         //sprite loading
         sMT = new olc::Sprite("./assets/tiles/TextureMissing.png");
+        Tile *defaultTile = new Tile(0xBEEF,sMT);
         for(auto &i:vTiles)
         {
-            i = new Tile(0xBEEF,sMT);
+            i = defaultTile;
         }
         sPGELogo =    new olc::Sprite("./assets/PGELogo.png");
         sGrass =      new olc::Sprite("./assets/tiles/Grass.png");
@@ -46,8 +47,8 @@ bool GameJam::OnUserCreate()
 
         vTiles.push_back(new Tile(1, new olc::Sprite ("./assets/tiles/WoodAlpha.png"),true)); // Wood
         vTiles[1]->vItemsGathered.push_back(vItems[1]);
-        std::cout<<vTiles[1]->vItemsGathered.back()<<"\n";
-        std::cout<<vTiles[1]->vItemsGathered.front()<<"\n";
+        std::cout<<vTiles[1]->vItemsGathered.back()<<std::endl;
+        std::cout<<vTiles[1]->vItemsGathered.front()<<std::endl;
         vTiles[1]->vItemsGatheredQuantity.push_back(5);
 
         vTiles.push_back(new Tile(2,sWoodWall,true)); // Wood wall

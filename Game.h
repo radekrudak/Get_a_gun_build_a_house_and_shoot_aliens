@@ -148,8 +148,8 @@ class GameJam : public olc::PixelGameEngine
     std::vector<Bullet*> vBullets;
     std::vector<Enemy*> vEnemies;
 // Node map for A* path finding
-    std::vector<std::vector<sNode*>> vNodeMap;
-    std::vector<olc::vf2d> Path;
+    //std::vector<std::vector<sNode*>> vNodeMap;
+    //std::vector<olc::vf2d> Path;
 
     int FinishdEarly =0;
     int ElapsedFrames =0;

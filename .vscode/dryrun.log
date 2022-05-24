@@ -1,5 +1,5 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/krzyzowiec/Dokumenty/C++/Get_a_gun_build_a_house_and_shoot_aliens'
-make: 'all' is up to date.
+g++ -o GAG  main.cpp OnUserUpdate.cpp OnUserCreate.cpp -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 make: Leaving directory '/home/krzyzowiec/Dokumenty/C++/Get_a_gun_build_a_house_and_shoot_aliens'
  
