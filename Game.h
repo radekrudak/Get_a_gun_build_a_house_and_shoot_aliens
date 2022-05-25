@@ -64,7 +64,7 @@ class GameJam : public olc::PixelGameEngine
 
     public:
     WhitchScreen ScreenMode = WhitchScreen::MAIN_MENU;
-    int MapSize = 1024;
+    
     int NodeMapSize = 128;
     
     double fTileScale =1.0f;
@@ -77,7 +77,7 @@ class GameJam : public olc::PixelGameEngine
     bool isNight = false;
     bool isNightStartSequence = false;
     bool isDebugMode = false;
-/// players Stuff
+/// player's Stuff
     float fCameraX;
     float fCameraY;
     float fPlayerX =64.5f;
@@ -89,6 +89,7 @@ class GameJam : public olc::PixelGameEngine
     float fMouseMapY = 0.0f;
     float fReachDistance =2;
     double Health =1 ;
+    int ChosenBuildTile = 2;
     std::string MouseText;
 // Game Clocks stuff;
     double fSeconds =0;
@@ -140,7 +141,6 @@ class GameJam : public olc::PixelGameEngine
 // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile*> vTiles ; // 0= Grass, 1 = Wood etc.
     std::vector<Tile*> vBuildableTiles;
-    int ChosenBuildTile = 2;
     std::vector<Item*> vItems;
     std::vector<ItemSlot*> vInventory;
 
@@ -154,7 +154,7 @@ class GameJam : public olc::PixelGameEngine
     int FinishdEarly =0;
     int ElapsedFrames =0;
 
-    std::thread *threadAstar=nullptr;
+
     float AStarCounterMax=0.5f;
     float AStarCounter =AStarCounterMax;
 public:

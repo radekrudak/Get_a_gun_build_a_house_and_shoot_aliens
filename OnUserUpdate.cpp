@@ -69,7 +69,7 @@
                 fMouseMapY=(float)GetMouseY()/TileSize+fCameraY;
 
                 fPlayerA = atan2((fMouseMapY-fPlayerY),(fMouseMapX-fPlayerX));
-
+                //Draw Player
                 DrawRotatedDecal(olc::vf2d((fPlayerX-fCameraX)*TileSize*fTileScale,(fPlayerY-fCameraY)*TileSize*fTileScale),dMC, fPlayerA+PI/2, {float(sMC->width)/2.0f,float(sMC->height)/2.0f});
 
                 {

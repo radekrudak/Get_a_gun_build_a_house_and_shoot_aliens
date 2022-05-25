@@ -11,7 +11,7 @@ public:
     {
         PosX = fPX;
         PosY = fPY;
-        Velocity = {cos(fPA)*fSpeed,sin(fPA)*fSpeed};
+        Velocity = { static_cast<float>( cos(fPA)*fSpeed),   static_cast<float>(sin(fPA)*fSpeed) };
         //std::cout<<"\n Hello World \n";
 
     }
