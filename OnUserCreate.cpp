@@ -24,22 +24,19 @@ bool GameJam::OnUserCreate()
         {
             i = defaultTile;
         }
-        sPGELogo =    new olc::Sprite("./assets/PGELogo.png");
-        sGrass =      new olc::Sprite("./assets/tiles/Grass.png");
-        sTest =       new olc::Sprite ("./assets/tiles/TestTile.png");
+        
+
         sMC =         new olc::Sprite ("./assets/characters/mc.png");
         sWood =       new olc::Sprite ("./assets/tiles/WoodAlpha.png");
-        sWoodWall =   new olc::Sprite ("./assets/tiles/WoodWall.png");
-        sWoodFloor =  new olc::Sprite ("./assets/tiles/WoodFloor.png");
         sEnemy =      new olc::Sprite ("./assets/characters/Enemy.png");
         sNight =      new olc::Sprite ("./assets/tiles/black.png");
         sMoonAndSun = new olc::Sprite("./assets/tiles/MoonandSun.png");
 
-        dPGELogo =     new olc::Decal(sPGELogo);
+
         dWood =       new olc::Decal (sWood);
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
-        dMC =         new olc::Decal(sMC);
+
 
         vItems.push_back(new Item(sWood,dWood));
         vItems.push_back(new Item(sWood,dWood));
