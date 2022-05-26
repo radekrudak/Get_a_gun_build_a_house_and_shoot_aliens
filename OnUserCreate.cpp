@@ -1,5 +1,6 @@
 
 #include "Game.h"
+#include "LoadGraphics.h"
 #include <functional>
 #include <iostream>
 #include <map>
@@ -10,7 +11,7 @@ bool GameJam::OnUserCreate()
 
         Clear(olc::BLACK);
         vTileMap.reserve(MapSize);
-
+        FileMap = LoadGraphics(vSprites,vDecals);
         // Tilemapp = new Tile[1024]();
         //Enemy test(vTileMap,vTiles);
         lNight = CreateLayer();

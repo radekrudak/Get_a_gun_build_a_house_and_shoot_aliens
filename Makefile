@@ -1,7 +1,11 @@
-MAKEFLAGS := --jobs=4
+MAKEFLAGS += --jobs=4
 
 ARGS = -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
-all: GAG 
+default: GAG
+
+all: clean
+	make --jobs=4
+
 
 main.o : main.cpp
 	g++ -o $@  $< -c $(ARGS)

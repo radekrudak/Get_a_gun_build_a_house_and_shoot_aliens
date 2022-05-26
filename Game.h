@@ -137,7 +137,9 @@ class GameJam : public olc::PixelGameEngine
 // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
     bool isColisivTileInIt( std::vector<Tile *> vTiless);
 
-
+    std::vector<olc::Sprite*> vSprites;
+    std::vector<olc::Decal*> vDecals;
+    std::map<std::string,int> FileMap;
 // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile*> vTiles ; // 0= Grass, 1 = Wood etc.
     std::vector<Tile*> vBuildableTiles;
