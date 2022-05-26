@@ -4,13 +4,12 @@
 #include <filesystem>
 
 
-std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, std::vector<olc::Decal*> &vDecals,std::string TexturePackPath = "assets/")
+std::map<std::string,int> GameJam::sTextureManager::LoadGraphics(std::string TexturePackPath)
 {
     vSprites.clear();
     vDecals.clear();
-
+    TextureNameMap.clear();
     std::string path = TexturePackPath+"tiles";
-    std::map<std::string,int> TextureNameMap;
 
     for (const auto & entry : std::filesystem::directory_iterator(path))
     {    

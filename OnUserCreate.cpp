@@ -11,7 +11,7 @@ bool GameJam::OnUserCreate()
 
         Clear(olc::BLACK);
         vTileMap.reserve(MapSize);
-        TextureManager.TextureNameMap = LoadGraphics(TextureManager.vSprites,TextureManager.vDecals);
+        TextureManager.LoadGraphics();
         // Tilemapp = new Tile[1024]();
         //Enemy test(vTileMap,vTiles);
         lNight = CreateLayer();

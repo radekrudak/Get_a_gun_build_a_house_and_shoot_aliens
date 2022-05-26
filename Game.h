@@ -33,7 +33,7 @@
 using TZpos = PositionOnTileStack;
 
 static std::mutex s_nodes;
-// pushesh back row of nodes, only reason it's seperate function is to use aprralelism
+// pushesh back row of nodes, only reason it's seperate function is to use prralelism
 inline void AddNodeRow(std::vector<std::vector<sNode *>> &vNodeMap, int size = 512)
 {
 
@@ -58,6 +58,7 @@ class GameJam : public olc::PixelGameEngine
 {
 
 public:
+
     WhitchScreen ScreenMode = WhitchScreen::MAIN_MENU;
 
     int NodeMapSize = 128;
@@ -137,9 +138,25 @@ public:
         {
             return vSprites [i];
         }
-
+        std::map<std::string,int> LoadGraphics(std::string TexturePackPath = "assets/");
     }TextureManager;
     
+    struct sItemManager
+    {
+        std::vector<Item *> vItems;
+        std::map<std::string, int> ItemNameMap;
+        auto &operator[](const std::string &i)
+        {
+            return vItems [ItemNameMap[i]];
+        }
+        auto &operator[](const int &i)
+        {
+            return vItems [i];
+        }
+    };
+    
+
+
     // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
     std::vector<Tile *> vBuildableTiles;
