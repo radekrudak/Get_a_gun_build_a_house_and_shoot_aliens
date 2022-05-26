@@ -29,7 +29,7 @@ bool GameJam::OnUserCreate()
         sMC =         new olc::Sprite ("./assets/characters/mc.png");
         sWood =       new olc::Sprite ("./assets/tiles/WoodAlpha.png");
         sWoodWall =   new olc::Sprite ("./assets/tiles/WoodWall.png");
-        sWoodFloor =  new olc::Sprite ("./assets/tiles/WoodFloor.std::thread thread(this, &FindPath,olc::vf2d(123,128), olc::vf2d(125,124),vNodeMap,Path) ;png");
+        sWoodFloor =  new olc::Sprite ("./assets/tiles/WoodFloor.png");
         sEnemy =      new olc::Sprite ("./assets/characters/Enemy.png");
         sNight =      new olc::Sprite ("./assets/tiles/black.png");
         sMoonAndSun = new olc::Sprite("./assets/tiles/MoonandSun.png");
