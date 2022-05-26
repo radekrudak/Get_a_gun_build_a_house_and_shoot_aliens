@@ -1,5 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/krzyzowiec/Dokumenty/C++/Get_a_gun_build_a_house_and_shoot_aliens'
-make: Nothing to be done for 'all'.
-make: Leaving directory '/home/krzyzowiec/Dokumenty/C++/Get_a_gun_build_a_house_and_shoot_aliens'
- 
