@@ -38,8 +38,8 @@ bool GameJam::OnUserCreate()
         dNight =      new olc::Decal (sNight);
 
 
-        vItems.push_back(new Item(sWood,dWood));
-        vItems.push_back(new Item(sWood,dWood));
+        vItems.push_back(new Item(FileMap,"WoodAlpha"));
+        vItems.push_back(new Item(FileMap,"WoodAlpha"));
 
         vTiles.push_back( new Tile(FileMap,0,"Grass",false,TZpos::floor)); // grass
 

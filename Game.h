@@ -109,7 +109,7 @@ public:
     olc::Decal *dWood = nullptr;
     olc::Sprite *sEnemy = nullptr;
     olc::Sprite *sMT = nullptr;
-            olc::Sprite *sMC=nullptr;
+    olc::Sprite *sMC=nullptr;
     /*
         olc::Sprite *sGrass =nullptr;
 

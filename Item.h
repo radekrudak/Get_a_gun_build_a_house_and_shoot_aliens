@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
-
+#include <map>
+#include <string>
 
 class Item
 {
@@ -10,17 +11,20 @@ protected:
     std::string Name = "NULL";
     int ID = 0;
     int Quantity;
-    olc::Sprite* Sprite;
-    olc::Decal* Decal;
+    int TextureID =0;
 public:
-    Item(olc::Sprite *spr, olc::Decal *Dec): Sprite(spr), Decal(Dec)
+    Item(const std::map<std::string,int> &FileMap,std::string TextureName =0)
     {
-
+        TextureID = FileMap.at(TextureName);
     }
 
     virtual int GetDamage()
     {
         return 0;
+    }
+    int GetTextureID()
+    {
+        return TextureID;
     }
 };
 
