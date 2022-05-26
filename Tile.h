@@ -1,6 +1,7 @@
 #pragma once
 #include "Item.h"
-
+#include <string>
+#include <map>
 enum class PositionOnTileStack{
 
     dirt=0,
@@ -26,26 +27,23 @@ protected:
     PositionOnTileStack ZLevel; // 0 = dirt 1 = Floor 2= Wall 3= Roof
     std::string Name = "NULL";
     bool isColide =false;
-    olc::Sprite *Sprite = nullptr;
-    olc::Decal *Decal = nullptr;
+    int TextureID =0;
+    std::string TextureName;
+
 
 public:
-    Tile(int id =0, olc::Sprite *spr = nullptr, bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall)
+    Tile(const std::map<std::string,int> &FileMap,int id =0,std::string TextureName =  "TextureMissing", bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall)
     {
         ID = id;
         isColide =colisive;
         ZLevel = Zlvl;
-        if (spr)
-        {
-            Sprite = spr;
-            Decal = new olc::Decal(Sprite);
-        }
+        TextureID = FileMap.at(TextureName);
 
     }
 
-    olc::Decal *GetDecal()
+    int GetTextureID()
     {
-        return Decal;
+        return TextureID;
     }
     bool isColisive()
     {

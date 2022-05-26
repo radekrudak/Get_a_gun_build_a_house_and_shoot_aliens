@@ -49,7 +49,7 @@
                         for (auto &i:vTileMap[ xx+(int)fCameraX  ][ yy+(int)fCameraY ] )
                         {
 
-                                DrawDecal(olc::vf2d ((double)x-fmod((double)fPlayerX,1)*TileSize, (double)y-fmod((double)fPlayerY,1)*TileSize), i->GetDecal());
+                                DrawDecal(olc::vf2d ((double)x-fmod((double)fPlayerX,1)*TileSize, (double)y-fmod((double)fPlayerY,1)*TileSize), vDecals[i->GetTextureID()]);
 
                         }
 

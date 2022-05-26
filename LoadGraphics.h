@@ -63,7 +63,7 @@ std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, 
             
             FileName = FileName.substr(0,FileName.find("."));
             FileMap[FileName] = vSprites.size()-1;
-            std::cout<<" as: " << FileName <<" "<<(vSprites.size()-1)<< std::endl;
+            std::cout<<" as: \"" << FileName <<"\" Texture's ID: "<<(vSprites.size()-1)<< std::endl;
 
         }
 
