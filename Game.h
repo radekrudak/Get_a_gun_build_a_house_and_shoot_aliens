@@ -2,6 +2,8 @@
 
 #include "olcPixelGameEngine.h"
 #include <mutex>
+#include <vector>
+
 #include "whitch_screen_enum.h"
 //#include <functional> // std::ref
 #include "RRButton.h"
@@ -12,7 +14,7 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "FindPath.h"
-#include <vector>
+#include "TextureManager.h"
 // later in code included Controls.h & GameStart.h
 
 // to do:
@@ -115,32 +117,8 @@ public:
 
     // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
     bool isColisivTileInIt(std::vector<Tile *> vTiless);
-    struct  sTextureManager {
 
-        std::vector<olc::Sprite *> vSprites;
-        std::vector<olc::Decal *> vDecals;
-        std::map<std::string, int> TextureNameMap;
-
-        auto &operator[](const std::string &i)
-        {
-            return vDecals [TextureNameMap[i]];
-        }
-        auto &operator[](const int &i)
-        {
-            return vDecals [i];
-        }
-
-        auto &GetSprite(const std::string &i)
-        {
-            return vSprites [TextureNameMap[i]];
-        }
-        auto &GetSprite(const int &i)
-        {
-            return vSprites [i];
-        }
-        std::map<std::string,int> LoadGraphics(std::string TexturePackPath = "assets/");
-    }TextureManager;
-    
+     sTextureManager   TextureManager;
     struct sItemManager
     {
         std::vector<Item *> vItems;

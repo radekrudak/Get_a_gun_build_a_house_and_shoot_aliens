@@ -1,6 +1,5 @@
 
 #include "Game.h"
-#include "LoadGraphics.h"
 #include <functional>
 #include <iostream>
 #include <map>
