@@ -10,7 +10,7 @@ std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, 
     vDecals.clear();
 
     std::string path = TexturePackPath+"tiles";
-    std::map<std::string,int> FileMap;
+    std::map<std::string,int> TextureNameMap;
 
     for (const auto & entry : std::filesystem::directory_iterator(path))
     {    
@@ -32,7 +32,7 @@ std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, 
             }
             
             FileName = FileName.substr(0,FileName.find("."));
-            FileMap[FileName] = vSprites.size()-1;
+            TextureNameMap[FileName] = vSprites.size()-1;
             std::cout<<"as: " << FileName <<" "<<(vSprites.size()-1)<< std::endl;
 
         }
@@ -62,7 +62,7 @@ std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, 
             }
             
             FileName = FileName.substr(0,FileName.find("."));
-            FileMap[FileName] = vSprites.size()-1;
+            TextureNameMap[FileName] = vSprites.size()-1;
             std::cout<<" as: \"" << FileName <<"\" Texture's ID: "<<(vSprites.size()-1)<< std::endl;
 
         }
@@ -71,5 +71,5 @@ std::map<std::string,int> LoadGraphics(    std::vector<olc::Sprite*> &vSprites, 
     }
 
 
-    return FileMap;
+    return TextureNameMap;
 }

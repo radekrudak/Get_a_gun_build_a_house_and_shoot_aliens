@@ -13,9 +13,9 @@ protected:
     int Quantity;
     int TextureID =0;
 public:
-    Item(const std::map<std::string,int> &FileMap,std::string TextureName =0)
+    Item(const std::map<std::string,int> &TextureNameMap,std::string TextureName =0)
     {
-        TextureID = FileMap.at(TextureName);
+        TextureID = TextureNameMap.at(TextureName);
     }
 
     virtual int GetDamage()

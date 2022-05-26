@@ -32,12 +32,12 @@ protected:
 
 
 public:
-    Tile(const std::map<std::string,int> &FileMap,int id =0,std::string TextureName =  "TextureMissing", bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall)
+    Tile(const std::map<std::string,int> &TextureNameMap,int id =0,std::string TextureName =  "TextureMissing", bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall)
     {
         ID = id;
         isColide =colisive;
         ZLevel = Zlvl;
-        TextureID = FileMap.at(TextureName);
+        TextureID = TextureNameMap.at(TextureName);
 
     }
 

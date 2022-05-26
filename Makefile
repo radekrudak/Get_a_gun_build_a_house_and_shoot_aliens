@@ -16,7 +16,6 @@ OnUserCreate.o :OnUserCreate.cpp
 GAG: main.o OnUserUpdate.o OnUserCreate.o 
 	g++ -o $@ $?   $(ARGS)
 clean:
-	touch GAG
-	rm GAG
-	rm *.o
+	-rm -f GAG
+	-rm -f *.o
 	

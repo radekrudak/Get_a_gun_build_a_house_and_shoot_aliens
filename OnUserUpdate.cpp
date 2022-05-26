@@ -49,7 +49,7 @@
                         for (auto &i:vTileMap[ xx+(int)fCameraX  ][ yy+(int)fCameraY ] )
                         {
 
-                                DrawDecal(olc::vf2d ((double)x-fmod((double)fPlayerX,1)*TileSize, (double)y-fmod((double)fPlayerY,1)*TileSize), vDecals[i->GetTextureID()]);
+                                DrawDecal(olc::vf2d ((double)x-fmod((double)fPlayerX,1)*TileSize, (double)y-fmod((double)fPlayerY,1)*TileSize), TextureManager.vDecals[i->GetTextureID()]);
 
                         }
 
@@ -70,7 +70,7 @@
 
                 fPlayerA = atan2((fMouseMapY-fPlayerY),(fMouseMapX-fPlayerX));
                 //Draw Player
-                DrawRotatedDecal(olc::vf2d((fPlayerX-fCameraX)*TileSize*fTileScale,(fPlayerY-fCameraY)*TileSize*fTileScale),vDecals[FileMap["mc"]], fPlayerA+PI/2, {float(sMC->width)/2.0f,float(sMC->height)/2.0f});
+                DrawRotatedDecal(olc::vf2d((fPlayerX-fCameraX)*TileSize*fTileScale,(fPlayerY-fCameraY)*TileSize*fTileScale),TextureManager["mc"], fPlayerA+PI/2, {float(TextureManager.GetSprite("mc")->width)/2.0f,float(TextureManager.GetSprite("mc")->height)/2.0f});
 
                 {
 

@@ -105,42 +105,41 @@ public:
     olc::Sprite *sMoonAndSun = nullptr;
     olc::Decal *dNight = nullptr;
     olc::Decal *dMoonAndSun = nullptr;
-    olc::Sprite *sWood = nullptr;
-    olc::Decal *dWood = nullptr;
     olc::Sprite *sEnemy = nullptr;
     olc::Sprite *sMT = nullptr;
-    olc::Sprite *sMC=nullptr;
-    /*
-        olc::Sprite *sGrass =nullptr;
 
-
-        olc::Sprite *sTest=nullptr;
-        olc::Sprite *sMC=nullptr;
-        olc::Sprite *sWoodWall=nullptr;
-        olc::Sprite *sWoodFloor=nullptr;
-
-
-
-        olc::Sprite *sPGELogo = nullptr;
-
-        olc::Decal *dTest = nullptr;
-        olc::Decal *dPGELogo = nullptr;
-
-
-
-        olc::Decal *dMC=nullptr;
-      */
-    Tile *Tilemapp;
 
     // ARRAYS/vectors
     std::vector<std::vector<std::vector<Tile *>>> vTileMap;
 
     // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
     bool isColisivTileInIt(std::vector<Tile *> vTiless);
+    struct  sTextureManager {
 
-    std::vector<olc::Sprite *> vSprites;
-    std::vector<olc::Decal *> vDecals;
-    std::map<std::string, int> FileMap;
+        std::vector<olc::Sprite *> vSprites;
+        std::vector<olc::Decal *> vDecals;
+        std::map<std::string, int> TextureNameMap;
+
+        auto &operator[](const std::string &i)
+        {
+            return vDecals [TextureNameMap[i]];
+        }
+        auto &operator[](const int &i)
+        {
+            return vDecals [i];
+        }
+
+        auto &GetSprite(const std::string &i)
+        {
+            return vSprites [TextureNameMap[i]];
+        }
+        auto &GetSprite(const int &i)
+        {
+            return vSprites [i];
+        }
+
+    }TextureManager;
+    
     // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
     std::vector<Tile *> vBuildableTiles;
@@ -222,11 +221,11 @@ public:
     bool OnUserDestroy() override
     {
         std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << FinishdEarly << std::endl;
-        for (auto &i : vSprites)
+        for (auto &i : TextureManager.vSprites)
         {
             delete i;
         }
-        for (auto &i : vDecals)
+        for (auto &i : TextureManager.vDecals)
         {
             delete i;
         }
