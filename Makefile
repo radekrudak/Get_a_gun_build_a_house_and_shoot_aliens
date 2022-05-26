@@ -1,5 +1,5 @@
-#default:
-#	g++ -o GAG main.cpp  OnUserUpdate.cpp -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
+MAKEFLAGS := --jobs=4
+
 ARGS = -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 all: GAG 
 
