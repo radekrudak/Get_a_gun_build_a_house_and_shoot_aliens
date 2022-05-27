@@ -3,13 +3,14 @@
 #include <map>
 #include <string>
 #include <fstream>
+
 #include "Item.h"
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
 struct sItemManager
 {
-    std::vector<Item *> vItems;
+    std::vector<std::unique_ptr<Item> > vItems;
     std::map<std::string, int> ItemNameMap;
     auto &operator[](const std::string &i)
     {
