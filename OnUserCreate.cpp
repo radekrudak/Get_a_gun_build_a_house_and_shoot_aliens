@@ -11,6 +11,9 @@ bool GameJam::OnUserCreate()
         Clear(olc::BLACK);
         vTileMap.reserve(MapSize);
         TextureManager.LoadGraphics();
+        ItemManager.LoadItems();
+
+
         // Tilemapp = new Tile[1024]();
         //Enemy test(vTileMap,vTiles);
         lNight = CreateLayer();
@@ -42,8 +45,8 @@ bool GameJam::OnUserCreate()
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,1,"WoodAlpha",true)); // Wood
         vTiles[1]->vItemsGathered.push_back(vItems[1]);
-        std::cout<<vTiles[1]->vItemsGathered.back()<<std::endl;
-        std::cout<<vTiles[1]->vItemsGathered.front()<<std::endl;
+        //std::cout<<vTiles[1]->vItemsGathered.back()<<std::endl;
+        //std::cout<<vTiles[1]->vItemsGathered.front()<<std::endl;
         vTiles[1]->vItemsGatheredQuantity.push_back(5);
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,2,"WoodWall",true)); // Wood wall

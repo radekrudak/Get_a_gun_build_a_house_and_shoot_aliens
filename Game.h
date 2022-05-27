@@ -15,6 +15,7 @@
 #include "Item.h"
 #include "FindPath.h"
 #include "TextureManager.h"
+#include "ItemManager.h"
 // later in code included Controls.h & GameStart.h
 
 // to do:
@@ -60,7 +61,6 @@ class GameJam : public olc::PixelGameEngine
 {
 
 public:
-
     WhitchScreen ScreenMode = WhitchScreen::MAIN_MENU;
 
     int NodeMapSize = 128;
@@ -111,29 +111,14 @@ public:
     olc::Sprite *sEnemy = nullptr;
     olc::Sprite *sMT = nullptr;
 
-
     // ARRAYS/vectors
     std::vector<std::vector<std::vector<Tile *>>> vTileMap;
 
     // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
     bool isColisivTileInIt(std::vector<Tile *> vTiless);
 
-     sTextureManager   TextureManager;
-    struct sItemManager
-    {
-        std::vector<Item *> vItems;
-        std::map<std::string, int> ItemNameMap;
-        auto &operator[](const std::string &i)
-        {
-            return vItems [ItemNameMap[i]];
-        }
-        auto &operator[](const int &i)
-        {
-            return vItems [i];
-        }
-    };
-    
-
+    sTextureManager TextureManager;
+    sItemManager ItemManager;
 
     // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.

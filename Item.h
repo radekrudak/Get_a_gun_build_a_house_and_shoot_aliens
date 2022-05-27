@@ -30,6 +30,7 @@ public:
 
 class Gun: public Item
 {
+    std::string Type = "GUN";
     int Damage =10;
 //   virtual Tile* GetBuildTile() override{};
 public:
@@ -42,7 +43,7 @@ public:
 
 class BuildBlock: public Item
 {
-
+    std::string Type = "BUILD_BLOCK";
     using Item::Item;
 
 //    Item(olc::Sprite *spr, olc::Decal *Dec): Sprite(spr), Decal(Dec)

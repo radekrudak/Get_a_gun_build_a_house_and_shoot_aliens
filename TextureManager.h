@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <filesystem>
+#include "olcPixelGameEngine.h"
 struct sTextureManager
 {
 
