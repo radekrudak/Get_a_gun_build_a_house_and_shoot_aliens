@@ -10,7 +10,7 @@ using json = nlohmann::json;
 
 struct sItemManager
 {
-    std::vector<std::unique_ptr<Item> > vItems;
+    std::vector<std::unique_ptr<Item>> vItems;
     std::map<std::string, int> ItemNameMap;
     auto &operator[](const std::string &i)
     {
@@ -21,33 +21,41 @@ struct sItemManager
         return vItems[i];
     }
 
-    void LoadItems(std::string path_to_item_file = "assets/items.json")
+    void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string path_to_item_file = "assets/items.json")
     {
         std::string json_text;
         std::string line;
-        std::ifstream json_file (path_to_item_file);
+        std::ifstream json_file(path_to_item_file);
 
-        while (std::getline(json_file,line))
+        while (std::getline(json_file, line))
         {
             json_text.append(line);
             json_text.append("\r\n");
         }
-        
 
         // parse and serialize JSON
         json j_complete = json::parse(json_text);
 
-        for(auto i:j_complete.items())
+        for (auto i : j_complete.items())
         {
-            std::cout<<i.key()<<" "<<i.value()<<std::endl;
-            for(auto j:i.value().items())
-                std::cout<<"    "<<j.key()<<" "<<j.value()<<std::endl;
+            // TODO: SOME ERROR CHECKING
+            std::cout << i.key() << " " << i.value() << std::endl;
+            ItemNameMap[i.key()] = vItems.size();
+            vItems.push_back(std::unique_ptr<Item>( 
+                    new Item(TextureNameMap,
+                             i.value()["TextureName"],
+                             i.value()["UserVisibleName"],
+                             i.key()
+
+
+            )));
+            
+        }
+        for(const auto &i: vItems)
+        {
+            std::cout<< i->GetType()<<" "<<i->GetIdentifyingName()<<" "<<i->GetUserVisibleName()<<" "<<i->GetTextureID()<<" "<<std::endl;
 
         }
-
-
-        //std::cout << typeid(static_cast<float>(j_complete["100"]["id"])).name() << "  "<<(static_cast<float>(j_complete["100"]["id"])*2.0)<<std::endl;
-        
-
+        // std::cout << typeid(static_cast<float>(j_complete["100"]["id"])).name() << "  "<<(static_cast<float>(j_complete["100"]["id"])*2.0)<<std::endl;
     }
 };

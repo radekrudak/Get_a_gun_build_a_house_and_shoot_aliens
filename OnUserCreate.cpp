@@ -11,7 +11,7 @@ bool GameJam::OnUserCreate()
         Clear(olc::BLACK);
         vTileMap.reserve(MapSize);
         TextureManager.LoadGraphics();
-        ItemManager.LoadItems();
+        ItemManager.LoadItems(TextureManager.TextureNameMap);
 
 
         // Tilemapp = new Tile[1024]();
