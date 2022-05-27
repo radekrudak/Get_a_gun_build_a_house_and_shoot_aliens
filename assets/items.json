@@ -1,7 +1,7 @@
 {
     "NULL_ITEM":{
         "UserVisibleName":"U shouldn't see that !",
-        "TextureName":"black",
+        "TextureName":"TextureMissing",
         "Type":"NULL"
     },
   

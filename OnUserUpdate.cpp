@@ -168,18 +168,20 @@
                     DrawString(0,50,"MouseY: "+ std::to_string(fMouseMapY));
                     DrawString(0,60,"Destruction: "+ std::to_string(fDestruction));
                     DrawString(0,70,"Construction: "+ std::to_string(fConstruction));
-                    if(!vInventory.empty())
+                    if(PlayerInventory.isEmpty() == false)
                     {
-                        DrawString(0,80,"R1: "+ std::to_string(vInventory[0]->Quantity));
+                        DrawString(0,80,"R1: "+ std::to_string(PlayerInventory[0].Quantity));
+                        DrawDecal({0,80},TextureManager[ItemManager[PlayerInventory[0].ItemID]->GetTextureID()]);
+
 
                     }
                     else
                         DrawString(0,80,"R1: Empty");
 
-                    if(vInventory.size()>=2)
+                    if(PlayerInventory.isEmpty() == false)
                     {
-                        DrawString(0,90,"R2: "+ std::to_string(vInventory[1]->Quantity));
-
+                        DrawString(5,90,"R2: "+ std::to_string(PlayerInventory[1].Quantity));
+                         DrawDecal({5,90},TextureManager[ItemManager[PlayerInventory[1].ItemID]->GetTextureID()]);
                     }
                     else
                         DrawString(0,90,"R2: Empty");

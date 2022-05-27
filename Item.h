@@ -80,9 +80,17 @@ struct ItemSlot
 };
 
 struct Inventory{
-  
-    std::vector<ItemSlot> vItemsInInventory;
     ItemSlot NullItem = {0,0};
+    std::vector<ItemSlot> vItemsInInventory;
+    Inventory()
+    {
+        vItemsInInventory.push_back(NullItem);
+    }
+    ItemSlot &operator[](const int &i)
+    {
+        return vItemsInInventory[i];
+    }
+
     bool IsEnoughItems(ItemSlot SearchedItem)
     {
 
@@ -120,5 +128,25 @@ struct Inventory{
             FindItemInInventory(AddedItem.ItemID).Quantity+=AddedItem.Quantity;
         }
     }
+
+    bool isEmpty()
+    {
+        return !(vItemsInInventory.size()-1);
+    }
+
+    void DecreaseItemQuantity(ItemSlot DecreasedItem)
+    {
+        FindItemInInventory(DecreasedItem.ItemID).Quantity -= DecreasedItem.Quantity;
+
+        for (int i=1;i< vItemsInInventory.size();i++)
+        {
+            if (vItemsInInventory[i].Quantity <= 0)
+            {
+                vItemsInInventory.erase(vItemsInInventory.begin()+i);
+            }
+        }
+        
+    }
+
 
 };

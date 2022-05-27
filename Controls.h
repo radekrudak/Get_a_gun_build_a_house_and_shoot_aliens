@@ -107,22 +107,6 @@ if (!isFightMode)
                     vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredID.back(),
                     vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredQuantity.back()
                 });
-                /*
-                // Chechs if item of that type is already in inventory
-                if (FindItemInInventory(vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGathered.back()  )== nullptr)
-                {
-
-                    vInventory.push_back(new ItemSlot(  vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGathered.back(),
-                                                        vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredQuantity.back()));
-
-                }
-                else
-                {
-                    FindItemInInventory(vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGathered.back()  )->Quantity
-                    +=
-                        vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredQuantity.back();
-                }
-                */
                 vTileMap[fMouseMapX][fMouseMapY].pop_back();
 
 
@@ -166,6 +150,9 @@ if (!isFightMode)
 
 
                 vTileMap[fMouseMapX][fMouseMapY].push_back(vTiles[ChosenBuildTile]);
+                PlayerInventory.DecreaseItemQuantity({vTiles[ChosenBuildTile]->vItemsRequiredID.front(),vTiles[ChosenBuildTile]->vItemsRequiredQuantity.front()});
+                
+
                 //PlayerInventory.FindItemInInventory(vTiles[ChosenBuildTile]->vItemsRequiredID.front())->Quantity -=vTiles[ChosenBuildTile]->vItemsRequiredQuantity.front();
                 /*int ii=0;
                 for (auto &i: vInventory)
