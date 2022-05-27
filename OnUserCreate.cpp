@@ -44,14 +44,14 @@ bool GameJam::OnUserCreate()
         vTiles.push_back( new Tile(TextureManager.TextureNameMap,0,"Grass",false,TZpos::floor)); // grass
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,1,"WoodAlpha",true)); // Wood
-        vTiles[1]->vItemsGathered.push_back(vItems[1]);
+        vTiles[1]->vItemsGatheredID.push_back(1);
         //std::cout<<vTiles[1]->vItemsGathered.back()<<std::endl;
         //std::cout<<vTiles[1]->vItemsGathered.front()<<std::endl;
         vTiles[1]->vItemsGatheredQuantity.push_back(5);
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,2,"WoodWall",true)); // Wood wall
         vTiles[2]->vItemsRequiredQuantity.push_back(10);
-        vTiles[2]->vItemsRequired.push_back(vItems[1]);
+        vTiles[2]->vItemsRequiredID.push_back(1);
         vBuildableTiles.push_back(vTiles[2]);
 
 

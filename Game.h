@@ -89,6 +89,8 @@ public:
     double Health = 1;
     int ChosenBuildTile = 2;
     std::string MouseText;
+    Inventory PlayerInventory;
+    
     // Game Clocks stuff;
     double fSeconds = 0;
     int PreviousSecond = 0;
@@ -119,6 +121,9 @@ public:
 
     sTextureManager TextureManager;
     sItemManager ItemManager;
+
+    
+
 
     // when replacing vTiles array size replace in Enemy.h too.
     std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
@@ -168,30 +173,7 @@ public:
         ScreenMode = WhitchScreen::GAMEPLAY;
     }
 
-    inline bool IsEnoughItems(Item *SearchedItem, int Quant)
-    {
 
-        for (auto &i : vInventory)
-        {
-            if (i->ItemPtr == SearchedItem && Quant <= i->Quantity)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    ItemSlot *FindItemInInventory(Item *SearchedItem)
-    {
-
-        for (auto &i : vInventory)
-        {
-            if (i->ItemPtr == SearchedItem)
-            {
-                return i;
-            }
-        }
-        return nullptr;
-    }
 
 public:
     bool OnUserCreate() override;

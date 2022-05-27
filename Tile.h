@@ -17,9 +17,9 @@ using TZpos = PositionOnTileStack;
 class Tile
 {
 public:
-    std::vector <Item*> vItemsRequired;
+    std::vector <int> vItemsRequiredID;
     std::vector <int> vItemsRequiredQuantity;
-    std::vector <Item*> vItemsGathered;
+    std::vector <int> vItemsGatheredID;
     std::vector <int> vItemsGatheredQuantity ;
 
 protected:

@@ -74,17 +74,51 @@ class BuildBlock : public Item
 
 struct ItemSlot
 {
-
+    int ItemID =0;
     int Quantity = 0;
-    Item *ItemPtr = nullptr;
 
-    ItemSlot(Item *IPtr = nullptr, int qt = 1)
-    {
-        Quantity = qt;
-        if (IPtr != nullptr)
-        {
-            ItemPtr = IPtr;
-        }
-    }
 };
 
+struct Inventory{
+  
+    std::vector<ItemSlot> vItemsInInventory;
+    ItemSlot NullItem = {0,0};
+    bool IsEnoughItems(ItemSlot SearchedItem)
+    {
+
+        for (auto &i : vItemsInInventory)
+        {
+            if (i.ItemID == SearchedItem.ItemID && SearchedItem.Quantity <= i.Quantity)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    ItemSlot &FindItemInInventory(int SearchedItemID)
+    {
+
+        for (auto &i : vItemsInInventory)
+        {
+            if (i.ItemID == SearchedItemID)
+            {
+                return i;
+            }
+        }
+        return NullItem;
+    }
+
+    void PickUpItem(ItemSlot AddedItem)
+    {
+
+        if(&FindItemInInventory(AddedItem.ItemID) == &NullItem)
+        {
+            vItemsInInventory.push_back(AddedItem);
+        }
+        else
+        {
+            FindItemInInventory(AddedItem.ItemID).Quantity+=AddedItem.Quantity;
+        }
+    }
+
+};
