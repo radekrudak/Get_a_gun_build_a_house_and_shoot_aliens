@@ -42,7 +42,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             for (int x = 0, xx = 0; x < ScreenWidth() + TileSize; x += TileSize)
             {
                 if (xx + (int)fCameraX > 0 && yy + (int)fCameraY > 0)
-                    for (auto &i : World.GetTilesAt(xx + (int)fCameraX,yy + (int)fCameraY))
+                    for (auto &i : World.GetTileStackAt(xx + (int)fCameraX,yy + (int)fCameraY))
                     {
 
                         DrawDecal(olc::vf2d((double)x - fmod((double)fPlayerX, 1) * TileSize, (double)y - fmod((double)fPlayerY, 1) * TileSize), TextureManager[ TileManager[i]->GetTextureID() ]);

@@ -3,22 +3,38 @@
 #include "TileManager.h"
 #include "TextureManager.h"
 
-
 class cManagersManager
 {
     sItemManager *ItemManager;
     sTileManager *TileManager;
     sTextureManager *TextureManager;
-    public:
-    cManagersManager(sItemManager *IM = nullptr,sTileManager* TiM = nullptr,sTextureManager* TeM =  nullptr) : ItemManager(IM), TileManager(TiM),TextureManager(TeM)
+
+public:
+    cManagersManager(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr) : ItemManager(IM), TileManager(TiM), TextureManager(TeM)
     {
         ;
     }
-    void init(sItemManager *IM = nullptr,sTileManager* TiM = nullptr,sTextureManager* TeM =  nullptr)
+    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr)
     {
-    ItemManager =IM;
-    TileManager = TiM;
-    TextureManager = TeM;
-
+        ItemManager = IM;
+        TileManager = TiM;
+        TextureManager = TeM;
+    }
+    auto GetTileDecal(int TileID)
+    {
+        return (*TextureManager)[(*TileManager)[TileID]->GetTextureID()];
+    }
+    auto isTileColisive(int TileId)
+    {
+        return (*TileManager)[TileId]->isColisive();
+    }
+    auto isTileStackColisive(std::vector<int> TileStack)
+    {
+        
+        for (const auto &i:   TileStack )
+            if ((*TileManager)[i]->isColisive()) 
+                return true;
+        
+        return false;
     }
 };

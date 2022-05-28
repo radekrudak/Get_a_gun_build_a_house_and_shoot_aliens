@@ -18,39 +18,40 @@ if (GetKey(olc::Key::F1).bPressed)
 if (GetKey(olc::Key::D).bHeld)
 {
     fPlayerX+= MovingSpeed*fElapsedTime;
-    /*
-    if (vTileMap[fPlayerX+ MovingSpeed*fElapsedTime][fPlayerY].front()->isColisivTileInIt(vTileMap[fPlayerX+ MovingSpeed*fElapsedTime][fPlayerY]))
+    
+    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX+ MovingSpeed*fElapsedTime,fPlayerY)))
     {
         fPlayerX-= MovingSpeed*fElapsedTime;
     }
-    */
+    
 }
 if (GetKey(olc::Key::A).bHeld)
 {
     fPlayerX-= MovingSpeed*fElapsedTime;
-    /*
-    if (vTileMap[fPlayerX- MovingSpeed*fElapsedTime][fPlayerY].front()->isColisivTileInIt(vTileMap[fPlayerX- MovingSpeed*fElapsedTime][fPlayerY]))
+    
+    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX- MovingSpeed*fElapsedTime,fPlayerY)))
     {
         fPlayerX+= MovingSpeed*fElapsedTime;
     }
-    */
+    
 }
 if (GetKey(olc::Key::S).bHeld)
 {
     fPlayerY+= MovingSpeed*fElapsedTime;
 
     // if (vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime]))
-    // {
-    //     fPlayerY-= MovingSpeed*fElapsedTime;
-    // }
+    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX,fPlayerY+ MovingSpeed*fElapsedTime)))
+    {
+        fPlayerY-= MovingSpeed*fElapsedTime;
+    }
 }
 if (GetKey(olc::Key::W).bHeld)
 {
     fPlayerY-= MovingSpeed*fElapsedTime;
-    // if (vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime]))
-    // {
-    //     fPlayerY+= MovingSpeed*fElapsedTime;
-    // }
+    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX,fPlayerY- MovingSpeed*fElapsedTime)))
+    {
+        fPlayerY+= MovingSpeed*fElapsedTime;
+    }
 }
 
 if (GetKey(olc::Key::CTRL).bPressed)
@@ -84,7 +85,7 @@ if (!isFightMode)
             (int)((float)GetMouseY()/TileSize+fCameraY)==(int)fMouseMapY &&//  idk at this point but i will keep them to be safe
 
             GetMouse(0).bHeld &&
-            TileManager[World.GetTilesAt(fMouseMapX,fMouseMapY).back()]->vItemsGatheredID.empty()   // checks if there is anything to gather on this vTile posytion
+            TileManager[World.GetTileStackAt(fMouseMapX,fMouseMapY).back()]->vItemsGatheredID.empty()   // checks if there is anything to gather on this vTile posytion
 
 
        )
@@ -126,7 +127,7 @@ if (!isFightMode)
 
              !TileManager[ChosenBuildTile]->vItemsRequiredID.empty() && // later put this check elswhere to give feedbck to player what he is doing wrong
 
-              World.GetTilesAt(fMouseMapX,fMouseMapY).size()-1 <  static_cast<int> (TileManager[ChosenBuildTile]->GetZLevel())  // Checks if you want to let's say put a wall in place where there is
+              World.GetTileStackAt(fMouseMapX,fMouseMapY).size()-1 <  static_cast<int> (TileManager[ChosenBuildTile]->GetZLevel())  // Checks if you want to let's say put a wall in place where there is
              // alrady a wall or floor on vTile where there is a floor
 
 
@@ -151,7 +152,7 @@ if (!isFightMode)
                 fConstruction =0.0f;
 
 
-                World.GetTilesAt(fMouseMapX,fMouseMapY).push_back(ChosenBuildTile);
+                World.GetTileStackAt(fMouseMapX,fMouseMapY).push_back(ChosenBuildTile);
                 PlayerInventory.DecreaseItemQuantity({TileManager[ChosenBuildTile]->vItemsRequiredID.front(),TileManager[ChosenBuildTile]->vItemsRequiredQuantity.front()});
                 
 
