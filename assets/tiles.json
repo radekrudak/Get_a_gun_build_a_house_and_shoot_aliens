@@ -1,0 +1,16 @@
+{
+
+    "GRASS":{
+        "TextureName":"Grass",
+        "PositionOnTileStack":1
+    },
+    "TREE":{
+        "TextureName":"WoodAlpha",
+        "PositionOnTileStack":1,
+        "isColisive":true
+    },
+    "NULL_TILE":{
+        "TextureName":"TextureMissing"
+    }
+
+}
