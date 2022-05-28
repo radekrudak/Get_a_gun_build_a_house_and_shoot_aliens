@@ -5,7 +5,8 @@ default: GAG
 
 all: clean
 	make --jobs=4
-
+run: all
+	./GAG
 main.o : main.cpp
 	g++ -o $@  $< -c $(ARGS)
 OnUserUpdate.o : OnUserUpdate.cpp

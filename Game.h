@@ -183,14 +183,6 @@ public:
     bool OnUserDestroy() override
     {
         std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << FinishdEarly << std::endl;
-        for (auto &i : TextureManager.vSprites)
-        {
-            delete i;
-        }
-        for (auto &i : TextureManager.vDecals)
-        {
-            delete i;
-        }
         return true;
     }
 };

@@ -1,7 +1,5 @@
 float MovingSpeed = 4.5f;
 
-
-
 if(GetMouseWheel()>0)
 {
     fTest+= 1*fElapsedTime;

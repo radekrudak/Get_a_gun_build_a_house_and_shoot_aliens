@@ -1,21 +1,22 @@
 #pragma once
 #include <vector>
 #include <filesystem>
+#include <memory>
 #include "olcPixelGameEngine.h"
 struct sTextureManager
 {
 
-    std::vector<olc::Sprite *> vSprites;
-    std::vector<olc::Decal *> vDecals;
+    std::vector< std::unique_ptr<olc::Sprite>> vSprites;
+    std::vector<std::unique_ptr<olc::Decal>> vDecals;
     std::map<std::string, int> TextureNameMap;
 
-    auto &operator[](const std::string &i)
+    const auto operator[](const std::string &i)
     {
-        return vDecals[TextureNameMap[i]];
+        return vDecals[TextureNameMap[i]].get();
     }
-    auto &operator[](const int &i)
+    const auto operator[](const int &i)
     {
-        return vDecals[i];
+        return vDecals[i].get();
     }
 
     auto &GetSprite(const std::string &i)
@@ -43,8 +44,8 @@ struct sTextureManager
             {
 
                 std::cout << "Loading: " << EntryPath;
-                vSprites.push_back(new olc::Sprite(EntryPath));
-                vDecals.push_back(new olc::Decal(vSprites.back()));
+                vSprites.push_back( std::unique_ptr<olc::Sprite> (new olc::Sprite(EntryPath)));
+                vDecals.push_back(  std::unique_ptr<olc::Decal> (new olc::Decal(vSprites.back().get())));
 
                 std::string FileName = EntryPath;
                 while (FileName.find("/") != FileName.npos)
@@ -70,8 +71,8 @@ struct sTextureManager
             {
 
                 std::cout << "Loading: " << EntryPath;
-                vSprites.push_back(new olc::Sprite(EntryPath));
-                vDecals.push_back(new olc::Decal(vSprites.back()));
+                vSprites.push_back( std::unique_ptr<olc::Sprite>(new olc::Sprite(EntryPath)));
+                vDecals.push_back(std::unique_ptr<olc::Decal> (new olc::Decal(vSprites.back().get())));
 
                 std::string FileName = EntryPath;
                 while (FileName.find("/") != FileName.npos)
