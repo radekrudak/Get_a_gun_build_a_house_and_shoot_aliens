@@ -18,35 +18,39 @@ if (GetKey(olc::Key::F1).bPressed)
 if (GetKey(olc::Key::D).bHeld)
 {
     fPlayerX+= MovingSpeed*fElapsedTime;
+    /*
     if (vTileMap[fPlayerX+ MovingSpeed*fElapsedTime][fPlayerY].front()->isColisivTileInIt(vTileMap[fPlayerX+ MovingSpeed*fElapsedTime][fPlayerY]))
     {
         fPlayerX-= MovingSpeed*fElapsedTime;
     }
+    */
 }
 if (GetKey(olc::Key::A).bHeld)
 {
     fPlayerX-= MovingSpeed*fElapsedTime;
+    /*
     if (vTileMap[fPlayerX- MovingSpeed*fElapsedTime][fPlayerY].front()->isColisivTileInIt(vTileMap[fPlayerX- MovingSpeed*fElapsedTime][fPlayerY]))
     {
         fPlayerX+= MovingSpeed*fElapsedTime;
     }
+    */
 }
 if (GetKey(olc::Key::S).bHeld)
 {
     fPlayerY+= MovingSpeed*fElapsedTime;
 
-    if (vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime]))
-    {
-        fPlayerY-= MovingSpeed*fElapsedTime;
-    }
+    // if (vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime]))
+    // {
+    //     fPlayerY-= MovingSpeed*fElapsedTime;
+    // }
 }
 if (GetKey(olc::Key::W).bHeld)
 {
     fPlayerY-= MovingSpeed*fElapsedTime;
-    if (vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime]))
-    {
-        fPlayerY+= MovingSpeed*fElapsedTime;
-    }
+    // if (vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY- MovingSpeed*fElapsedTime]))
+    // {
+    //     fPlayerY+= MovingSpeed*fElapsedTime;
+    // }
 }
 
 if (GetKey(olc::Key::CTRL).bPressed)
@@ -80,8 +84,8 @@ if (!isFightMode)
             (int)((float)GetMouseY()/TileSize+fCameraY)==(int)fMouseMapY &&//  idk at this point but i will keep them to be safe
 
             GetMouse(0).bHeld &&
-            !vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredID.empty()   // checks if there is anything to gather on this vTile posytion
-            // checks if vTiles posytion is withing a reach
+            TileManager[World.GetTilesAt(fMouseMapX,fMouseMapY).back()]->vItemsGatheredID.empty()   // checks if there is anything to gather on this vTile posytion
+
 
        )
     {
@@ -101,11 +105,11 @@ if (!isFightMode)
             {
                 fDestruction =0.0f;
                  //ads item to inventory
-                PlayerInventory.PickUpItem({
-                    vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredID.back(),
-                    vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredQuantity.back()
-                });
-                vTileMap[fMouseMapX][fMouseMapY].pop_back();
+                // PlayerInventory.PickUpItem({
+                //     vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredID.back(),
+                //     vTileMap[fMouseMapX][fMouseMapY].back()->vItemsGatheredQuantity.back()
+                // });
+                // vTileMap[fMouseMapX][fMouseMapY].pop_back();
 
 
             }
@@ -120,9 +124,9 @@ if (!isFightMode)
 
              GetMouse(1).bHeld &&
 
-             !vTiles[ChosenBuildTile]->vItemsRequiredID.empty() && // later put this check elswhere to give feedbck to player what he is doing wrong
+             !TileManager[ChosenBuildTile]->vItemsRequiredID.empty() && // later put this check elswhere to give feedbck to player what he is doing wrong
 
-             vTileMap[fMouseMapX][fMouseMapY].size()-1 <  static_cast<int> (vTiles[ChosenBuildTile]->GetZLevel())  // Checks if you want to let's say put a wall in place where there is
+              World.GetTilesAt(fMouseMapX,fMouseMapY).size()-1 <  static_cast<int> (TileManager[ChosenBuildTile]->GetZLevel())  // Checks if you want to let's say put a wall in place where there is
              // alrady a wall or floor on vTile where there is a floor
 
 
@@ -132,7 +136,7 @@ if (!isFightMode)
         MouseText = "Constructing";
         if (fMousePlayerDistance > fReachDistance)
             MouseText = "Target out of reach";
-        else if (  PlayerInventory.IsEnoughItems( {vTiles[ChosenBuildTile]->vItemsRequiredID.front(),vTiles[ChosenBuildTile]->vItemsRequiredQuantity.front() }))
+        else if (  PlayerInventory.IsEnoughItems( {TileManager[ChosenBuildTile]->vItemsRequiredID.front(),TileManager[ChosenBuildTile]->vItemsRequiredQuantity.front() }))
         {
             //std::string Building = "Constructing";
             //DrawString(GetMouseX()-Building.size()*8/2,GetMouseY()-20, Building);
@@ -147,11 +151,11 @@ if (!isFightMode)
                 fConstruction =0.0f;
 
 
-                vTileMap[fMouseMapX][fMouseMapY].push_back(vTiles[ChosenBuildTile]);
-                PlayerInventory.DecreaseItemQuantity({vTiles[ChosenBuildTile]->vItemsRequiredID.front(),vTiles[ChosenBuildTile]->vItemsRequiredQuantity.front()});
+                World.GetTilesAt(fMouseMapX,fMouseMapY).push_back(ChosenBuildTile);
+                PlayerInventory.DecreaseItemQuantity({TileManager[ChosenBuildTile]->vItemsRequiredID.front(),TileManager[ChosenBuildTile]->vItemsRequiredQuantity.front()});
                 
 
-                //PlayerInventory.FindItemInInventory(vTiles[ChosenBuildTile]->vItemsRequiredID.front())->Quantity -=vTiles[ChosenBuildTile]->vItemsRequiredQuantity.front();
+                //PlayerInventory.FindItemInInventory(TileManager[ChosenBuildTile]->vItemsRequiredID.front())->Quantity -=TileManager[ChosenBuildTile]->vItemsRequiredQuantity.front();
                 /*int ii=0;
                 for (auto &i: vInventory)
                 {

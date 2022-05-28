@@ -14,10 +14,8 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "FindPath.h"
-#include "TextureManager.h"
-#include "ItemManager.h"
-#include "TileManager.h"
 #include "World.h"
+#include "ManagersManager.h"
 // later in code included Controls.h & GameStart.h
 
 // to do:
@@ -116,21 +114,22 @@ public:
     olc::Sprite *sMT = nullptr;
 
     // ARRAYS/vectors
-    std::vector<std::vector<std::vector<Tile *>>> vTileMap;
+    //std::vector<std::vector<std::vector<Tile *>>> vTileMap;
 
     // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
-    bool isColisivTileInIt(std::vector<Tile *> vTiless);
+   // bool isColisivTileInIt(std::vector<Tile *> vTiless);
     
     // managers
     sTextureManager TextureManager;
     sItemManager ItemManager;
     sTileManager TileManager;
-    
+    cManagersManager ManagersManager;
+    cWorld World;
 
 
     // when replacing vTiles array size replace in Enemy.h too.
-    std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
-    std::vector<Tile *> vBuildableTiles;
+   // std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
+   // std::vector<Tile *> vBuildableTiles;
 
 
     // std::vector<int> aResourses= {0,0,0};
@@ -171,7 +170,7 @@ public:
         Health = 1;
         fSeconds = 0;
 
-        GenerateMap(vTileMap, vTiles);
+        World.GenerateTerrain(TileManager.TileNameMap);
         ScreenMode = WhitchScreen::GAMEPLAY;
     }
 

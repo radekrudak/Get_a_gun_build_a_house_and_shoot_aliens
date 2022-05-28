@@ -9,7 +9,9 @@ bool GameJam::OnUserCreate()
 {
 
         Clear(olc::BLACK);
-        vTileMap.reserve(MapSize);
+        //vTileMap.reserve(MapSize);
+        ManagersManager.init(&ItemManager,&TileManager,&TextureManager);
+
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
         TileManager.LoadStaticTiles(TextureManager.TextureNameMap);
@@ -22,11 +24,11 @@ bool GameJam::OnUserCreate()
         //sprite loading
         sMT = new olc::Sprite("./assets/tiles/TextureMissing.png");
         Tile *defaultTile = new Tile(TextureManager.TextureNameMap);
-        for(auto &i:vTiles)
+        /*for(auto &i:vTiles)
         {
             i = defaultTile;
         }
-        
+        */
 
 
         sEnemy =      new olc::Sprite ("./assets/characters/Enemy.png");
@@ -37,6 +39,7 @@ bool GameJam::OnUserCreate()
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
 
+        /*
         vTiles.push_back( new Tile(TextureManager.TextureNameMap,0,"Grass",false,TZpos::floor)); // grass
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,1,"WoodAlpha",true)); // Wood
@@ -48,13 +51,13 @@ bool GameJam::OnUserCreate()
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,2,"WoodWall",true)); // Wood wall
         vTiles[2]->vItemsRequiredQuantity.push_back(10);
         vTiles[2]->vItemsRequiredID.push_back(1);
-        vBuildableTiles.push_back(vTiles[2]);
+        
 
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,3,"WoodFloor",false,TZpos::floor)); // WoodFloor
 
         vTiles.push_back(new Tile(TextureManager.TextureNameMap,4,"black",false,TZpos::dirt)); // cley
-       
+        */
         
         return true;
 

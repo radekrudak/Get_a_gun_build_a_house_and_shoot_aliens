@@ -42,10 +42,10 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             for (int x = 0, xx = 0; x < ScreenWidth() + TileSize; x += TileSize)
             {
                 if (xx + (int)fCameraX > 0 && yy + (int)fCameraY > 0)
-                    for (auto &i : vTileMap[xx + (int)fCameraX][yy + (int)fCameraY])
+                    for (auto &i : World.GetTilesAt(xx + (int)fCameraX,yy + (int)fCameraY))
                     {
 
-                        DrawDecal(olc::vf2d((double)x - fmod((double)fPlayerX, 1) * TileSize, (double)y - fmod((double)fPlayerY, 1) * TileSize), TextureManager[i->GetTextureID()]);
+                        DrawDecal(olc::vf2d((double)x - fmod((double)fPlayerX, 1) * TileSize, (double)y - fmod((double)fPlayerY, 1) * TileSize), TextureManager[ TileManager[i]->GetTextureID() ]);
                     }
 
                 ++xx;
@@ -74,20 +74,20 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
                 // vThreads.push_back( new std::thread( FindPath, olc::vf2d(i->x,i->y), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,
                 //               std::ref(vEnemies[vEnemies.size()-1]->Path),std::ref(vTileMap),std::ref(FinishdEarly )) );
                 olc::vf2d NextPos = i->CheckNextPosytionStraight(fPlayerX, fPlayerY, fElapsedTime);
-                if (!vTileMap[NextPos.x][NextPos.y].back()->isColisive())
-                {
-                    i->GetfDestruction() = 0.0f;
-                    i->Move_Straight(fPlayerX, fPlayerY, fElapsedTime);
-                }
-                else
-                {
-                    i->GetfDestruction() += 0.1f * fElapsedTime;
-                    if (i->GetfDestruction() >= 1)
-                    {
-                        i->GetfDestruction() = 0.0f;
-                        vTileMap[i->GetPosition().x][i->GetPosition().y].pop_back();
-                    }
-                }
+                // if (!vTileMap[NextPos.x][NextPos.y].back()->isColisive())
+                // {
+                //     i->GetfDestruction() = 0.0f;
+                //     i->Move_Straight(fPlayerX, fPlayerY, fElapsedTime);
+                // }
+                // else
+                // {
+                //     i->GetfDestruction() += 0.1f * fElapsedTime;
+                //     if (i->GetfDestruction() >= 1)
+                //     {
+                //         i->GetfDestruction() = 0.0f;
+                //         vTileMap[i->GetPosition().x][i->GetPosition().y].pop_back();
+                //     }
+                // }
                 DrawDecal(olc::vf2d((i->x - fCameraX) * TileSize - TileSize / 2, (i->y - fCameraY) * TileSize - TileSize / 2), i->Decal);
 
                 FillRect((i->x - fCameraX) * TileSize - TileSize / 2,
