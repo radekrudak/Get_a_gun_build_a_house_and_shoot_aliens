@@ -12,6 +12,7 @@ enum class PositionOnTileStack{
 
 
 };
+
 //class Item;
 using TZpos = PositionOnTileStack;
 class Tile

@@ -12,7 +12,7 @@ bool GameJam::OnUserCreate()
         vTileMap.reserve(MapSize);
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
-
+        TileManager.LoadStaticTiles(TextureManager.TextureNameMap);
 
         // Tilemapp = new Tile[1024]();
         //Enemy test(vTileMap,vTiles);
@@ -36,10 +36,6 @@ bool GameJam::OnUserCreate()
 
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
-
-
-        vItems.push_back(new Item(TextureManager.TextureNameMap,"WoodAlpha"));
-        vItems.push_back(new Item(TextureManager.TextureNameMap,"WoodAlpha"));
 
         vTiles.push_back( new Tile(TextureManager.TextureNameMap,0,"Grass",false,TZpos::floor)); // grass
 

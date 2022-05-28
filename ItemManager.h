@@ -21,30 +21,30 @@ struct sItemManager
         return vItems[i];
     }
 
-    void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string path_to_item_file = "assets/items.json")
+    void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string PathToItemFile = "assets/items.json")
     {
-        std::string json_text;
+        std::string JsonText;
         std::string line;
-        std::ifstream json_file(path_to_item_file);
+        std::ifstream JsonFile(PathToItemFile);
 
-        while (std::getline(json_file, line))
+        while (std::getline(JsonFile, line))
         {
-            json_text.append(line);
-            json_text.append("\r\n");
+            JsonText.append(line);
+            JsonText.append("\r\n");
         }
 
         // parse and serialize JSON
-        json j_complete = json::parse(json_text);
+        json ParsedJson = json::parse(JsonText);
 
-        for (auto i : j_complete.items())
+        for (auto i : ParsedJson.items())
         {
             // TODO: SOME ERROR CHECKING
             std::cout << i.key() << " " << i.value() << std::endl;
             ItemNameMap[i.key()] = vItems.size();
             vItems.push_back(std::unique_ptr<Item>( 
                     new Item(TextureNameMap,
-                             i.value()["TextureName"],
-                             i.value()["UserVisibleName"],
+                             i.value().value("TextureName","TextureMissing"),
+                             i.value().value("UserVisibleName","You shouldn't see that !"),
                              i.key()
 
 
