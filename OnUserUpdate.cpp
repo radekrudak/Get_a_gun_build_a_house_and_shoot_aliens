@@ -13,7 +13,8 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         //float fMousePlayerDistance = sqrt(pow(fMouseMapY - EntityManager.Player.GetY(), 2) + pow(fMouseMapX - EntityManager.Player.GetX(), 2));
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
-        #include "Controls.h"
+        //#include "Controls.h"
+        GetUserInput(fElapsedTime);
         EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(),ScreenHeight(),TileSize);
 
         if (fSeconds > fSecondsInDay)

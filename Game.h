@@ -165,10 +165,11 @@ public:
     }
 
 public:
+
     bool OnUserCreate() override;
 
     bool OnUserUpdate(float fElapsedTime) override;
-
+    void GetUserInput(float fElapsedTime);
     bool OnUserDestroy() override
     {
         std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << std::endl;

@@ -1,3 +1,6 @@
+#include "Game.h"
+void GameJam::GetUserInput(float fElapsedTime)
+
 {
     float MovingSpeed = 4.5f;
 

@@ -15,7 +15,10 @@ OnUserUpdate.o : OnUserUpdate.cpp
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
 OnUserCreate.o :OnUserCreate.cpp 
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
-GAG: main.o OnUserUpdate.o OnUserCreate.o 
+Controls.o :Controls.cpp 
+	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
+
+GAG: main.o OnUserUpdate.o OnUserCreate.o Controls.o
 	g++ -o $@ $(OBJ_DIR)*.o   $(ARGS)
 	make clean
 clean:
