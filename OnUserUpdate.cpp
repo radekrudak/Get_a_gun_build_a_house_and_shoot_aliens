@@ -16,9 +16,11 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
         #include "Controls.h"
+        EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(),ScreenHeight(),TileSize);
+        //fCameraX =  EntityManager.Player.GetCameraX();//fPlayerX - (ScreenWidth() / 2) / TileSize;
+        //fCameraY =  EntityManager.Player.GetCameraY();//fPlayerY - (ScreenHeight() / 2) / TileSize;
         fCameraX = fPlayerX - (ScreenWidth() / 2) / TileSize;
         fCameraY = fPlayerY - (ScreenHeight() / 2) / TileSize;
-
         if (fSeconds > fSecondsInDay)
         {
            

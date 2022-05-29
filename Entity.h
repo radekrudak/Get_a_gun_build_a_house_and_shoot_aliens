@@ -93,7 +93,24 @@ public:
 
 class cPlayer: public Entity
 {
+    float CameraX=0;
+    float CameraY=0;
 public:
+    inline void SyncCameraWithPlayer(int ScreenWidth,int ScreenHeight,int TileSize =16)
+    {
+        CameraX = GetX() - (ScreenWidth / 2) / TileSize;
+        CameraY = GetY() - (ScreenHeight / 2) / TileSize;
+    }
+    auto  GetCameraX()
+    {
+        return CameraX;
+    }
+    auto  GetCameraY()
+    {
+        return CameraY;
+    }
+
+
     cPlayer ()
     {
         ;

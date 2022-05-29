@@ -4,7 +4,7 @@
 class cWorld
 {
     std::vector<std::vector<std::vector<int>>> vTerrain;
-
+    int TileSize =16;
 
 public:
 
@@ -34,6 +34,13 @@ public:
     {
         return ManagersManager->isTileStackColisive(GetTileStackAt(x,y));
     }
-
+    auto GetTileSize()
+    {
+        return TileSize;
+    }
     
+    void SetTileSize(int TS)
+    {
+        TileSize = TS;
+    }
 };
