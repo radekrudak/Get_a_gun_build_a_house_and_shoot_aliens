@@ -35,7 +35,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
-        auto TileToScreen = [this](int x,int y){
+        auto TilePosToScreenPos = [this](int x,int y){
             return olc::vf2d(
                     (float(x)-fCameraX)*TileSize
                      ,
@@ -44,25 +44,15 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         };
         /// Tile Drawing
         // y and x are cordinates of decals of tiles (-player cor offset) on screen, xx and yy are coordinates of position on tile map.
-        for (int y = 0, yy = 0; y < ScreenHeight() + TileSize; y += TileSize)
-        {
-            for (int x = 0, xx = 0; x < ScreenWidth() + TileSize; x += TileSize)
-            {
-                if (xx + (int)fCameraX > 0 && yy + (int)fCameraY > 0)
-                    for (auto &i : World.GetTileStackAt(xx + (int)fCameraX,yy + (int)fCameraY))
+        int intCameraX = static_cast<int>(EntityManager.Player.GetCameraX());
+        int intCameraY = static_cast<int>(EntityManager.Player.GetCameraY());
+        for (int y =  intCameraY; y < intCameraY+ScreenHeight()/TileSize+TileSize  ;y++)
+            for (int x =intCameraX; x <  intCameraX+ScreenWidth() / TileSize+TileSize; x++ )
+                    for (auto &i : World.GetTileStackAt(x,y))
                     {
 
-                        DrawDecal(olc::vf2d((double)x - fmod((double)fPlayerX, 1) * TileSize, (double)y - fmod((double)fPlayerY, 1) * TileSize), TextureManager[ TileManager[i]->GetTextureID() ]);
+                        DrawDecal(TilePosToScreenPos(x,y), TextureManager[ TileManager[i]->GetTextureID() ]);
                     }
-
-                ++xx;
-            }
-            ++yy;
-        }
-        olc::Decal testdec(sMT);
-        auto a = TileToScreen(64,64); 
-        std::cout<<a.x<<" "<<a.y<<std::endl;
-        DrawDecal(a, &testdec);
         // draws player
         SetDrawTarget(lPlayer);
         Clear(olc::BLANK);

@@ -4,7 +4,9 @@
 class cWorld
 {
     std::vector<std::vector<std::vector<int>>> vTerrain;
+    std::vector<int> DefaultTileStack;
     int TileSize =16;
+    int LenghtOfSide = 1024;
 
 public:
 
@@ -12,14 +14,19 @@ public:
 
     std::vector<int> &GetTileStackAt(int x, int y)
     {
-        return vTerrain[x][y];
+        if (0 <= x && x<LenghtOfSide && 0 <= y && y < LenghtOfSide )
+            return vTerrain[x][y];
+        else 
+            return DefaultTileStack;
     }
 
-    void GenerateTerrain(std::map<std::string, int> &TileNameMap,int LenghtOfSide = 1024)
+    void GenerateTerrain(std::map<std::string, int> &TileNameMap,int LenghtOfSideOfTerrain = 1024)
     {
+        LenghtOfSide = LenghtOfSideOfTerrain;
         vTerrain.resize(LenghtOfSide,
                         std::vector<std::vector<int>>(LenghtOfSide, 
                                 std::vector<int>(1, TileNameMap["GRASS"])));
+        DefaultTileStack.resize(1,0);
         for (size_t x = 0; x < LenghtOfSide; x++)
         {
 
@@ -32,7 +39,10 @@ public:
     } 
     bool isTileStackColisiveAt(int x, int y )
     {
-        return ManagersManager->isTileStackColisive(GetTileStackAt(x,y));
+        if (0 < x && x<LenghtOfSide && 0 < y && y < LenghtOfSide )
+            return ManagersManager->isTileStackColisive(GetTileStackAt(x,y));
+        else 
+            return true;
     }
     auto GetTileSize()
     {
