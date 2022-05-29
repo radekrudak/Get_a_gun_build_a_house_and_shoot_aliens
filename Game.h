@@ -61,8 +61,6 @@ public:
     bool isNightStartSequence = false;
     bool isDebugMode = false;
     /// player's Stuff
-    float fCameraX;
-    float fCameraY;
     float fDestruction = 1.0f;
     float fConstruction = 0.0f;
     float fMouseMapX = 0.0f;
@@ -123,8 +121,28 @@ public:
         // Name your application
         sAppName = "GameJamEntry";
     }
+    
+    auto WorldPosToScreenPos(int x, int y)
+    {
+        return olc::vf2d(
+            (static_cast<float>(x) - EntityManager.Player.GetCameraX()) * TileSize,
+            (static_cast<float>(y) - EntityManager.Player.GetCameraY()) * TileSize);
+    }
+    auto WorldPosToScreenPos(float x, float y)
+    {
+        return olc::vf2d(
+            (x - EntityManager.Player.GetCameraX()) * TileSize,
+            (y - EntityManager.Player.GetCameraY()) * TileSize);
+    }
+    
+    auto ScreenPosToWorldPos(float x, float y)
+    {
+        return olc::vf2d(
+            (x/ static_cast<float>(TileSize))+EntityManager.Player.GetCameraX(),
+            (y/static_cast<float>(TileSize))+EntityManager.Player.GetCameraY()
+        );
+    }
 
-    void SpawnEnemy();
 
     inline void NewGame()
     {

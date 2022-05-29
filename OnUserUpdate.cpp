@@ -8,19 +8,14 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
     {
     case WhitchScreen::GAMEPLAY:
     {
-        float fPlayerX = EntityManager.Player.GetX();
-        float fPlayerY = EntityManager.Player.GetY();
-        float fPlayerA = EntityManager.Player.GetAngle();
+
         PreviousSecond = floor(fSeconds);
-        float fMousePlayerDistance = sqrt(pow(fMouseMapY - fPlayerY, 2) + pow(fMouseMapX - fPlayerX, 2));
+        //float fMousePlayerDistance = sqrt(pow(fMouseMapY - EntityManager.Player.GetY(), 2) + pow(fMouseMapX - EntityManager.Player.GetX(), 2));
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
         #include "Controls.h"
         EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(),ScreenHeight(),TileSize);
-        //fCameraX =  EntityManager.Player.GetCameraX();//fPlayerX - (ScreenWidth() / 2) / TileSize;
-        //fCameraY =  EntityManager.Player.GetCameraY();//fPlayerY - (ScreenHeight() / 2) / TileSize;
-        fCameraX = fPlayerX - (ScreenWidth() / 2) / TileSize;
-        fCameraY = fPlayerY - (ScreenHeight() / 2) / TileSize;
+
         if (fSeconds > fSecondsInDay)
         {
            
@@ -35,13 +30,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
-        auto WorldPosToScreenPos = [this](int x,int y){
-            return olc::vf2d(
-                    (static_cast<float>(x)-EntityManager.Player.GetCameraX())*TileSize
-                     ,
-                    (static_cast<float>(y)-EntityManager.Player.GetCameraY())*TileSize
-                    );
-        };
+
         /// Tile Drawing
         // y and x are cordinates of decals of tiles (-player cor offset) on screen, xx and yy are coordinates of position on tile map.
         int intCameraX = static_cast<int>(EntityManager.Player.GetCameraX());
@@ -57,13 +46,13 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         SetDrawTarget(lPlayer);
         Clear(olc::BLANK);
 
-        fMouseMapX = (float)GetMouseX() / TileSize + fCameraX;
-        fMouseMapY = (float)GetMouseY() / TileSize + fCameraY;
+        fMouseMapX = ScreenPosToWorldPos(GetMouseX(),GetMouseY()).x;
+        fMouseMapY = ScreenPosToWorldPos(GetMouseX(),GetMouseY()).y;
 
-        fPlayerA = atan2((fMouseMapY - fPlayerY), (fMouseMapX - fPlayerX));
+        EntityManager.Player.SetAngle(fMouseMapX,fMouseMapY);
         // Draw Player
-        DrawRotatedDecal(olc::vf2d((fPlayerX - fCameraX) * TileSize * fTileScale, (fPlayerY - fCameraY) * TileSize * fTileScale), TextureManager["mc"], fPlayerA + PI / 2, {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
-
+        DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(),EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
+       
 
         // enabling layers
         EnableLayer(lPlayer, true);
@@ -108,11 +97,11 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         }
         if (isStatsDis)
         {
-            DrawString(0, 0, "PlayerX: " + std::to_string(fPlayerX));
-            DrawString(0, 10, "PlayerY: " + std::to_string(fPlayerY) + std::to_string(fPlayerA));
+            DrawString(0, 0, "PlayerX: " + std::to_string(EntityManager.Player.GetX()));
+            DrawString(0, 10, "PlayerY: " + std::to_string(EntityManager.Player.GetY()) + std::to_string(EntityManager.Player.GetAngle()));
 
-            DrawString(0, 20, "CameraX: " + std::to_string(fCameraX));
-            DrawString(0, 30, "CameraY: " + std::to_string(fCameraY));
+            DrawString(0, 20, "CameraX: " + std::to_string(EntityManager.Player.GetCameraX()));
+            DrawString(0, 30, "CameraY: " + std::to_string(EntityManager.Player.GetCameraY()));
             DrawString(0, 40, "MouseX: " + std::to_string(fMouseMapX));
             DrawString(0, 50, "MouseY: " + std::to_string(fMouseMapY));
             DrawString(0, 60, "Destruction: " + std::to_string(fDestruction));
@@ -133,7 +122,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             else
                 DrawString(0, 90, "R2: Empty");
 
-            DrawString(0, 110, "Distance: " + std::to_string(Distance(fPlayerX, fPlayerY, GetMouseX() / TileSize + fCameraX, GetMouseY() / TileSize + fCameraY)));
+            DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), GetMouseX() / TileSize + EntityManager.Player.GetX(), GetMouseY() / TileSize + EntityManager.Player.GetY())));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
             DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(ScreenMode)));
 

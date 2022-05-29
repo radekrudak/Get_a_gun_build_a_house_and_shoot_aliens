@@ -109,7 +109,11 @@ public:
     {
         return CameraY;
     }
-
+    using Entity::SetAngle;
+    void SetAngle(float MouseMapX, float MouseMapY)
+    {
+      SetAngle(atan2(MouseMapY-GetY(),MouseMapX-GetX()));
+    }
 
     cPlayer ()
     {
