@@ -35,11 +35,11 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
-        auto TilePosToScreenPos = [this](int x,int y){
+        auto WorldPosToScreenPos = [this](int x,int y){
             return olc::vf2d(
-                    (float(x)-fCameraX)*TileSize
+                    (static_cast<float>(x)-EntityManager.Player.GetCameraX())*TileSize
                      ,
-                    (float(y)-fCameraY)*TileSize
+                    (static_cast<float>(y)-EntityManager.Player.GetCameraY())*TileSize
                     );
         };
         /// Tile Drawing
@@ -51,7 +51,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
                     for (auto &i : World.GetTileStackAt(x,y))
                     {
 
-                        DrawDecal(TilePosToScreenPos(x,y), TextureManager[ TileManager[i]->GetTextureID() ]);
+                        DrawDecal(WorldPosToScreenPos(x,y), TextureManager[ TileManager[i]->GetTextureID() ]);
                     }
         // draws player
         SetDrawTarget(lPlayer);
