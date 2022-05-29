@@ -13,7 +13,6 @@
 #include "Bullet.h"
 #include "Entity.h"
 #include "Item.h"
-#include "FindPath.h"
 #include "World.h"
 #include "ManagersManager.h"
 // later in code included Controls.h & GameStart.h
@@ -35,32 +34,18 @@
 
 using TZpos = PositionOnTileStack;
 
-static std::mutex s_nodes;
-// pushesh back row of nodes, only reason it's seperate function is to use prralelism
-inline void AddNodeRow(std::vector<std::vector<sNode *>> &vNodeMap, int size = 512)
-{
-
-    std::vector<sNode *> v1;
-    for (int i = 0; i < size; ++i)
-    {
-        v1.push_back(new sNode());
-    }
-    std::lock_guard<std::mutex> lock(s_nodes);
-    std::cout << " Allocating node x: " << vNodeMap.size() << std::endl;
-    vNodeMap.push_back(v1);
-    std::cout << " Allocation of node x: " << vNodeMap.size() << "finished" << std::endl;
-}
-
 constexpr int TileSize = 16;
 constexpr float PI = 3.14159;
-float Distance(float x1, float y1, float x2, float y2)
-{
-    return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-}
+
 class GameJam : public olc::PixelGameEngine
 {
 
 public:
+    float Distance(float x1, float y1, float x2, float y2)
+    {
+        return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
     WhitchScreen ScreenMode = WhitchScreen::MAIN_MENU;
 
     int NodeMapSize = 128;
@@ -90,7 +75,7 @@ public:
     int ChosenBuildTile = 2;
     std::string MouseText;
     Inventory PlayerInventory;
-    
+
     // Game Clocks stuff;
     double fSeconds = 0;
     int PreviousSecond = 0;
@@ -113,22 +98,22 @@ public:
     olc::Sprite *sMT = nullptr;
 
     // ARRAYS/vectors
-    //std::vector<std::vector<std::vector<Tile *>>> vTileMap;
+    // std::vector<std::vector<std::vector<Tile *>>> vTileMap;
 
     // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
-   // bool isColisivTileInIt(std::vector<Tile *> vTiless);
-    
+    // bool isColisivTileInIt(std::vector<Tile *> vTiless);
+
     // managers
     sTextureManager TextureManager;
     sItemManager ItemManager;
     sTileManager TileManager;
+    sEntityManager EntityManager;
     cManagersManager ManagersManager;
     cWorld World;
 
     // std::vector<int> aResourses= {0,0,0};
     std::vector<Bullet *> vBullets;
     std::vector<Enemy *> vEnemies;
-
 
     int ElapsedFrames = 0;
 
@@ -164,8 +149,6 @@ public:
         ScreenMode = WhitchScreen::GAMEPLAY;
     }
 
-
-
 public:
     bool OnUserCreate() override;
 
@@ -173,7 +156,7 @@ public:
 
     bool OnUserDestroy() override
     {
-        std::cout << "Frames: " << ElapsedFrames << " A start finished early: "<< std::endl;
+        std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << std::endl;
         return true;
     }
 };

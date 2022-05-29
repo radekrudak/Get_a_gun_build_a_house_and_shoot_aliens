@@ -10,7 +10,7 @@ bool GameJam::OnUserCreate()
 
         Clear(olc::BLACK);
         //vTileMap.reserve(MapSize);
-        ManagersManager.init(&ItemManager,&TileManager,&TextureManager);
+        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager);
 
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
@@ -38,25 +38,7 @@ bool GameJam::OnUserCreate()
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
 
-        /*
-        vTiles.push_back( new Tile(TextureManager.TextureNameMap,0,"Grass",false,TZpos::floor)); // grass
 
-        vTiles.push_back(new Tile(TextureManager.TextureNameMap,1,"WoodAlpha",true)); // Wood
-        vTiles[1]->vItemsGatheredID.push_back(1);
-        //std::cout<<vTiles[1]->vItemsGathered.back()<<std::endl;
-        //std::cout<<vTiles[1]->vItemsGathered.front()<<std::endl;
-        vTiles[1]->vItemsGatheredQuantity.push_back(5);
-
-        vTiles.push_back(new Tile(TextureManager.TextureNameMap,2,"WoodWall",true)); // Wood wall
-        vTiles[2]->vItemsRequiredQuantity.push_back(10);
-        vTiles[2]->vItemsRequiredID.push_back(1);
-        
-
-
-        vTiles.push_back(new Tile(TextureManager.TextureNameMap,3,"WoodFloor",false,TZpos::floor)); // WoodFloor
-
-        vTiles.push_back(new Tile(TextureManager.TextureNameMap,4,"black",false,TZpos::dirt)); // cley
-        */
         
         return true;
 

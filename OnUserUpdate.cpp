@@ -8,6 +8,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
     {
     case WhitchScreen::GAMEPLAY:
     {
+
         PreviousSecond = floor(fSeconds);
         float fMousePlayerDistance = sqrt(pow(fMouseMapY - fPlayerY, 2) + pow(fMouseMapX - fPlayerX, 2));
         Clear(olc::BLANK);
@@ -132,10 +133,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             DrawString(0, 110, "Distance: " + std::to_string(Distance(fPlayerX, fPlayerY, GetMouseX() / TileSize + fCameraX, GetMouseY() / TileSize + fCameraY)));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
             DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(ScreenMode)));
-            if (!vEnemies.empty())
-                DrawString(0, 120, "x: " + std::to_string(vEnemies.front()->x));
-            if (!vEnemies.empty())
-                DrawString(0, 130, "y: " + std::to_string(vEnemies.front()->y));
+
         }
 
         ++ElapsedFrames;
