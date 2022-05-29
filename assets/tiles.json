@@ -9,6 +9,11 @@
         "PositionOnTileStack":1,
         "isColisive":true
     },
+    "WOODEN_WALL":{
+        "TextureName":"WoodWall",
+        "PositionOnTileStack":1,
+        "isColisive":true
+    },
     "NULL_TILE":{
         "TextureName":"TextureMissing"
     }

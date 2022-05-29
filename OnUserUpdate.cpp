@@ -11,20 +11,16 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         PreviousSecond = floor(fSeconds);
         float fMousePlayerDistance = sqrt(pow(fMouseMapY - fPlayerY, 2) + pow(fMouseMapX - fPlayerX, 2));
         Clear(olc::BLANK);
-// it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
-#include "Controls.h"
+        // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
+        #include "Controls.h"
         fCameraX = fPlayerX - (ScreenWidth() / 2) / TileSize;
         fCameraY = fPlayerY - (ScreenHeight() / 2) / TileSize;
 
         if (fSeconds > fSecondsInDay)
         {
-            vEnemies.push_back(new Enemy(fCameraX + 1, fCameraY + 1, sEnemy));
+           
             // FindPath(olc::vf2d(fCameraX+1,fCameraY+1), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,vEnemies[vEnemies.size()-1]->Path,vTileMap,FinishdEarly);
 
-            for (auto i : vEnemies.front()->Path)
-            {
-                std::cout << "Px: " << i.x << "Py: " << i.y << std::endl;
-            }
 
             fSeconds = 0.0;
             isNight = !isNight;
@@ -64,51 +60,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         // Draw Player
         DrawRotatedDecal(olc::vf2d((fPlayerX - fCameraX) * TileSize * fTileScale, (fPlayerY - fCameraY) * TileSize * fTileScale), TextureManager["mc"], fPlayerA + PI / 2, {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
 
-        {
 
-            std::vector<std::thread *> vThreads;
-            int ii = 0;
-            /// Draws Enemy
-            for (auto &i : vEnemies)
-            {
-                // vThreads.push_back( new std::thread( FindPath, olc::vf2d(i->x,i->y), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,
-                //               std::ref(vEnemies[vEnemies.size()-1]->Path),std::ref(vTileMap),std::ref(FinishdEarly )) );
-                olc::vf2d NextPos = i->CheckNextPosytionStraight(fPlayerX, fPlayerY, fElapsedTime);
-                // if (!vTileMap[NextPos.x][NextPos.y].back()->isColisive())
-                // {
-                //     i->GetfDestruction() = 0.0f;
-                //     i->Move_Straight(fPlayerX, fPlayerY, fElapsedTime);
-                // }
-                // else
-                // {
-                //     i->GetfDestruction() += 0.1f * fElapsedTime;
-                //     if (i->GetfDestruction() >= 1)
-                //     {
-                //         i->GetfDestruction() = 0.0f;
-                //         vTileMap[i->GetPosition().x][i->GetPosition().y].pop_back();
-                //     }
-                // }
-                DrawDecal(olc::vf2d((i->x - fCameraX) * TileSize - TileSize / 2, (i->y - fCameraY) * TileSize - TileSize / 2), i->Decal);
-
-                FillRect((i->x - fCameraX) * TileSize - TileSize / 2,
-                         (i->y - fCameraY) * TileSize - TileSize / 2 - (i->Sprite->height / 2),
-                         i->GetfDestruction() * i->Sprite->width, 10, olc::RED);
-
-                if (Distance(fPlayerX, fPlayerY, i->x, i->y) < 1.5f)
-                {
-                    Health -= fElapsedTime / 10.0f;
-                }
-
-                int jj = 0;
-
-                ++ii;
-            }
-            for (auto &i : vThreads)
-            {
-                i->join();
-            }
-            vThreads.clear();
-        }
         // enabling layers
         EnableLayer(lPlayer, true);
         EnableLayer(lGround, true);

@@ -31,7 +31,6 @@ bool GameJam::OnUserCreate()
         */
 
 
-        sEnemy =      new olc::Sprite ("./assets/characters/Enemy.png");
         sNight =      new olc::Sprite ("./assets/tiles/black.png");
         sMoonAndSun = new olc::Sprite("./assets/tiles/MoonandSun.png");
 

@@ -11,7 +11,7 @@
 #include "MapGen.h"
 #include "Tile.h"
 #include "Bullet.h"
-#include "Enemy.h"
+#include "Entity.h"
 #include "Item.h"
 #include "FindPath.h"
 #include "World.h"
@@ -110,7 +110,6 @@ public:
     olc::Sprite *sMoonAndSun = nullptr;
     olc::Decal *dNight = nullptr;
     olc::Decal *dMoonAndSun = nullptr;
-    olc::Sprite *sEnemy = nullptr;
     olc::Sprite *sMT = nullptr;
 
     // ARRAYS/vectors
@@ -126,20 +125,11 @@ public:
     cManagersManager ManagersManager;
     cWorld World;
 
-
-    // when replacing vTiles array size replace in Enemy.h too.
-   // std::vector<Tile *> vTiles; // 0= Grass, 1 = Wood etc.
-   // std::vector<Tile *> vBuildableTiles;
-
-
     // std::vector<int> aResourses= {0,0,0};
     std::vector<Bullet *> vBullets;
     std::vector<Enemy *> vEnemies;
-    // Node map for A* path finding
-    // std::vector<std::vector<sNode*>> vNodeMap;
-    // std::vector<olc::vf2d> Path;
 
-    int FinishdEarly = 0;
+
     int ElapsedFrames = 0;
 
     float AStarCounterMax = 0.5f;
@@ -183,7 +173,7 @@ public:
 
     bool OnUserDestroy() override
     {
-        std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << FinishdEarly << std::endl;
+        std::cout << "Frames: " << ElapsedFrames << " A start finished early: "<< std::endl;
         return true;
     }
 };

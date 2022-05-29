@@ -17,10 +17,7 @@ if (isDebugMode)
         else if(ScreenMode == WhitchScreen::GAMEPLAY) 
             ScreenMode = WhitchScreen::MAIN_MENU;
     }
-    if (GetKey(olc::Key::P).bPressed)
-    {
-        vEnemies.push_back(new Enemy(fCameraX+1,fCameraY+1,sEnemy));
-    }
+
 
 
 
