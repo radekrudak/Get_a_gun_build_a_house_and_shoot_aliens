@@ -4,8 +4,8 @@
 #include <string>
 #include <fstream>
 
-#include "Item.h"
-#include "nlohmann/json.hpp"
+#include "../Item.h"
+#include "../nlohmann/json.hpp"
 using json = nlohmann::json;
 
 struct sItemManager
@@ -21,7 +21,7 @@ struct sItemManager
         return vItems[i];
     }
 
-    void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string PathToItemFile = "assets/items.json")
+    void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string PathToItemFile = "configs/items.json")
     {
         std::string JsonText;
         std::string line;

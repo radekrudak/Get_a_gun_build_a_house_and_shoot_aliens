@@ -9,13 +9,13 @@ all: clean
 	make --jobs=4
 run: all
 	./GAG
-main.o : main.cpp
+main.o : src/main.cpp
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
-OnUserUpdate.o : OnUserUpdate.cpp
+OnUserUpdate.o : src/OnUserUpdate.cpp
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
-OnUserCreate.o :OnUserCreate.cpp 
+OnUserCreate.o :src/OnUserCreate.cpp 
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
-GetUserInput.o :GetUserInput.cpp
+GetUserInput.o :src/GetUserInput.cpp
 	g++ -o $(OBJ_DIR)$@  $< -c $(ARGS)
 
 GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o

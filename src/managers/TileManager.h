@@ -5,8 +5,8 @@
 #include <fstream>
 #include <typeinfo>
 
-#include "Tile.h"
-#include "nlohmann/json.hpp"
+#include "../Tile.h"
+#include "../nlohmann/json.hpp"
 using json = nlohmann::json;
 
 struct sTileManager
@@ -32,7 +32,7 @@ struct sTileManager
     }
 
 
-    void LoadStaticTiles(std::map<std::string,int> TextureNameMap,std::string PathToTileFile = "assets/tiles.json")
+    void LoadStaticTiles(std::map<std::string,int> TextureNameMap,std::string PathToTileFile = "configs/tiles.json")
     { 
         std::string JsonText;
         std::string line;

@@ -2,7 +2,7 @@
 #include <vector>
 #include <filesystem>
 #include <memory>
-#include "olcPixelGameEngine.h"
+#include "../olcPixelGameEngine.h"
 struct sTextureManager
 {
 
@@ -27,7 +27,7 @@ struct sTextureManager
     {
         return vSprites[i];
     }
-    std::map<std::string, int> LoadGraphics(std::string TexturePackPath = "assets/")
+    std::map<std::string, int> LoadGraphics(std::string TexturePackPath = "TexturePacks/Default/")
     {
         vSprites.clear();
         vDecals.clear();

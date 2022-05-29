@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Entity.h"
+#include "../Entity.h"
 
 
 struct sEntityManager

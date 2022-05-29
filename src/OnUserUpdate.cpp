@@ -105,8 +105,6 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             DrawString(0, 30, "CameraY: " + std::to_string(EntityManager.Player.GetCameraY()));
             DrawString(0, 40, "MouseX: " + std::to_string(fMouseMapX));
             DrawString(0, 50, "MouseY: " + std::to_string(fMouseMapY));
-            DrawString(0, 60, "Destruction: " + std::to_string(fDestruction));
-            DrawString(0, 70, "Construction: " + std::to_string(fConstruction));
             if (PlayerInventory.isEmpty() == false)
             {
                 DrawString(0, 80, "R1: " + std::to_string(PlayerInventory[0].Quantity));

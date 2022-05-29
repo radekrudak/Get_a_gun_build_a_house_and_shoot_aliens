@@ -1,8 +1,8 @@
 #pragma once
-#include "ItemManager.h"
-#include "TileManager.h"
-#include "TextureManager.h"
-#include "EntityManager.h"
+#include "managers/ItemManager.h"
+#include "managers/TileManager.h"
+#include "managers/TextureManager.h"
+#include "managers/EntityManager.h"
 class cManagersManager
 {
     sItemManager *ItemManager;

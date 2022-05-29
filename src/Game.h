@@ -61,11 +61,9 @@ public:
     bool isNightStartSequence = false;
     bool isDebugMode = false;
     /// player's Stuff
-    float fDestruction = 1.0f;
-    float fConstruction = 0.0f;
+
     float fMouseMapX = 0.0f;
     float fMouseMapY = 0.0f;
-    float fReachDistance = 2;
     double Health = 1;
     int ChosenBuildTile = 2;
     std::string MouseText;
@@ -152,12 +150,6 @@ public:
         EntityManager.Player.SetX(64.5f);
         EntityManager.Player.SetY(64.5f);
         EntityManager.Player.SetAngle(64.5f);
-        fDestruction = 1.0f;
-        fConstruction = 0.0f;
-        fMouseMapX = 0.0f;
-        fMouseMapY = 0.0f;
-        fReachDistance = 2;
-        Health = 1;
         fSeconds = 0;
 
         World.GenerateTerrain(TileManager.TileNameMap);
