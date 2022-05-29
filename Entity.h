@@ -18,6 +18,7 @@ class Entity{
     float PreviousX=0;
     float PreviousY=0;
     float Angle =0;
+public:
     EntityTypes EntityType = EntityTypes::GenericEntity;
     virtual void Move(float VecX,float VecY)
     {
@@ -27,7 +28,7 @@ class Entity{
         y+=VecY;
 
     }
-    virtual void Move()
+    virtual void MoveBack()
     {
         x = PreviousX; 
         y = PreviousY;
@@ -50,13 +51,23 @@ public:
     {
         return y;
     }
+    auto GetAngle()
+    {
+        return Angle;
+    }
+
     void SetX(float X)
     {
-        x=x;
+        x=X;
     }
     void SetY(float Y)
     {
         y=Y;
+    }
+
+    void SetAngle(float a)
+    {
+        Angle = a;
     }
     olc::vf2d GetPosition()
     {

@@ -17,40 +17,38 @@ if (GetKey(olc::Key::F1).bPressed)
 
 if (GetKey(olc::Key::D).bHeld)
 {
-    fPlayerX+= MovingSpeed*fElapsedTime;
-    
-    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX+ MovingSpeed*fElapsedTime,fPlayerY)))
+
+    EntityManager.Player.Move(MovingSpeed*fElapsedTime,0); 
+    if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
     {
-        fPlayerX-= MovingSpeed*fElapsedTime;
+        EntityManager.Player.MoveBack();
     }
     
 }
 if (GetKey(olc::Key::A).bHeld)
 {
-    fPlayerX-= MovingSpeed*fElapsedTime;
     
-    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX- MovingSpeed*fElapsedTime,fPlayerY)))
+    EntityManager.Player.Move(MovingSpeed*fElapsedTime*-1,0); 
+    if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
     {
-        fPlayerX+= MovingSpeed*fElapsedTime;
+        EntityManager.Player.MoveBack();
     }
     
 }
 if (GetKey(olc::Key::S).bHeld)
 {
-    fPlayerY+= MovingSpeed*fElapsedTime;
-
-    // if (vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime].front()->isColisivTileInIt(vTileMap[fPlayerX][fPlayerY+ MovingSpeed*fElapsedTime]))
-    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX,fPlayerY+ MovingSpeed*fElapsedTime)))
+    EntityManager.Player.Move(0,MovingSpeed*fElapsedTime); 
+    if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
     {
-        fPlayerY-= MovingSpeed*fElapsedTime;
+        EntityManager.Player.MoveBack();
     }
 }
 if (GetKey(olc::Key::W).bHeld)
 {
-    fPlayerY-= MovingSpeed*fElapsedTime;
-    if (ManagersManager.isTileStackColisive(World.GetTileStackAt(fPlayerX,fPlayerY- MovingSpeed*fElapsedTime)))
+    EntityManager.Player.Move(0,MovingSpeed*fElapsedTime*-1); 
+    if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
     {
-        fPlayerY+= MovingSpeed*fElapsedTime;
+        EntityManager.Player.MoveBack();
     }
 }
 

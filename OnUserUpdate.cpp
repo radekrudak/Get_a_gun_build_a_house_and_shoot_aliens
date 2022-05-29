@@ -8,7 +8,9 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
     {
     case WhitchScreen::GAMEPLAY:
     {
-
+        float fPlayerX = EntityManager.Player.GetX();
+        float fPlayerY = EntityManager.Player.GetY();
+        float fPlayerA = EntityManager.Player.GetAngle();
         PreviousSecond = floor(fSeconds);
         float fMousePlayerDistance = sqrt(pow(fMouseMapY - fPlayerY, 2) + pow(fMouseMapX - fPlayerX, 2));
         Clear(olc::BLANK);

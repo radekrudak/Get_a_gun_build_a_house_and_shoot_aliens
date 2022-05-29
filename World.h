@@ -7,6 +7,9 @@ class cWorld
 
 
 public:
+
+    cManagersManager *ManagersManager;
+
     std::vector<int> &GetTileStackAt(int x, int y)
     {
         return vTerrain[x][y];
@@ -27,7 +30,10 @@ public:
             }
         }
     } 
-    
+    bool isTileStackColisiveAt(int x, int y )
+    {
+        return ManagersManager->isTileStackColisive(GetTileStackAt(x,y));
+    }
 
     
 };

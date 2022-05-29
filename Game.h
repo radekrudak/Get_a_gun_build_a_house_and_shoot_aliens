@@ -63,9 +63,6 @@ public:
     /// player's Stuff
     float fCameraX;
     float fCameraY;
-    float fPlayerX = 64.5f;
-    float fPlayerY = 64.5f;
-    float fPlayerA = 0.0f;
     float fDestruction = 1.0f;
     float fConstruction = 0.0f;
     float fMouseMapX = 0.0f;
@@ -134,9 +131,9 @@ public:
         // Add "generating terrain" screen
 
         // seting player(and time) values to default
-        fPlayerX = 64.5f;
-        fPlayerY = 64.5f;
-        fPlayerA = 0.0f;
+        EntityManager.Player.SetX(64.5f);
+        EntityManager.Player.SetY(64.5f);
+        EntityManager.Player.SetAngle(64.5f);
         fDestruction = 1.0f;
         fConstruction = 0.0f;
         fMouseMapX = 0.0f;
