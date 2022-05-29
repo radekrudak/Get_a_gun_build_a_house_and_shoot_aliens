@@ -37,9 +37,9 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         Clear(olc::CYAN);
         auto TileToScreen = [this](int x,int y){
             return olc::vf2d(
-                    fCameraX-(x*TileSize)   
+                    (float(x)-fCameraX)*TileSize
                      ,
-                    fCameraY-(y*TileSize) 
+                    (float(y)-fCameraY)*TileSize
                     );
         };
         /// Tile Drawing
@@ -59,7 +59,10 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             }
             ++yy;
         }
-
+        olc::Decal testdec(sMT);
+        auto a = TileToScreen(64,64); 
+        std::cout<<a.x<<" "<<a.y<<std::endl;
+        DrawDecal(a, &testdec);
         // draws player
         SetDrawTarget(lPlayer);
         Clear(olc::BLANK);
