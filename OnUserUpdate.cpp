@@ -35,7 +35,13 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
-
+        auto TileToScreen = [this](int x,int y){
+            return olc::vf2d(
+                    fCameraX-(x*TileSize)   
+                     ,
+                    fCameraY-(y*TileSize) 
+                    );
+        };
         /// Tile Drawing
         // y and x are cordinates of decals of tiles (-player cor offset) on screen, xx and yy are coordinates of position on tile map.
         for (int y = 0, yy = 0; y < ScreenHeight() + TileSize; y += TileSize)
