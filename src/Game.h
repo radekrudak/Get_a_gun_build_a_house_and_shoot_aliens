@@ -8,9 +8,7 @@
 //#include <functional> // std::ref
 #include "RRButton.h"
 #include "MainMenu.h"
-#include "MapGen.h"
 #include "Tile.h"
-#include "Bullet.h"
 #include "Entity.h"
 #include "Item.h"
 #include "World.h"

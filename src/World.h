@@ -63,4 +63,12 @@ public:
         ManagersManager->PlayerDeconstructedTile(DeconstructedTile);
         GetTileStackAt(x,y).pop_back();
     }
+    void ConstructTileAtTopOf(int x,int y,int TileID)
+    {
+        
+
+        GetTileStackAt(x,y).push_back(TileID);
+    }
+
+
 };

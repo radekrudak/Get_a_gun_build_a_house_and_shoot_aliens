@@ -199,7 +199,7 @@ class cPlayer : public Character
     float GatheringProgress = 0.0f;
     float CameraX = 0;
     float CameraY = 0;
-    int IDofTileSelectedToBuild = 1;
+    int IDofTileSelectedToBuild = 3;
 
     float VelocityX = 0.0f;
     float VelocityY = 0.0f;

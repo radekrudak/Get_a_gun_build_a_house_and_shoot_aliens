@@ -41,12 +41,18 @@ void GameJam::GetUserInput(float fElapsedTime)
 
     bool IsMouseStillPointingAtTheSameTile = (Floorvf2d(PreviousWorldMouse) == Floorvf2d(WorldMouse));
 
-    if (GetMouse(1).bHeld && IsMouseStillPointingAtTheSameTile)
+    if (GetMouse(1).bHeld && IsMouseStillPointingAtTheSameTile && 
+        ManagersManager.IsPlayerAbleToConstructTile()&&
+        ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(WorldMouse.x,WorldMouse.y),EntityManager.Player.GetIDofTileToBuild())
+    )
     {
         bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
         if (didConstructionFinished)
         {
-            std::cout << "!!!!!!!!!!!!!!!!!!!" << std::endl;
+          World.ConstructTileAtTopOf(WorldMouse.x,WorldMouse.y,
+            EntityManager.Player.GetIDofTileToBuild()
+            );
+            ManagersManager.PlayerConstructedTile();
         }
     }
     else

@@ -47,7 +47,7 @@ public:
         if (vItems.empty())
             return false;
         
-        for (auto const Items : (*TileManager)[TileID].get()->GetItemsRequiredToDeconstruct())
+        for (auto const Items : vItems)
             if (EntityManager->Player.GetInventory().IsEnoughItems(Items) == false)
                 return false;
         
@@ -59,5 +59,38 @@ public:
         auto vItemsDroped = (*TileManager)[TileID]->GetItemsDroped();
         for(auto DropedItem:vItemsDroped)
             EntityManager->Player.GetInventory().PickUpItem(DropedItem );
+    }
+    bool IsPlayerAbleToConstructTile()
+    {
+        int TileID = EntityManager->Player.GetIDofTileToBuild(); 
+        auto vItems = (*TileManager)[TileID].get()->GetItemsRequiredToConstruct();
+        if (vItems.empty())
+            return false;
+        
+        for (auto const Items : vItems)
+            if (EntityManager->Player.GetInventory().IsEnoughItems(Items) == false)
+                return false;
+        
+        return true;
+    }
+    void PlayerConstructedTile()
+    {
+        int TileID = EntityManager->Player.GetIDofTileToBuild(); 
+
+        auto vItems = (*TileManager)[TileID].get()->GetItemsRequiredToConstruct();
+        for (auto const Items : vItems)
+            EntityManager->Player.GetInventory().DecreaseItemQuantity(Items);
+    }
+
+    bool CanTileFitOnTileStack(std::vector<int> TileStack, int TileID)
+    {
+        int TileZLevel = static_cast<int>((*TileManager)[TileID]->GetZLevel());
+        int ZLevelofTileAtTheTopOFStack = static_cast<int>((*TileManager)[TileStack.back()]->GetZLevel());
+        if (TileZLevel-1 == ZLevelofTileAtTheTopOFStack )
+        {
+            return true;
+        }
+
+        return false;
     }
 };

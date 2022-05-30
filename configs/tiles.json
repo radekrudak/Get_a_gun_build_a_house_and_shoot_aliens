@@ -6,14 +6,14 @@
     },
     "TREE":{
         "TextureName":"WoodAlpha",
-        "PositionOnTileStack":1,
+        "PositionOnTileStack":2,
         "isColisive":true,
         "ItemsDroped":{"WOOD":5},
         "ItemsRequiredToDeconstruct":{"0":0}
     },
     "WOODEN_WALL":{
         "TextureName":"WoodWall",
-        "PositionOnTileStack":1,
+        "PositionOnTileStack":2,
         "isColisive":true,
         "ItemsRequiredToConstruct": {"WOOD":10}
     },
