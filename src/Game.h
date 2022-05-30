@@ -46,7 +46,7 @@ public:
         return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    WhitchScreen ScreenMode = WhitchScreen::MAIN_MENU;
+    WhichScreen ScreenMode = WhichScreen::MAIN_MENU;
 
     int NodeMapSize = 128;
 
@@ -56,16 +56,13 @@ public:
     /// BOOLS
     bool isEnd = false;
     bool isStatsDis = false;
-    bool isFightMode = false;
     bool isNight = false;
     bool isNightStartSequence = false;
     bool isDebugMode = false;
     /// player's Stuff
 
-    float fMouseMapX = 0.0f;
-    float fMouseMapY = 0.0f;
-    double Health = 1;
-    int ChosenBuildTile = 2;
+
+
     std::string MouseText;
   
 
@@ -105,14 +102,9 @@ public:
     cManagersManager ManagersManager;
     cWorld World;
 
-    // std::vector<int> aResourses= {0,0,0};
-    std::vector<Bullet *> vBullets;
-    std::vector<Enemy *> vEnemies;
 
     int ElapsedFrames = 0;
 
-    float AStarCounterMax = 0.5f;
-    float AStarCounter = AStarCounterMax;
 
 public:
     GameJam()
@@ -121,20 +113,20 @@ public:
         sAppName = "GameJamEntry";
     }
     
-    auto WorldPosToScreenPos(int x, int y)
+    inline auto WorldPosToScreenPos(int x, int y)
     {
         return olc::vf2d(
             (static_cast<float>(x) - EntityManager.Player.GetCameraX()) * TileSize,
             (static_cast<float>(y) - EntityManager.Player.GetCameraY()) * TileSize);
     }
-    auto WorldPosToScreenPos(float x, float y)
+    inline  auto WorldPosToScreenPos(float x, float y)
     {
         return olc::vf2d(
             (x - EntityManager.Player.GetCameraX()) * TileSize,
             (y - EntityManager.Player.GetCameraY()) * TileSize);
     }
     
-    auto ScreenPosToWorldPos(float x, float y)
+    inline  auto ScreenPosToWorldPos(float x, float y)
     {
         return olc::vf2d(
             (x/ static_cast<float>(TileSize))+EntityManager.Player.GetCameraX(),
@@ -154,7 +146,7 @@ public:
         fSeconds = 0;
 
         World.GenerateTerrain(TileManager.TileNameMap);
-        ScreenMode = WhitchScreen::GAMEPLAY;
+        ScreenMode = WhichScreen::GAMEPLAY;
     }
 
     void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)

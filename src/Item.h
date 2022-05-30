@@ -83,6 +83,7 @@ struct ItemSlot
 class  cInventory{
     ItemSlot NullItem = {0,0};
     std::vector<ItemSlot> vItemsInInventory;
+    ItemSlot ItemEquiped = NullItem;
 public:
     cInventory()
     {
@@ -92,7 +93,6 @@ public:
     {
         return vItemsInInventory[i];
     }
-
     bool IsEnoughItems(ItemSlot SearchedItem)
     {
 

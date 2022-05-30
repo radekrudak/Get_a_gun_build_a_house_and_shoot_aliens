@@ -9,13 +9,13 @@ if (isDebugMode)
     {
             
         std::cout<<"Debug Mode \n";
-        if (ScreenMode == WhitchScreen::MAIN_MENU)
+        if (ScreenMode == WhichScreen::MAIN_MENU)
         {
             
         NewGame();
         }
-        else if(ScreenMode == WhitchScreen::GAMEPLAY) 
-            ScreenMode = WhitchScreen::MAIN_MENU;
+        else if(ScreenMode == WhichScreen::GAMEPLAY) 
+            ScreenMode = WhichScreen::MAIN_MENU;
     }
 
 

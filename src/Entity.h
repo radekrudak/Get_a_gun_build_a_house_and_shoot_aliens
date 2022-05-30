@@ -109,7 +109,7 @@ class Character : public Entity
     float Health = 0.0f;
 
     cInventory Inventory;
-
+    
 public:
     cInventory &GetInventory()
     {

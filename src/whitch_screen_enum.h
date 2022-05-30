@@ -1,6 +1,6 @@
 #pragma once
 
-enum class WhitchScreen{
+enum class WhichScreen{
     MAIN_MENU =0,
     GAMEPLAY =1
 };

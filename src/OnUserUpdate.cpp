@@ -6,7 +6,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
     switch (ScreenMode)
     {
-    case WhitchScreen::GAMEPLAY:
+    case WhichScreen::GAMEPLAY:
     {
 
         PreviousSecond = floor(fSeconds);
@@ -14,13 +14,12 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
         //#include "Controls.h"
         GetUserInput(fElapsedTime);
-        EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(),ScreenHeight(),TileSize);
+        EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(), ScreenHeight(), TileSize);
 
         if (fSeconds > fSecondsInDay)
         {
-           
-            // FindPath(olc::vf2d(fCameraX+1,fCameraY+1), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,vEnemies[vEnemies.size()-1]->Path,vTileMap,FinishdEarly);
 
+            // FindPath(olc::vf2d(fCameraX+1,fCameraY+1), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,vEnemies[vEnemies.size()-1]->Path,vTileMap,FinishdEarly);
 
             fSeconds = 0.0;
             isNight = !isNight;
@@ -35,24 +34,23 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         // y and x are cordinates of decals of tiles (-player cor offset) on screen, xx and yy are coordinates of position on tile map.
         int intCameraX = static_cast<int>(EntityManager.Player.GetCameraX());
         int intCameraY = static_cast<int>(EntityManager.Player.GetCameraY());
-        for (int y =  intCameraY; y < intCameraY+ScreenHeight()/TileSize+TileSize  ;y++)
-            for (int x =intCameraX; x <  intCameraX+ScreenWidth() / TileSize+TileSize; x++ )
-                    for (auto &i : World.GetTileStackAt(x,y))
-                    {
+        for (int y = intCameraY; y < intCameraY + ScreenHeight() / TileSize + TileSize; y++)
+            for (int x = intCameraX; x < intCameraX + ScreenWidth() / TileSize + TileSize; x++)
+                for (auto &i : World.GetTileStackAt(x, y))
+                {
 
-                        DrawDecal(WorldPosToScreenPos(x,y), TextureManager[ TileManager[i]->GetTextureID() ]);
-                    }
+                    DrawDecal(WorldPosToScreenPos(x, y), TextureManager[TileManager[i]->GetTextureID()]);
+                }
         // draws player
         SetDrawTarget(lPlayer);
         Clear(olc::BLANK);
 
-        fMouseMapX = ScreenPosToWorldPos(GetMouseX(),GetMouseY()).x;
-        fMouseMapY = ScreenPosToWorldPos(GetMouseX(),GetMouseY()).y;
+        float fMouseMapX = ScreenPosToWorldPos(GetMouseX(), GetMouseY()).x;
+        float fMouseMapY = ScreenPosToWorldPos(GetMouseX(), GetMouseY()).y;
 
-        EntityManager.Player.SetAngle(fMouseMapX,fMouseMapY);
+        EntityManager.Player.SetAngle(fMouseMapX, fMouseMapY);
         // Draw Player
-        DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(),EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
-       
+        DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(), EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
 
         // enabling layers
         EnableLayer(lPlayer, true);
@@ -76,14 +74,8 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             else
                 fModeTextFading -= fElapsedTime;
         }
-//UI DRAWING 
-        std::string strMode;
-        if (isFightMode)
-            strMode = "Fight Mode";
-        if (!isFightMode)
-            strMode = "Build/Gathering Mode";
 
-        DrawStringDecal({(float)ScreenWidth() - strMode.size() * 9, 10}, strMode, olc::PixelF(1.0f, 1.0f, 1.0f, fModeTextFading));
+
         SetDrawTarget(lNight);
         Clear(olc::BLANK);
         if (isNight)
@@ -91,7 +83,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
 
         EnableLayer(lNight, true);
         SetDrawTarget(nullptr);
-        if (Health < 0.0f)
+        if (EntityManager.Player.GetHealth() < 0.0f)
         {
             DrawString(ScreenWidth() / 2 - 50, ScreenHeight() / 2, " Game over \n refresh page to start again");
         }
@@ -123,13 +115,12 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), GetMouseX() / TileSize + EntityManager.Player.GetX(), GetMouseY() / TileSize + EntityManager.Player.GetY())));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
             DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(ScreenMode)));
-
         }
 
         ++ElapsedFrames;
     }
     break;
-    case WhitchScreen::MAIN_MENU:
+    case WhichScreen::MAIN_MENU:
         // why is it done this strange way ? Because evry "normal" one failed
         int chosed_option = 0;
         MainMenu(this, lGround, lPlayer, lNight, chosed_option);
