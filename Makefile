@@ -1,7 +1,14 @@
 MAKEFLAGS += --jobs=4
 
-ARGS = -g -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
+ARGS =  -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
 OBJ_DIR = obj/
+MODE = RELEASE
+
+ifeq ($(MODE),DEBUG)
+	ARGS += -g
+else 
+	ARGS += -O2
+endif
 
 default: GAG
 

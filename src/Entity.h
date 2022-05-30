@@ -72,7 +72,7 @@ public:
     {
         return olc::vf2d(x, y);
     }
-    virtual float GetfDestruction()
+    virtual float GetfDeconstruction()
     {
         return 0;
     }
@@ -104,24 +104,65 @@ public:
 };
 class Character : public Entity
 {
-    float Destruction = 0.0f;
+
     float Speed = 0;
     float Health = 0.0f;
+    float ConstructionProgress = 0.0f;
+    float DeconstructionProgress = 0.0f;
 
+    float LevelofConstructionProgression = 1.0f; // how much second construction will take
+    float LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
     cInventory Inventory;
-    
+
 public:
     cInventory &GetInventory()
     {
         return Inventory;
     }
-    virtual float GetDestruction()
+    float GetConstructionProgress()
     {
-        return Destruction;
+        return ConstructionProgress;
     }
+    float GetDeconstructionProgress()
+    {
+        return DeconstructionProgress;
+    }
+    bool ProgressConstruction(float fElapsedTime)
+    {
+        ConstructionProgress += LevelofConstructionProgression * fElapsedTime;
+        if (ConstructionProgress >= 1.0f)
+        {
+            ResetConstructionProgress();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool ProgressDeconstruction(float fElapsedTime)
+    {
+        DeconstructionProgress += LevelofDeconstructionProgression * fElapsedTime;
+        if (DeconstructionProgress >= 1.0f)
+        {
+            ResetDeconstructionProgress();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void ResetConstructionProgress()
+    {
+        ConstructionProgress = 0.0f;
+    }
+    void ResetDeconstructionProgress()
+    {
+        DeconstructionProgress = 0.0f;
+    }
+
     virtual float GetHealth()
     {
-        return Destruction;
+        return Health;
     }
 
     virtual float GetSpeed()
@@ -136,12 +177,15 @@ public:
 
 class Enemy : public Character
 {
+    float DeconstructionProgress = 0.0f;
 
 public:
 };
 
 class cPlayer : public Character
 {
+    float DeconstructionProgress = 0.0f;
+    float GatheringProgress = 0.0f;
     float CameraX = 0;
     float CameraY = 0;
     int IDofTileSelectedToBuild = 1;
@@ -207,8 +251,8 @@ public:
         // Entity::PreviousY;
         Entity::PreviousX = GetX();
         Entity::PreviousY = GetY();
-        SetX(GetX() + VelocityX*fElapsedTime);
-        SetY(GetY() + VelocityY*fElapsedTime);
+        SetX(GetX() + VelocityX * fElapsedTime);
+        SetY(GetY() + VelocityY * fElapsedTime);
     }
     void MoveBack()
     {

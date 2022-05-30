@@ -29,21 +29,37 @@ void GameJam::GetUserInput(float fElapsedTime)
         PlayerMoveVector.y = -1;
     MovePlayerWithColysionCheck(fElapsedTime, PlayerMoveVector.x, PlayerMoveVector.y);
 
-
-
-
-    static olc::vf2d  WorldMouse =  ScreenPosToWorldPos (GetMouseX(),GetMouseY());
+    static olc::vf2d WorldMouse = ScreenPosToWorldPos(GetMouseX(), GetMouseY());
 
     olc::vf2d PreviousWorldMouse = WorldMouse;
-    WorldMouse =  ScreenPosToWorldPos (GetMouseX(),GetMouseY());
+    WorldMouse = ScreenPosToWorldPos(GetMouseX(), GetMouseY());
 
     auto Floorvf2d = [](olc::vf2d Input)
-    { 
-        return olc::vf2d(floor(Input.x),floor(Input.y) );
+    {
+        return olc::vf2d(floor(Input.x), floor(Input.y));
     };
 
     bool IsMouseStillPointingAtTheSameTile = (Floorvf2d(PreviousWorldMouse) == Floorvf2d(WorldMouse));
 
-    
+    if (GetMouse(1).bHeld && IsMouseStillPointingAtTheSameTile)
+    {
+        bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
+        if (didConstructionFinished)
+        {
+            std::cout << "!!!!!!!!!!!!!!!!!!!" << std::endl;
+        }
+    } 
+    else
+        EntityManager.Player.ResetConstructionProgress();
 
+    if (GetMouse(0).bHeld && IsMouseStillPointingAtTheSameTile)
+    {
+        bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
+        if (didDeconstructionFinished)
+        {
+            std::cout << "??????????????" << std::endl;
+        }
+    }
+    else
+        EntityManager.Player.ResetDeconstructionProgress();
 }
