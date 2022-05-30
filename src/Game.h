@@ -158,8 +158,11 @@ public:
     }
 
     void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)
-    {
-        EntityManager.Player.Move(EntityManager.Player.GetSpeed()*fElapsedTime,0); 
+    {   
+        EntityManager.Player.Move(
+            EntityManager.Player.GetSpeed()*fElapsedTime*VecX,
+            EntityManager.Player.GetSpeed()*fElapsedTime*VecY
+            ); 
         if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
         {
             EntityManager.Player.MoveBack();
