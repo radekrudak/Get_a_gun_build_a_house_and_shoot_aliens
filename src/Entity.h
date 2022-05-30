@@ -14,7 +14,7 @@ enum class EntityTypes
 
 class Entity
 {
-
+protected:
     int TextureID = 0;
     float x = 0;
     float y = 0;
@@ -37,7 +37,6 @@ public:
         y = PreviousY;
     }
 
-public:
     Entity(int TextureID = 0, float xx = 0, float yy = 0)
     {
         x = xx;
@@ -87,15 +86,21 @@ public:
     }
     virtual void GetSpeed(float s = 0.0f)
     {
-       ;
+        ;
     }
-    virtual std::unique_ptr<int[2]> GetVelocity()
+    virtual olc::vf2d GetVelocity()
     {
-        return nullptr;
+        return {0, 0};
     }
-    virtual
 
-
+    virtual void SetVelocity(olc::vf2d InVec)
+    {
+        ;
+    }
+    virtual void AddVelocity(olc::vf2d AddVec)
+    {
+        ;
+    }
 };
 class Character : public Entity
 {
@@ -123,14 +128,10 @@ public:
     {
         return Speed;
     }
-    virtual void SetSpeed(float s =0.0f)
+    virtual void SetSpeed(float s = 0.0f)
     {
         Speed = s;
     }
-
- 
-
-
 };
 
 class Enemy : public Character
@@ -144,6 +145,9 @@ class cPlayer : public Character
     float CameraX = 0;
     float CameraY = 0;
     int IDofTileSelectedToBuild = 1;
+
+    float VelocityX = 0.0f;
+    float VelocityY = 0.0f;
 
 public:
     using Character::GetInventory;
@@ -180,5 +184,36 @@ public:
     cPlayer()
     {
         SetSpeed(4.0f);
+    }
+    virtual olc::vf2d GetVelocity()
+    {
+        return {VelocityX, VelocityY};
+    }
+
+    virtual void SetVelocity(olc::vf2d InVec)
+    {
+        VelocityX = InVec.x;
+        VelocityY = InVec.y;
+    }
+    virtual void AddVelocity(olc::vf2d AddVec)
+    {
+        VelocityX += AddVec.x;
+        VelocityY += AddVec.y;
+    }
+    using Entity::Move;
+    void Move(float fElapsedTime)
+    {
+        // Entity::PreviousX;
+        // Entity::PreviousY;
+        Entity::PreviousX = GetX();
+        Entity::PreviousY = GetY();
+        SetX(GetX() + VelocityX*fElapsedTime);
+        SetY(GetY() + VelocityY*fElapsedTime);
+    }
+    void MoveBack()
+    {
+        VelocityX = 0;
+        VelocityY = 0;
+        Entity::MoveBack();
     }
 };
