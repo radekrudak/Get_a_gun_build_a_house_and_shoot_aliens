@@ -18,9 +18,9 @@ using TZpos = PositionOnTileStack;
 class Tile
 {
 protected:
-    std::vector <ItemSlot> vItemsRequiredToBuild;
+    std::vector <ItemSlot> vItemsRequiredToConstruct;
     std::vector <ItemSlot> vItemsDroped;
-
+    std::vector <ItemSlot> vItemsRequiredToDeconstruct;
     int ID;
     PositionOnTileStack ZLevel; // 0 = dirt 1 = Floor 2= Wall 3= Roof
     std::string Name = "NULL";
@@ -30,22 +30,33 @@ protected:
 
 
 public:
-    Tile(const std::map<std::string,int> &TextureNameMap,int id =0,std::string TextureName =  "TextureMissing", bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall)
+    Tile(const std::map<std::string,int> &TextureNameMap,int id =0,std::string TextureName =  "TextureMissing", bool colisive=false, PositionOnTileStack Zlvl = PositionOnTileStack::wall,std::string TileName = "NULL")
     {
         ID = id;
         isColide =colisive;
         ZLevel = Zlvl;
         TextureID = TextureNameMap.at(TextureName);
+        Name =TileName;
 
     }
-    void AddItemsRequiredToBuild(int ItemID,int Quantity )
+    void AddItemsRequiredToConstruct(int ItemID,int Quantity )
     {
-        vItemsRequiredToBuild.push_back(ItemSlot(ItemID,Quantity));
+        vItemsRequiredToConstruct.push_back(ItemSlot(ItemID,Quantity));
     }
-    void AddItemsRequiredToBuild(ItemSlot ItemToAdd )
+    void AddItemsRequiredToConstruct(ItemSlot ItemToAdd )
     {
-        vItemsRequiredToBuild.push_back(ItemToAdd);
+        vItemsRequiredToConstruct.push_back(ItemToAdd);
     }
+
+    void AddItemsRequiredToDeconstruct(int ItemID,int Quantity )
+    {
+        vItemsRequiredToDeconstruct.push_back(ItemSlot(ItemID,Quantity));
+    }
+    void AddItemsRequiredToDeconstruct(ItemSlot ItemToAdd )
+    {
+        vItemsRequiredToConstruct.push_back(ItemToAdd);
+    }
+
 
     void AddItemsDroped(int ItemID,int Quantity )
     {
@@ -66,9 +77,13 @@ public:
     {
         return isColide;
     }
-    const auto &GetItemsRequiredToBuild()
+    const auto &GetItemsRequiredToConstruct()
     {
-        return vItemsRequiredToBuild;
+        return vItemsRequiredToConstruct;
+    }
+    const auto &GetItemsRequiredToDeconstruct()
+    {
+        return vItemsRequiredToDeconstruct;
     }
     const auto &GetItemsDroped()
     {

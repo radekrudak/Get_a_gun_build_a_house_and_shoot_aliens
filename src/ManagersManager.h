@@ -5,6 +5,7 @@
 #include "managers/EntityManager.h"
 class cManagersManager
 {
+
     sItemManager *ItemManager;
     sTileManager *TileManager;
     sTextureManager *TextureManager;
@@ -20,6 +21,7 @@ public:
         ItemManager = IM;
         TileManager = TiM;
         TextureManager = TeM;
+        EntityManager = EnM;
     }
     auto GetTileDecal(int TileID)
     {
@@ -37,5 +39,25 @@ public:
                 return true;
 
         return false;
+    }
+
+    bool IsPlayerAbleToDeconstructTile(int TileID)
+    {
+        auto vItems = (*TileManager)[TileID].get()->GetItemsRequiredToDeconstruct();
+        if (vItems.empty())
+            return false;
+        
+        for (auto const Items : (*TileManager)[TileID].get()->GetItemsRequiredToDeconstruct())
+            if (EntityManager->Player.GetInventory().IsEnoughItems(Items) == false)
+                return false;
+        
+        return true;
+    }
+
+    void PlayerDeconstructedTile(int TileID)
+    {
+        auto vItemsDroped = (*TileManager)[TileID]->GetItemsDroped();
+        for(auto DropedItem:vItemsDroped)
+            EntityManager->Player.GetInventory().PickUpItem(DropedItem );
     }
 };

@@ -143,6 +143,7 @@ public:
         EntityManager.Player.SetX(1000.5f);
         EntityManager.Player.SetY(1000.5f);
         EntityManager.Player.SetAngle(64.5f);
+        EntityManager.Player.ClearInventory();
         fSeconds = 0;
 
         World.GenerateTerrain(TileManager.TileNameMap);

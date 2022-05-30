@@ -115,6 +115,17 @@ class Character : public Entity
     cInventory Inventory;
 
 public:
+    Character()
+    {
+        cInventory TempInventory;
+        GetInventory() = TempInventory;
+    }
+
+    void ClearInventory()
+    {
+        Inventory.clear();
+    }
+
     cInventory &GetInventory()
     {
         return Inventory;
@@ -194,7 +205,6 @@ class cPlayer : public Character
     float VelocityY = 0.0f;
 
 public:
-    using Character::GetInventory;
     using Entity::SetAngle;
 
     inline void SyncCameraWithPlayer(int ScreenWidth, int ScreenHeight, int TileSize = 16)
@@ -224,10 +234,12 @@ public:
     {
         IDofTileSelectedToBuild = ID;
     }
-
+    using Character::Character;
     cPlayer()
     {
+        
         SetSpeed(4.0f);
+
     }
     virtual olc::vf2d GetVelocity()
     {

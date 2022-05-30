@@ -57,16 +57,23 @@ struct sTileManager
                             vStaticTiles.size(),
                             static_cast<std::string> (item.value().value("TextureName","TextureMissing")),
                             static_cast <bool> (item.value().value("isColisive",false)),
-                            static_cast <PositionOnTileStack>(item.value().value("PositionOnTileStack",1))                        
+                            static_cast <PositionOnTileStack>(item.value().value("PositionOnTileStack",1)),
+                            item.key()                        
                                )));
             
             if (item.value().contains("ItemsDroped"))
                 for (const auto &ItemsDrioped: item.value()["ItemsDroped"].items())
                     vStaticTiles.back()->AddItemsDroped( ItemNameMap[ItemsDrioped.key()]  ,ItemsDrioped.value());
             
-            if (item.value().contains("ItemsRequiredToBuild"))
-                for (const auto &ItemsRequired: item.value()["ItemsRequiredToBuild"].items())
-                    vStaticTiles.back()->AddItemsRequiredToBuild( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
+            if (item.value().contains("ItemsRequiredToConstruct"))
+                for (const auto &ItemsRequired: item.value()["ItemsRequiredToConstruct"].items())
+                    vStaticTiles.back()->AddItemsRequiredToConstruct( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
+            if (item.value().contains("ItemsRequiredToDeconstruct"))
+                for (const auto &ItemsRequired: item.value()["ItemsRequiredToDeconstruct"].items())
+                    vStaticTiles.back()->AddItemsRequiredToDeconstruct( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
+
+        
+        
         }
         
 

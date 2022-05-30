@@ -48,18 +48,20 @@ void GameJam::GetUserInput(float fElapsedTime)
         {
             std::cout << "!!!!!!!!!!!!!!!!!!!" << std::endl;
         }
-    } 
+    }
     else
         EntityManager.Player.ResetConstructionProgress();
 
-    if (GetMouse(0).bHeld && IsMouseStillPointingAtTheSameTile)
+    if (GetMouse(0).bHeld && IsMouseStillPointingAtTheSameTile &&
+        World.isPlayerAbleToDeconstructTopTileAt(WorldMouse.x, WorldMouse.y))
     {
         bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
         if (didDeconstructionFinished)
         {
-            std::cout << "??????????????" << std::endl;
+            World.DeconstructTopTileAt(WorldMouse.x,WorldMouse.y);
         }
     }
+
     else
         EntityManager.Player.ResetDeconstructionProgress();
 }

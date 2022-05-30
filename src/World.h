@@ -53,4 +53,14 @@ public:
     {
         TileSize = TS;
     }
+    bool isPlayerAbleToDeconstructTopTileAt(int x, int y)
+    {
+       return  ManagersManager->IsPlayerAbleToDeconstructTile(GetTileStackAt(x,y).back());
+    }
+    void DeconstructTopTileAt(int x,int y )
+    {
+        int DeconstructedTile = GetTileStackAt(x,y).back();
+        ManagersManager->PlayerDeconstructedTile(DeconstructedTile);
+        GetTileStackAt(x,y).pop_back();
+    }
 };

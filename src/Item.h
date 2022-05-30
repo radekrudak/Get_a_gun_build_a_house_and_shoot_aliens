@@ -8,7 +8,7 @@ class Item
 {
 
 protected:
-    std::string Type = "GenericTile";
+    std::string Type = "GenericItem";
     std::string UserVisibleName = "NULL";
     std::string IdentifyingName = "NULL";
     
@@ -88,6 +88,12 @@ public:
     cInventory()
     {
         vItemsInInventory.push_back(NullItem);
+    }
+    void clear()
+    {
+        NullItem = {0,0};
+        vItemsInInventory =std::vector<ItemSlot> (1,NullItem);
+        ItemEquiped = NullItem;
     }
     ItemSlot &operator[](const int &i)
     {

@@ -53,7 +53,7 @@ struct sItemManager
         }
         for(const auto &i: vItems)
         {
-            std::cout<< i->GetType()<<" "<<i->GetIdentifyingName()<<" "<<i->GetUserVisibleName()<<" "<<i->GetTextureID()<<" "<<std::endl;
+            std::cout<< i->GetType()<<" "<<i->GetIdentifyingName()<<" "<<i->GetUserVisibleName()<<" "<<i->GetTextureID()<<" "<<ItemNameMap[i->GetIdentifyingName()]<<" "<<std::endl;
 
         }
         // std::cout << typeid(static_cast<float>(j_complete["100"]["id"])).name() << "  "<<(static_cast<float>(j_complete["100"]["id"])*2.0)<<std::endl;
