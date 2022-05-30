@@ -10,7 +10,6 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
     {
 
         PreviousSecond = floor(fSeconds);
-        //float fMousePlayerDistance = sqrt(pow(fMouseMapY - EntityManager.Player.GetY(), 2) + pow(fMouseMapX - EntityManager.Player.GetX(), 2));
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
         //#include "Controls.h"
@@ -77,7 +76,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             else
                 fModeTextFading -= fElapsedTime;
         }
-
+//UI DRAWING 
         std::string strMode;
         if (isFightMode)
             strMode = "Fight Mode";
@@ -105,18 +104,18 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             DrawString(0, 30, "CameraY: " + std::to_string(EntityManager.Player.GetCameraY()));
             DrawString(0, 40, "MouseX: " + std::to_string(fMouseMapX));
             DrawString(0, 50, "MouseY: " + std::to_string(fMouseMapY));
-            if (PlayerInventory.isEmpty() == false)
+            if (EntityManager.Player.GetInventory().isEmpty() == false)
             {
-                DrawString(0, 80, "R1: " + std::to_string(PlayerInventory[0].Quantity));
-                DrawDecal({0, 80}, TextureManager[ItemManager[PlayerInventory[0].ItemID]->GetTextureID()]);
+                DrawString(0, 80, "R1: " + std::to_string(EntityManager.Player.GetInventory()[0].Quantity));
+                DrawDecal({0, 80}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[0].ItemID]->GetTextureID()]);
             }
             else
                 DrawString(0, 80, "R1: Empty");
 
-            if (PlayerInventory.isEmpty() == false)
+            if (EntityManager.Player.GetInventory().isEmpty() == false)
             {
-                DrawString(5, 90, "R2: " + std::to_string(PlayerInventory[1].Quantity));
-                DrawDecal({5, 90}, TextureManager[ItemManager[PlayerInventory[1].ItemID]->GetTextureID()]);
+                DrawString(5, 90, "R2: " + std::to_string(EntityManager.Player.GetInventory()[1].Quantity));
+                DrawDecal({5, 90}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[1].ItemID]->GetTextureID()]);
             }
             else
                 DrawString(0, 90, "R2: Empty");

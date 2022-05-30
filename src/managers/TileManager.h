@@ -32,7 +32,7 @@ struct sTileManager
     }
 
 
-    void LoadStaticTiles(std::map<std::string,int> TextureNameMap,std::string PathToTileFile = "configs/tiles.json")
+    void LoadStaticTiles(std::map<std::string,int> TextureNameMap,std::map<std::string,int>ItemNameMap,std::string PathToTileFile = "configs/tiles.json")
     { 
         std::string JsonText;
         std::string line;
@@ -47,26 +47,28 @@ struct sTileManager
         // parse and serialize JSON
         json ParsedJson = json::parse(JsonText);
 
-        for (auto i : ParsedJson.items())
+        for (const auto &item : ParsedJson.items())
         {
             // TODO: SOME ERROR CHECKING
-            TileNameMap[i.key()] = vStaticTiles.size();
+            TileNameMap[item.key()] = vStaticTiles.size();
             
             vStaticTiles.push_back(std::unique_ptr<Tile>( 
                     new Tile(TextureNameMap,
                             vStaticTiles.size(),
-                            static_cast<std::string> (i.value().value("TextureName","TextureMissing")),
-                            static_cast <bool> (i.value().value("isColisive",false)),
-                            static_cast <PositionOnTileStack>(i.value().value("PositionOnTileStack",1))                        
+                            static_cast<std::string> (item.value().value("TextureName","TextureMissing")),
+                            static_cast <bool> (item.value().value("isColisive",false)),
+                            static_cast <PositionOnTileStack>(item.value().value("PositionOnTileStack",1))                        
                                )));
             
+            if (item.value().contains("ItemsDroped"))
+                for (const auto &ItemsDrioped: item.value()["ItemsDroped"].items())
+                    vStaticTiles.back()->AddItemsDroped( ItemNameMap[ItemsDrioped.key()]  ,ItemsDrioped.value());
+            
+            if (item.value().contains("ItemsRequiredToBuild"))
+                for (const auto &ItemsRequired: item.value()["ItemsRequiredToBuild"].items())
+                    vStaticTiles.back()->AddItemsRequiredToBuild( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
         }
-        /*
-        for(const auto &i: vItems)
-        {
-            std::cout<< i->GetType()<<" "<<i->GetIdentifyingName()<<" "<<i->GetUserVisibleName()<<" "<<i->GetTextureID()<<" "<<std::endl;
-
-        }*/
+        
 
     }
 

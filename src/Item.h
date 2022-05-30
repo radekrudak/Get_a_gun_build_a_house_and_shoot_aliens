@@ -74,15 +74,17 @@ class BuildBlock : public Item
 
 struct ItemSlot
 {
+    ItemSlot (int ID,int Q):ItemID(ID),Quantity(Q) {}
     int ItemID =0;
     int Quantity = 0;
 
 };
 
-struct Inventory{
+class  cInventory{
     ItemSlot NullItem = {0,0};
     std::vector<ItemSlot> vItemsInInventory;
-    Inventory()
+public:
+    cInventory()
     {
         vItemsInInventory.push_back(NullItem);
     }

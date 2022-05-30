@@ -1,0 +1,23 @@
+{
+
+    "GRASS":{
+        "TextureName":"Grass",
+        "PositionOnTileStack":1
+    },
+    "TREE":{
+        "TextureName":"WoodAlpha",
+        "PositionOnTileStack":1,
+        "isColisive":true,
+        "ItemsDroped":{"WOOD":5}
+    },
+    "WOODEN_WALL":{
+        "TextureName":"WoodWall",
+        "PositionOnTileStack":1,
+        "isColisive":true,
+        "ItemsRequiredToBuild": {"WOOD":10}
+    },
+    "NULL_TILE":{
+        "TextureName":"TextureMissing"
+    }
+
+}

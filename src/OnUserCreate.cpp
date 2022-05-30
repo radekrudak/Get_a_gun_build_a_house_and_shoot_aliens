@@ -14,7 +14,7 @@ bool GameJam::OnUserCreate()
 
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
-        TileManager.LoadStaticTiles(TextureManager.TextureNameMap);
+        TileManager.LoadStaticTiles(TextureManager.TextureNameMap,ItemManager.ItemNameMap);
         World.ManagersManager = &ManagersManager;
         // Tilemapp = new Tile[1024]();
         //Enemy test(vTileMap,vTiles);

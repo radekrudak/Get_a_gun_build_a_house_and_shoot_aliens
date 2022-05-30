@@ -17,13 +17,10 @@ enum class PositionOnTileStack{
 using TZpos = PositionOnTileStack;
 class Tile
 {
-public:
-    std::vector <int> vItemsRequiredID;
-    std::vector <int> vItemsRequiredQuantity;
-    std::vector <int> vItemsGatheredID;
-    std::vector <int> vItemsGatheredQuantity ;
-
 protected:
+    std::vector <ItemSlot> vItemsRequiredToBuild;
+    std::vector <ItemSlot> vItemsDroped;
+
     int ID;
     PositionOnTileStack ZLevel; // 0 = dirt 1 = Floor 2= Wall 3= Roof
     std::string Name = "NULL";
@@ -41,6 +38,25 @@ public:
         TextureID = TextureNameMap.at(TextureName);
 
     }
+    void AddItemsRequiredToBuild(int ItemID,int Quantity )
+    {
+        vItemsRequiredToBuild.push_back(ItemSlot(ItemID,Quantity));
+    }
+    void AddItemsRequiredToBuild(ItemSlot ItemToAdd )
+    {
+        vItemsRequiredToBuild.push_back(ItemToAdd);
+    }
+
+    void AddItemsDroped(int ItemID,int Quantity )
+    {
+        vItemsDroped.push_back(ItemSlot(ItemID,Quantity));
+    }
+    void AddItemsDroped(ItemSlot ItemToAdd )
+    {
+        vItemsDroped.push_back(ItemToAdd);
+    }
+
+
 
     int GetTextureID()
     {
@@ -50,7 +66,14 @@ public:
     {
         return isColide;
     }
-
+    const auto &GetItemsRequiredToBuild()
+    {
+        return vItemsRequiredToBuild;
+    }
+    const auto &GetItemsDroped()
+    {
+        return vItemsDroped;
+    }
     bool isColisivTileInIt( std::vector<Tile *> vTiless)
     {
         for(auto &i: vTiless)
@@ -67,23 +90,3 @@ public:
         return ZLevel;
     }
 };
-
-//#pragma once
-//class TileTwo: public  Tile
-//{
-//
-//    public:
-//    TileTwo(int id =0, olc::Sprite *spr = nullptr, bool colisive=false)
-//    {
-//        ID = id;
-//        isColide =colisive;
-//
-//        if (spr)
-//        {
-//            Sprite = spr;
-//            Decal = new olc::Decal(Sprite);
-//        }
-//
-//    }
-//
-//};

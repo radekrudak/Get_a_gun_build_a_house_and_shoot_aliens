@@ -67,7 +67,7 @@ public:
     double Health = 1;
     int ChosenBuildTile = 2;
     std::string MouseText;
-    Inventory PlayerInventory;
+  
 
     // Game Clocks stuff;
     double fSeconds = 0;
@@ -84,6 +84,7 @@ public:
     int lPlayer;
     int lNight;
     //////////////////////////// Sprites
+
     olc::Sprite *sNight = nullptr;
     olc::Sprite *sMoonAndSun = nullptr;
     olc::Decal *dNight = nullptr;
@@ -147,14 +148,24 @@ public:
         // Add "generating terrain" screen
 
         // seting player(and time) values to default
-        EntityManager.Player.SetX(64.5f);
-        EntityManager.Player.SetY(64.5f);
+        EntityManager.Player.SetX(1000.5f);
+        EntityManager.Player.SetY(1000.5f);
         EntityManager.Player.SetAngle(64.5f);
         fSeconds = 0;
 
         World.GenerateTerrain(TileManager.TileNameMap);
         ScreenMode = WhitchScreen::GAMEPLAY;
     }
+
+    void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)
+    {
+        EntityManager.Player.Move(EntityManager.Player.GetSpeed()*fElapsedTime,0); 
+        if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
+        {
+            EntityManager.Player.MoveBack();
+        }
+    }
+
 
 public:
 
