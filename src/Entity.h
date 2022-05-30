@@ -89,6 +89,13 @@ public:
     {
        ;
     }
+    virtual std::unique_ptr<int[2]> GetVelocity()
+    {
+        return nullptr;
+    }
+    virtual
+
+
 };
 class Character : public Entity
 {
@@ -120,6 +127,9 @@ public:
     {
         Speed = s;
     }
+
+ 
+
 
 };
 
