@@ -65,15 +65,8 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
                          dMoonAndSun, isNight ? fSeconds / fSecondsInDay * PI : fSeconds / fSecondsInDay * PI + PI,
                          olc::vf2d(sMoonAndSun->width / 2.0f, sMoonAndSun->height / 2.0f), olc::vf2d(ClockScale, ClockScale));
 
-        if (fModeTextFading > 0.0f)
-        {
-            if (ModeTextLap > 0)
-                --ModeTextLap;
-            else if (ModeTextLap < 0)
-                ;
-            else
-                fModeTextFading -= fElapsedTime;
-        }
+
+
 
 
         SetDrawTarget(lNight);
@@ -87,7 +80,7 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         {
             DrawString(ScreenWidth() / 2 - 50, ScreenHeight() / 2, " Game over \n refresh page to start again");
         }
-        if (isStatsDis)
+        if (UIManager.Get(UIFlags::isStatsDis))
         {
             DrawString(0, 0, "PlayerX: " + std::to_string(EntityManager.Player.GetX()));
             DrawString(0, 10, "PlayerY: " + std::to_string(EntityManager.Player.GetY()) + std::to_string(EntityManager.Player.GetAngle()));

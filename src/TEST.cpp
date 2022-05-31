@@ -13,6 +13,7 @@ public:
 	}
     sTextureManager TestTextureManager;
     sTileManager TestTileManager;
+	cUIManager TestUIManager;
 public:
     
 
@@ -20,26 +21,19 @@ public:
     bool OnUserCreate() override
 	{
 
-    int a =0;
 
-    TestTextureManager.LoadGraphics();
-    std::cout<<sizeof(Tile)<<" "<<sizeof(std::unique_ptr<Tile>)<<std::endl;
-    std::cin >> a;
-    for (int i=0;i<a;i++)
-        TestTileManager.LoadStaticTiles(TestTextureManager.TextureNameMap);
-
-    std::cin >> a;
-    TestTileManager.ClearStaticTiles();
-		// Called once at the start, so create things here
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		// called once per frame
-		for (int x = 0; x < ScreenWidth(); x++)
-			for (int y = 0; y < ScreenHeight(); y++)
-				Draw(x, y, olc::Pixel(rand() % 255, rand() % 255, rand()% 255));	
+		Clear(olc::BACK);
+			for (int y = 0; y < 5; y++)
+				DrawString(0, y*16,std::to_string(TestUIManager.Get(y)),olc::WHITE);	
+		if(GetKey(olc::A).bPressed)
+			for (int y = 0; y < 5; y++)
+				TestUIManager[y] = !TestUIManager[y] ;
 		return true;
 	}
 };
@@ -47,6 +41,7 @@ public:
 
 int main()
 {
+
 	Test demo;
 	if (demo.Construct(256, 240, 4, 4))
 		demo.Start();

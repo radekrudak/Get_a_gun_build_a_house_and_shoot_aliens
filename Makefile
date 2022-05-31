@@ -31,7 +31,7 @@ GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o
 clean:
 	-rm -f $(OBJ_DIR)*.o
 	-rm -f test
-test : TEST.cpp
+test : src/TEST.cpp
 	make clean 
 	g++ -o $@  $<   $(ARGS)
 web:

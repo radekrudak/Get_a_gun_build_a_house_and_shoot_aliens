@@ -13,6 +13,7 @@
 #include "Item.h"
 #include "World.h"
 #include "ManagersManager.h"
+
 // later in code included Controls.h & GameStart.h
 
 // to do:
@@ -53,10 +54,10 @@ public:
     friend Enemy;
     /// BOOLS
     bool isEnd = false;
-    bool isStatsDis = false;
     bool isNight = false;
     bool isNightStartSequence = false;
     bool isDebugMode = false;
+        
     /// player's Stuff
 
 
@@ -69,10 +70,6 @@ public:
     int PreviousSecond = 0;
     double fSecondsInDay = 20.;
 
-    ///////////////////////////////////////////// /VIASUAL EVECTS
-    float fModeTextFading = 1.0f; // used in left top  mode displaying text fading effect
-    int ModeTextLap = 50;         // used in left top  mode displaying text fading effect
-                                  /////////////////////
 
     ////////////////////// layers
     int lGround;
@@ -98,6 +95,9 @@ public:
     sTileManager TileManager;
     sEntityManager EntityManager;
     cManagersManager ManagersManager;
+
+    cUIManager UIManager;
+
     cWorld World;
 
 

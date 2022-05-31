@@ -15,7 +15,7 @@ void GameJam::GetUserInput(float fElapsedTime)
 
     if (GetKey(olc::Key::F1).bPressed)
     {
-        isStatsDis = !isStatsDis;
+        UIManager.Flip(UIFlags::isStatsDis);
     }
 
     olc::vf2d PlayerMoveVector = {0, 0};

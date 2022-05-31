@@ -3,6 +3,7 @@
 #include "managers/TileManager.h"
 #include "managers/TextureManager.h"
 #include "managers/EntityManager.h"
+#include "managers/UIManager.h"
 class cManagersManager
 {
 
