@@ -86,7 +86,7 @@ public:
     {
         int TileZLevel = static_cast<int>((*TileManager)[TileID]->GetZLevel());
         int ZLevelofTileAtTheTopOFStack = static_cast<int>((*TileManager)[TileStack.back()]->GetZLevel());
-        if (TileZLevel-1 == ZLevelofTileAtTheTopOFStack )
+        if (TileZLevel > ZLevelofTileAtTheTopOFStack )
         {
             return true;
         }
