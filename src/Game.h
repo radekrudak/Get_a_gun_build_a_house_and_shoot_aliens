@@ -62,7 +62,7 @@ public:
 
 
 
-    std::string MouseText;
+    //std::string MouseText;
   
 
     // Game Clocks stuff;

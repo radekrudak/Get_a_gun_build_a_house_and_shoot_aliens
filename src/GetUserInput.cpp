@@ -39,33 +39,60 @@ void GameJam::GetUserInput(float fElapsedTime)
         return olc::vf2d(floor(Input.x), floor(Input.y));
     };
 
+    bool isMouseInReachDistance = (Distance(WorldMouse.x, WorldMouse.y, EntityManager.Player.GetX(), EntityManager.Player.GetY()) < EntityManager.Player.GetReachDistance());
     bool IsMouseStillPointingAtTheSameTile = (Floorvf2d(PreviousWorldMouse) == Floorvf2d(WorldMouse));
-
-    if (GetMouse(1).bHeld && IsMouseStillPointingAtTheSameTile &&
-        ManagersManager.IsPlayerAbleToConstructTile() &&
-        ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(WorldMouse.x, WorldMouse.y), EntityManager.Player.GetIDofTileToBuild()))
+    // constructionHandeling
+    if (GetMouse(1).bHeld)
     {
-        bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
-        if (didConstructionFinished)
+        if (isMouseInReachDistance)
         {
-            World.ConstructTileAtTopOf(WorldMouse.x, WorldMouse.y,
-                                       EntityManager.Player.GetIDofTileToBuild());
-            ManagersManager.PlayerConstructedTile();
+            if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
+                ManagersManager.IsPlayerAbleToConstructTile() &&
+                ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(WorldMouse.x, WorldMouse.y), EntityManager.Player.GetIDofTileToBuild()))
+            {
+                UIManager.SetMouseText("Construction");
+                UIManager.SetProgressBar(EntityManager.Player.GetConstructionProgress());
+
+                bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
+                if (didConstructionFinished)
+                {
+                    World.ConstructTileAtTopOf(WorldMouse.x, WorldMouse.y,
+                                               EntityManager.Player.GetIDofTileToBuild());
+                    ManagersManager.PlayerConstructedTile();
+                    UIManager.SetMouseText("");
+                    UIManager.SetProgressBar(0.0f);
+                }
+            }
+        }
+        
+    }
+    // DeconstructionHandeling Code
+    else if (GetMouse(0).bHeld)
+    {
+        if (isMouseInReachDistance)
+        {
+            if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
+                World.isPlayerAbleToDeconstructTopTileAt(WorldMouse.x, WorldMouse.y))
+            {
+                UIManager.SetMouseText("Deconstructon");
+                UIManager.SetProgressBar(EntityManager.Player.GetDeconstructionProgress());
+                bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
+                if (didDeconstructionFinished)
+                {
+                    World.DeconstructTopTileAt(WorldMouse.x, WorldMouse.y);
+                    UIManager.SetMouseText("");
+                    UIManager.SetProgressBar(0.0f);
+                }
+            }
         }
     }
+
     else
+    {
+        EntityManager.Player.ResetDeconstructionProgress();
         EntityManager.Player.ResetConstructionProgress();
 
-    if (GetMouse(0).bHeld && IsMouseStillPointingAtTheSameTile &&
-        World.isPlayerAbleToDeconstructTopTileAt(WorldMouse.x, WorldMouse.y))
-    {
-        bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
-        if (didDeconstructionFinished)
-        {
-            World.DeconstructTopTileAt(WorldMouse.x, WorldMouse.y);
-        }
+        UIManager.SetMouseText("");
+        UIManager.SetProgressBar(0.0f);
     }
-
-    else
-        EntityManager.Player.ResetDeconstructionProgress();
 }

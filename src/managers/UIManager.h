@@ -13,6 +13,8 @@ enum class UIFlags{
 class cUIManager
 {
     std::vector<char> vFlags;
+    float ProgressBarProgress =0.0f;
+    std::string MouseText;
 public:
     cUIManager()
     {
@@ -22,14 +24,13 @@ public:
 
     bool &operator[](int Offset)
     {
-        return *((bool*)(&vFlags[Offset]));
+        return (bool&)(vFlags[Offset]);
     }
     bool &operator[](UIFlags Flag)
     {
-        return *((bool*)(&vFlags[static_cast<int>(Flag)]));
+        return (bool&)(vFlags[static_cast<int>(Flag)]);
 
     }
-
 
     bool Get(int Offset)
     {
@@ -56,4 +57,23 @@ public:
     {
         vFlags[static_cast<int>(Flag)] = !vFlags[static_cast<int>(Flag)] ;
     }
+
+    const auto &GetMouseText()
+    {
+        return MouseText;
+    }
+    void SetMouseText(std::string val)
+    {
+        MouseText=val;
+    }
+    void SetProgressBar(float val)
+    {
+        ProgressBarProgress = val;
+    }
+
+    const auto &GetPRogressBar()
+    {
+        return ProgressBarProgress;
+    }
+
 };

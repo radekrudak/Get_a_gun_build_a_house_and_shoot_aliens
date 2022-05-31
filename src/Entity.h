@@ -109,6 +109,8 @@ class Character : public Entity
     float Health = 0.0f;
     float ConstructionProgress = 0.0f;
     float DeconstructionProgress = 0.0f;
+    float ReachDistance =4.0f;
+
 
     float LevelofConstructionProgression = 1.0f; // how much second construction will take
     float LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
@@ -183,6 +185,14 @@ public:
     virtual void SetSpeed(float s = 0.0f)
     {
         Speed = s;
+    }
+    auto GetReachDistance()
+    {
+        return ReachDistance;
+    }
+    void GetReachDistance(float val)
+    {
+         ReachDistance = val;
     }
 };
 

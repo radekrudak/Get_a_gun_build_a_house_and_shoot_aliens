@@ -57,17 +57,20 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         EnableLayer(lGround, true);
 
         // HUD DRAWING
-
-        DrawString(GetMouseX() - MouseText.size() * 8 / 2, GetMouseY() - 20, MouseText);
+        constexpr int PROGRESS_BARR_W = 5;
+        constexpr int PROGRESS_BARR_OFFSET = -30;
+        constexpr int CHAR_SIZE_ON_SCREEN = 8;
+        DrawString(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() - 20, UIManager.GetMouseText());
+        if (UIManager.GetPRogressBar() > 0.0f)
+        {
+            FillRect(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET, UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN, PROGRESS_BARR_W, olc::RED);
+            DrawRect(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET, UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN, PROGRESS_BARR_W, olc::BLACK);
+        }
         float ClockScale = 4.0f;
 
         DrawRotatedDecal(olc::vf2d(ScreenWidth() - sMoonAndSun->width / 2 + 5, sMoonAndSun->height * ClockScale),
                          dMoonAndSun, isNight ? fSeconds / fSecondsInDay * PI : fSeconds / fSecondsInDay * PI + PI,
                          olc::vf2d(sMoonAndSun->width / 2.0f, sMoonAndSun->height / 2.0f), olc::vf2d(ClockScale, ClockScale));
-
-
-
-
 
         SetDrawTarget(lNight);
         Clear(olc::BLANK);
