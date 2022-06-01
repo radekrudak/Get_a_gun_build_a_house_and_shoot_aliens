@@ -79,6 +79,24 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
             DrawDecal(olc::vf2d(0, 0), dNight, olc::vf2d(1.0f, 1.0f), olc::PixelF(1.0f, 1.0f, 1.0f, 0.25f));
 
         EnableLayer(lNight, true);
+
+        int x=ScreenWidth()/4;
+        int y=ScreenHeight()/10;
+        bool isFirstPass = true;
+        if(UIManager[UIFlags::isPlayerInventoryDisplayed])
+            for (const auto& i: EntityManager.Player.GetInventory())
+            {
+                if (isFirstPass)
+                {
+                    isFirstPass = false;
+                    continue;
+                }
+                DrawDecal ({(float)x,(float)y},ManagersManager.GetItemDecal(i.ItemID));
+                DrawString((float)x,(float)(y+16),std::to_string(i.Quantity));
+                y+=24;
+            }
+
+
         SetDrawTarget(nullptr);
         if (EntityManager.Player.GetHealth() < 0.0f)
         {
