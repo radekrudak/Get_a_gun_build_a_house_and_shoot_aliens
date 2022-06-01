@@ -33,7 +33,7 @@ struct sTextureManager
         vDecals.clear();
         TextureNameMap.clear();
         std::string path = TexturePackPath + "tiles";
-
+        std::cout<<std::endl;
         for (const auto &entry : std::filesystem::directory_iterator(path))
         {
 
@@ -85,7 +85,7 @@ struct sTextureManager
                 std::cout << " as: \"" << FileName << "\" Texture's ID: " << (vSprites.size() - 1) << std::endl;
             }
         }
-
+        std::cout<<std::endl;
         return TextureNameMap;
     }
 };

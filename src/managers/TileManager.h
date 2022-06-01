@@ -75,7 +75,7 @@ struct sTileManager
         
         
         }
-        
+        std::cout<<std::endl;
 
     }
 

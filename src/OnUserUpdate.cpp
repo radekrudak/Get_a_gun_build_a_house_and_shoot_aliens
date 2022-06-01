@@ -63,8 +63,9 @@ bool GameJam::OnUserUpdate(float fElapsedTime)
         DrawString(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() - 20, UIManager.GetMouseText());
         if (UIManager.GetPRogressBar() > 0.0f)
         {
-            FillRect(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET, UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN, PROGRESS_BARR_W, olc::RED);
-            DrawRect(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET, UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN, PROGRESS_BARR_W, olc::BLACK);
+            
+            FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET},{ static_cast<int>(UIManager.GetPRogressBar() * (float)UIManager.GetMouseText().size() * (float)CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
+            DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>( UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
         }
         float ClockScale = 4.0f;
 
