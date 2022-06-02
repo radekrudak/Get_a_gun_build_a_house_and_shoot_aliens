@@ -4,6 +4,7 @@ enum class UIFlags{
 
     start = -1,
     isStatsDis,
+    isPlayerInventoryDisplayed,
     end
 
 };
@@ -12,7 +13,7 @@ enum class UIFlags{
 
 class cUIManager
 {
-    std::vector<char> vFlags;
+    std::vector<unsigned char> vFlags;
     float ProgressBarProgress =0.0f;
     std::string MouseText;
 public:

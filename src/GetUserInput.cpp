@@ -3,6 +3,16 @@ void GameJam::GetUserInput(float fElapsedTime)
 
 {
     float MovingSpeed = 4.5f;
+    if (GetKey(olc::Key::F1).bPressed)
+    {
+        UIManager.Flip(UIFlags::isStatsDis);
+    }
+
+    if (GetKey(olc::Key::E).bPressed)
+    {
+        UIManager.Flip(UIFlags::isPlayerInventoryDisplayed);
+    }
+
 
     if (GetMouseWheel() > 0)
     {
@@ -13,10 +23,7 @@ void GameJam::GetUserInput(float fElapsedTime)
         fTest -= 1 * fElapsedTime;
     }
 
-    if (GetKey(olc::Key::F1).bPressed)
-    {
-        UIManager.Flip(UIFlags::isStatsDis);
-    }
+
 
     olc::vf2d PlayerMoveVector = {0, 0};
     if (GetKey(olc::Key::D).bHeld)
@@ -61,7 +68,16 @@ void GameJam::GetUserInput(float fElapsedTime)
                     ManagersManager.PlayerConstructedTile();
                     UIManager.SetMouseText("");
                     UIManager.SetProgressBar(0.0f);
+                    EntityManager.Player.ResetConstructionProgress();
+
                 }
+            }
+            else
+            {
+                UIManager.SetMouseText("");
+                UIManager.SetProgressBar(0);
+                EntityManager.Player.ResetConstructionProgress();
+
             }
         }
         
@@ -82,7 +98,15 @@ void GameJam::GetUserInput(float fElapsedTime)
                     World.DeconstructTopTileAt(WorldMouse.x, WorldMouse.y);
                     UIManager.SetMouseText("");
                     UIManager.SetProgressBar(0.0f);
+                    EntityManager.Player.ResetDeconstructionProgress();
                 }
+            }
+            else
+            {
+                UIManager.SetMouseText("");
+                UIManager.SetProgressBar(0);
+                EntityManager.Player.ResetDeconstructionProgress();
+
             }
         }
     }

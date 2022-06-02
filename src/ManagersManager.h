@@ -11,19 +11,27 @@ class cManagersManager
     sTileManager *TileManager;
     sTextureManager *TextureManager;
     sEntityManager *EntityManager;
+    cUIManager *UIManager;
 
 public:
     cManagersManager(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr) : ItemManager(IM), TileManager(TiM), TextureManager(TeM)
     {
         ;
     }
-    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr)
+    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr, cUIManager *UIM = nullptr)
     {
         ItemManager = IM;
         TileManager = TiM;
         TextureManager = TeM;
         EntityManager = EnM;
+        UIManager = UIM;
     }
+
+    auto GetItemDecal(int ItemID)
+    {
+        return (*TextureManager)[(*ItemManager)[ItemID]->GetTextureID()];
+    }
+
     auto GetTileDecal(int TileID)
     {
         return (*TextureManager)[(*TileManager)[TileID]->GetTextureID()];

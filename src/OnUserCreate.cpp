@@ -10,7 +10,7 @@ bool GameJam::OnUserCreate()
 
         Clear(olc::BLACK);
         //vTileMap.reserve(MapSize);
-        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager);
+        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager);
 
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);

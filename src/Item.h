@@ -85,6 +85,14 @@ class  cInventory{
     std::vector<ItemSlot> vItemsInInventory;
     ItemSlot ItemEquiped = NullItem;
 public:
+    auto begin()
+    {
+        return vItemsInInventory.begin();
+    }
+    auto end()
+    {
+        return vItemsInInventory.end();
+    }
     cInventory()
     {
         vItemsInInventory.push_back(NullItem);
