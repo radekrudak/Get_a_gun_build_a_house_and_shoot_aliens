@@ -13,6 +13,7 @@ struct sTileManager
 {
     std::vector< std::unique_ptr<Tile> > vStaticTiles;
     std::vector< std::unique_ptr<Tile> > vDynamicTiles;
+    std::vector<int> vBuildableTiles;
     std::map<std::string,int> TileNameMap;
 
     const auto &operator[](const int &i)
@@ -76,6 +77,14 @@ struct sTileManager
         
         }
         std::cout<<std::endl;
+        for ( int i=0; i<vStaticTiles.size();i++)
+        {
+            if(vStaticTiles[i]->GetItemsRequiredToConstruct().size() > 0 )
+            {
+                vBuildableTiles.push_back(i);
+                std::cout<<i<<std::endl;
+            }
+        }
 
     }
 

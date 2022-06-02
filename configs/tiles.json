@@ -2,7 +2,7 @@
 
     "GRASS":{
         "TextureName":"Grass",
-        "PositionOnTileStack":1
+        "PositionOnTileStack":0
     },
     "TREE":{
         "TextureName":"WoodAlpha",
@@ -10,6 +10,13 @@
         "isColisive":true,
         "ItemsDroped":{"WOOD":5},
         "ItemsRequiredToDeconstruct":{"0":0}
+    },
+    "WOODEN_FLOOR":{
+        "TextureName":"WoodFloor",
+        "PositionOnTileStack":1,
+        "ItemsDroped":{"WOOD":5},
+        "ItemsRequiredToDeconstruct":{"0":0},
+        "ItemsRequiredToConstruct": {"WOOD":10}
     },
     "WOODEN_WALL":{
         "TextureName":"WoodWall",
@@ -19,6 +26,7 @@
         "ItemsRequiredToDeconstruct":{"0":0},
         "ItemsRequiredToConstruct": {"WOOD":10}
     },
+
     "NULL_TILE":{
         "TextureName":"TextureMissing"
     }
