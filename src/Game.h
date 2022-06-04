@@ -138,13 +138,17 @@ public:
         // Add "generating terrain" screen
 
         // seting player(and time) values to default
-        EntityManager.Player.SetX(1000.5f);
-        EntityManager.Player.SetY(1000.5f);
+         int MapSize = 2048;
+        //std::string temp_input;
+        //std::cin >> MapSize;
+        //MapSize = stoi(temp_input);
+        EntityManager.Player.SetX((float)MapSize/2+0.5f);
+        EntityManager.Player.SetY((float)MapSize/2+0.5f);
         EntityManager.Player.SetAngle(64.5f);
         EntityManager.Player.ClearInventory();
         fSeconds = 0;
 
-        World.GenerateTerrain(TileManager.TileNameMap);
+        World.GenerateTerrain(TileManager.TileNameMap,MapSize);
         ScreenMode = WhichScreen::GAMEPLAY;
     }
 
