@@ -11,6 +11,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EnableLayer(lPlayer, true);
         EnableLayer(lGround, true);
         EnableLayer(lNight, true);
+        
         PreviousSecond = floor(fSeconds);
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
