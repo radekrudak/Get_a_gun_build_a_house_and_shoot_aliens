@@ -4,10 +4,18 @@
 #include "olcPixelGameEngine.h"
 class olcPixelGameEngineBackend : public olc::PixelGameEngine,public GameJam
 {
+
+    //////////////////////////// Sprites
+
+    olc::Sprite *sNight = nullptr;
+    olc::Sprite *sMoonAndSun = nullptr;
+    olc::Decal *dNight = nullptr;
+    olc::Decal *dMoonAndSun = nullptr;
+    olc::Sprite *sMT = nullptr;
+
     public:
     olcPixelGameEngineBackend()
     {
-       
         sAppName = "GameJamEntry";
     }
     bool OnUserCreate() override;
@@ -34,7 +42,7 @@ class olcPixelGameEngineBackend : public olc::PixelGameEngine,public GameJam
             (y/static_cast<float>(TileSize))+EntityManager.Player.GetCameraY()
         );
     }
-    
+
     bool OnUserDestroy() override
     {
         std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << std::endl;

@@ -16,7 +16,6 @@ void GameJam::GameUpdate(float fElapsedTime)
 
     if (InputManager[InputFlags::RightMouseButton])
     {
-        
         if (isMouseInReachDistance)
         {
             if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&

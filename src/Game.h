@@ -75,13 +75,7 @@ public:
     int lGround;
     int lPlayer;
     int lNight;
-    //////////////////////////// Sprites
 
-    olc::Sprite *sNight = nullptr;
-    olc::Sprite *sMoonAndSun = nullptr;
-    olc::Decal *dNight = nullptr;
-    olc::Decal *dMoonAndSun = nullptr;
-    olc::Sprite *sMT = nullptr;
 
     // ARRAYS/vectors
     // std::vector<std::vector<std::vector<Tile *>>> vTileMap;
