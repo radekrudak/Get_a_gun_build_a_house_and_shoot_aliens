@@ -14,6 +14,7 @@ endif
 default: GAG
 
 all: clean
+	mkdir obj
 	make --jobs=4
 run: all
 	./GAG
