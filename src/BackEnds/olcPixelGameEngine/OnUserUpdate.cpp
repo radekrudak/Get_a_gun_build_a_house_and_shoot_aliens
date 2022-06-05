@@ -1,4 +1,4 @@
-#include "olcPixelGameEngineBackend.h"
+#include "../olcPixelGameEngineBackend.h"
 
 bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
@@ -139,13 +139,17 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
     }
     break;
     case WhichScreen::MAIN_MENU:
+        
         // why is it done this strange way ? Because evry "normal" one failed
-        int chosed_option = 0;
-        MainMenu(this, lGround, lPlayer, lNight, chosed_option);
-        switch (chosed_option)
+        int ChosenOption = 0;
+        
+        switch (ChosenOption)
         {
         case 1:
             NewGame();
+            break;
+        default:
+            break;
         }
 
         break;

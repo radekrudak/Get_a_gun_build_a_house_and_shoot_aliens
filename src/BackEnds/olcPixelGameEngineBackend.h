@@ -1,7 +1,7 @@
 
 #pragma once
-#include "Game.h"
-#include "olcPixelGameEngine.h"
+#include "../Game.h"
+#include "olcPixelGameEngine/olcPixelGameEngine.h"
 class olcPixelGameEngineBackend : public olc::PixelGameEngine,public GameJam
 {
 

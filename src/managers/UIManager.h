@@ -10,6 +10,11 @@ enum class UIFlags{
 
 };
 
+enum class WhichScreen{
+    MAIN_MENU =0,
+    GAMEPLAY =1
+};
+
 
 
 class cUIManager : public cFlagManager<UIFlags>

@@ -1,20 +1,14 @@
 #pragma once
 
-#include "olcPixelGameEngine.h"
 #include <mutex>
 #include <vector>
 
-#include "whitch_screen_enum.h"
-//#include <functional> // std::ref
-#include "RRButton.h"
-#include "MainMenu.h"
 #include "Tile.h"
 #include "Entity.h"
 #include "Item.h"
 #include "World.h"
 #include "ManagersManager.h"
 
-// later in code included Controls.h & GameStart.h
 
 // to do:
 // Enemies
