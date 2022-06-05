@@ -1,6 +1,6 @@
 #define OLC_PGE_APPLICATION
-#include "Game.h"
 
+#include "olcPixelGameEngineBackend.h"
 int main()
 {
    
@@ -11,7 +11,7 @@ int main()
 #endif
     std::cout<<std::endl<< "on "<<__DATE__<<" at "<<__TIME__<<std::endl;
     std::cout << "Creating olcPixelGameEngine instance " << std::endl;
-    GameJam game;
+    olcPixelGameEngineBackend game;
     if (game.Construct(480, 270, 4, 4))
         game.Start();
     return 0;

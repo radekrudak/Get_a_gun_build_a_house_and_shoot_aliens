@@ -25,8 +25,9 @@ OnUserCreate.o :src/OnUserCreate.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
 GetUserInput.o :src/GetUserInput.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
-
-GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o
+GameUpdate.o :src/GameUpdate.cpp
+	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
+GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o GameUpdate.o
 	$(CC) -o $@ $(OBJ_DIR)*.o   $(ARGS)
 	make clean
 clean:

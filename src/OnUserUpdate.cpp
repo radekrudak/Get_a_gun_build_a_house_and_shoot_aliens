@@ -1,6 +1,6 @@
-#include "Game.h"
+#include "olcPixelGameEngineBackend.h"
 
-bool GameJam::OnUserUpdate(float fElapsedTime)
+bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
 #include "DebugControls.h"
 

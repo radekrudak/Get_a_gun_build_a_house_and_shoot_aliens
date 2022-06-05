@@ -2,6 +2,7 @@
 enum class InputFlags{
     start =-1,
     LeftMouseButton,
+    RightMouseButton,
     end
 
 

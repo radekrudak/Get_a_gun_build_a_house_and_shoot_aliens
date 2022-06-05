@@ -1,6 +1,7 @@
-#include "Game.h"
-void GameJam::GetUserInput(float fElapsedTime)
 
+#include "olcPixelGameEngineBackend.h"
+
+void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 {
     float MovingSpeed = 4.5f;
     if (GetKey(olc::Key::F1).bPressed)

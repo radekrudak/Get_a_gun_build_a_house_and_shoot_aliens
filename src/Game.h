@@ -36,7 +36,7 @@ using TZpos = PositionOnTileStack;
 constexpr int TileSize = 16;
 constexpr float PI = 3.14159;
 
-class GameJam : public olc::PixelGameEngine
+class GameJam //: public olc::PixelGameEngine
 {
 
 public:
@@ -105,12 +105,8 @@ public:
 
 
 public:
-    GameJam()
-    {
-        // Name your application
-        sAppName = "GameJamEntry";
-    }
-    
+    void GameUpdate(float fElapsedTime);
+
     inline auto WorldPosToScreenPos(int x, int y)
     {
         return olc::vf2d(
@@ -165,15 +161,7 @@ public:
     }
 
 
-public:
 
-    bool OnUserCreate() override;
+    
 
-    bool OnUserUpdate(float fElapsedTime) override;
-    void GetUserInput(float fElapsedTime);
-    bool OnUserDestroy() override
-    {
-        std::cout << "Frames: " << ElapsedFrames << " A start finished early: " << std::endl;
-        return true;
-    }
 };

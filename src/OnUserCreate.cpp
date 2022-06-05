@@ -1,11 +1,10 @@
-
-#include "Game.h"
+#include "olcPixelGameEngineBackend.h"
 #include <functional>
 #include <iostream>
 #include <map>
 #include <vector>
 
-bool GameJam::OnUserCreate()
+bool olcPixelGameEngineBackend::OnUserCreate()
 {
 
         Clear(olc::BLACK);
