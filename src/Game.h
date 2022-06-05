@@ -30,7 +30,7 @@ using TZpos = PositionOnTileStack;
 constexpr int TileSize = 16;
 constexpr float PI = 3.14159;
 
-class GameJam //: public olc::PixelGameEngine
+class Game //: public olc::PixelGameEngine
 {
 
 public:
@@ -94,7 +94,18 @@ public:
 
 public:
     void GameUpdate(float fElapsedTime);
-
+    void MainMenu(int ChosenOption)
+    {
+        switch (ChosenOption)
+        {
+        case 1:
+            NewGame();
+            break;
+        
+        default:
+            break;
+        }
+    }
 
 
     inline void NewGame()

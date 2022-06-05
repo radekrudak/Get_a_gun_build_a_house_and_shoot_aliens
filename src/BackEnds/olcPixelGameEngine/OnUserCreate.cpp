@@ -7,7 +7,7 @@
 bool olcPixelGameEngineBackend::OnUserCreate()
 {
 
-        Clear(olc::BLACK);
+        Clear(olc::GREY);
         //vTileMap.reserve(MapSize);
         ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager);
 
@@ -27,9 +27,14 @@ bool olcPixelGameEngineBackend::OnUserCreate()
         sMoonAndSun = new olc::Sprite("./assets/tiles/MoonandSun.png");
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
-
-
-        
+        OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
+        (*OlcPopUpMenu)["MainMenu"].SetTable(1,2);
+        (*OlcPopUpMenu)["MainMenu"]["New Game"].SetID(1);
+        // (*OlcPopUpMenu)["MainMenu"]["Load Game"].SetTable(1,2);
+        // (*OlcPopUpMenu)["MainMenu"]["Load Game"]["Map1"].SetID(2);
+        // (*OlcPopUpMenu)["MainMenu"]["Load Game"]["Map2"].SetID(3);
+        (*OlcPopUpMenu).Build();
+        olcPopUpManager.Open( &((*OlcPopUpMenu)["MainMenu"]) );
         return true;
 
 

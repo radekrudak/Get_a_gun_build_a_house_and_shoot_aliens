@@ -19,11 +19,11 @@ run: all
 	./GAG
 main.o : src/main.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
-OnUserUpdate.o : src/OnUserUpdate.cpp
+OnUserUpdate.o : src/BackEnds/olcPixelGameEngine/OnUserUpdate.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
-OnUserCreate.o :src/OnUserCreate.cpp 
+OnUserCreate.o :src/BackEnds/olcPixelGameEngine/OnUserCreate.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
-GetUserInput.o :src/GetUserInput.cpp
+GetUserInput.o :src/BackEnds/olcPixelGameEngine/GetUserInput.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
 GameUpdate.o :src/GameUpdate.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)

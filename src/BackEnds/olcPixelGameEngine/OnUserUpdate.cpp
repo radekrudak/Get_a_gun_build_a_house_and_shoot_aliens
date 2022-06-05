@@ -2,7 +2,6 @@
 
 bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
-#include "DebugControls.h"
 
     switch (UIManager.GetUIMode())
     {
@@ -64,9 +63,9 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         DrawString(GetMouseX() - UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() - 20, UIManager.GetMouseText());
         if (UIManager.GetPRogressBar() > 0.0f)
         {
-            
-            FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET},{ static_cast<int>(UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
-            DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>( UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
+
+            FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
+            DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
         }
         float ClockScale = 4.0f;
 
@@ -81,22 +80,21 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 
         EnableLayer(lNight, true);
 
-        int x=ScreenWidth()/4;
-        int y=ScreenHeight()/10;
+        int x = ScreenWidth() / 4;
+        int y = ScreenHeight() / 10;
         bool isFirstPass = true;
-        if(UIManager[UIFlags::isPlayerInventoryDisplayed])
-            for (const auto& i: EntityManager.Player.GetInventory())
+        if (UIManager[UIFlags::isPlayerInventoryDisplayed])
+            for (const auto &i : EntityManager.Player.GetInventory())
             {
                 if (isFirstPass)
                 {
                     isFirstPass = false;
                     continue;
                 }
-                DrawDecal ({(float)x,(float)y},ManagersManager.GetItemDecal(i.ItemID));
-                DrawString((float)x,(float)(y+16),std::to_string(i.Quantity));
-                y+=24;
+                DrawDecal({(float)x, (float)y}, ManagersManager.GetItemDecal(i.ItemID));
+                DrawString((float)x, (float)(y + 16), std::to_string(i.Quantity));
+                y += 24;
             }
-
 
         SetDrawTarget(nullptr);
         if (EntityManager.Player.GetHealth() < 0.0f)
@@ -139,20 +137,41 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
     }
     break;
     case WhichScreen::MAIN_MENU:
-        
+
         // why is it done this strange way ? Because evry "normal" one failed
         int ChosenOption = 0;
-        
-        switch (ChosenOption)
+        olc::popup::Menu *command = nullptr;
+        static int Depth = 0;
+        if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed )
+            olcPopUpManager.OnUp();
+        if (GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed)
+            olcPopUpManager.OnDown();
+        if (GetKey(olc::Key::LEFT).bPressed)
+            olcPopUpManager.OnLeft();
+        if (GetKey(olc::Key::RIGHT).bPressed)
+            olcPopUpManager.OnRight();
+        if (GetKey(olc::Key::SPACE).bPressed || GetKey(olc::Key::ENTER).bPressed)
         {
-        case 1:
-            NewGame();
-            break;
-        default:
-            break;
+            command = olcPopUpManager.OnConfirm();
+            Depth++;
+        }
+        if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
+        {
+            olcPopUpManager.OnBack();
+            Depth--;
+        }
+        if (Depth < 0)
+        {
+            olcPopUpManager.Open(&((*OlcPopUpMenu)["MainMenu"]));
+            Depth=0;
         }
 
-        break;
+        Clear(olc::BLACK);
+
+        olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+        if (command != nullptr)
+            ChosenOption = command->GetID();
+        Game::MainMenu(ChosenOption);
     }
     return true;
 }

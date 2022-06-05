@@ -2,7 +2,8 @@
 #pragma once
 #include "../Game.h"
 #include "olcPixelGameEngine/olcPixelGameEngine.h"
-class olcPixelGameEngineBackend : public olc::PixelGameEngine,public GameJam
+#include "olcPixelGameEngine/olcPGEX_PopUpMenu.h"
+class olcPixelGameEngineBackend : public olc::PixelGameEngine,public Game
 {
 
     //////////////////////////// Sprites
@@ -12,6 +13,9 @@ class olcPixelGameEngineBackend : public olc::PixelGameEngine,public GameJam
     olc::Decal *dNight = nullptr;
     olc::Decal *dMoonAndSun = nullptr;
     olc::Sprite *sMT = nullptr;
+	olc::popup::Manager olcPopUpManager;
+	std::unique_ptr <olc::popup::Menu> OlcPopUpMenu;
+
 
     public:
     olcPixelGameEngineBackend()

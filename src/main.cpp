@@ -1,5 +1,5 @@
 #define OLC_PGE_APPLICATION
-
+#define OLC_PGEX_POPUPMENU
 #include "BackEnds/olcPixelGameEngineBackend.h"
 int main()
 {
