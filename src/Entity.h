@@ -117,6 +117,7 @@ class Character : public Entity
     cInventory Inventory;
 
 public:
+
     Character()
     {
         cInventory TempInventory;

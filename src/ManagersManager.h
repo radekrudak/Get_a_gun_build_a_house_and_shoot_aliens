@@ -103,4 +103,8 @@ public:
 
         return false;
     }
+    std::string GetItemUserVisibleName(int ItemID)
+    {
+        return (*ItemManager)[ItemID]->GetUserVisibleName();
+    }
 };

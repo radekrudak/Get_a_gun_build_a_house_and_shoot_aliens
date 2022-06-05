@@ -25,15 +25,43 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         fTest -= 1 * fElapsedTime;
     }
 
+    olc::popup::Menu *command = nullptr;
+
     olc::vf2d PlayerMoveVector = {0, 0};
-    if (GetKey(olc::Key::D).bHeld)
-        PlayerMoveVector.x = 1;
-    if (GetKey(olc::Key::A).bHeld)
-        PlayerMoveVector.x = -1;
-    if (GetKey(olc::Key::S).bHeld)
-        PlayerMoveVector.y = 1;
-    if (GetKey(olc::Key::W).bHeld)
-        PlayerMoveVector.y = -1;
+    if (UIManager.Get(UIFlags::isPlayerInventoryDisplayed) == false)
+    {
+        if (GetKey(olc::Key::D).bHeld)
+            PlayerMoveVector.x = 1;
+        if (GetKey(olc::Key::A).bHeld)
+            PlayerMoveVector.x = -1;
+        if (GetKey(olc::Key::S).bHeld)
+            PlayerMoveVector.y = 1;
+        if (GetKey(olc::Key::W).bHeld)
+            PlayerMoveVector.y = -1;
+    }
+    else
+    {
+        if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed)
+            olcPopUpManager.OnUp();
+        if (GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed)
+            olcPopUpManager.OnDown();
+        if (GetKey(olc::Key::LEFT).bPressed)
+            olcPopUpManager.OnLeft();
+        if (GetKey(olc::Key::RIGHT).bPressed)
+            olcPopUpManager.OnRight();
+        if (GetKey(olc::Key::SPACE).bPressed || GetKey(olc::Key::ENTER).bPressed)
+        {
+            command = olcPopUpManager.OnConfirm();
+            
+        }
+        if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
+        {
+            olcPopUpManager.OnBack();
+            
+        }
+        if(command != nullptr)
+            std::cout<<"Item chosen: "<<command->GetName()<< " with id: "<<command->GetID()<<std::endl;
+    }
     MovePlayerWithColysionCheck(fElapsedTime, PlayerMoveVector.x, PlayerMoveVector.y);
 
     static olc::vf2d WorldMouse = ScreenPosToWorldPos(GetMouseX(), GetMouseY());
@@ -50,7 +78,7 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
     // constructionHandeling
     if (GetMouse(1).bHeld)
     {
-        
+
         InputManager.Set(InputFlags::RightMouseButton, true);
     }
 
