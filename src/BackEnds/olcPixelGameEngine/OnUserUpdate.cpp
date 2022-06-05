@@ -11,7 +11,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EnableLayer(lPlayer, true);
         EnableLayer(lGround, true);
         EnableLayer(lNight, true);
-        
+
         PreviousSecond = floor(fSeconds);
         Clear(olc::BLANK);
         // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
@@ -55,10 +55,11 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EntityManager.Player.SetAngle(fMouseMapX, fMouseMapY);
         // Draw Player
         DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(), EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
+      
+        // UI Drawing
+        SetDrawTarget(nullptr);
+        Clear(olc::BLANK);
 
-
-
-        // HUD DRAWING
         constexpr int PROGRESS_BARR_W = 5;
         constexpr int PROGRESS_BARR_OFFSET = -30;
         constexpr int CHAR_SIZE_ON_SCREEN = 8;
@@ -74,9 +75,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         DrawRotatedDecal(olc::vf2d(ScreenWidth() - sMoonAndSun->width / 2 + 5, sMoonAndSun->height * ClockScale),
                          dMoonAndSun, isNight ? fSeconds / fSecondsInDay * PI : fSeconds / fSecondsInDay * PI + PI,
                          olc::vf2d(sMoonAndSun->width / 2.0f, sMoonAndSun->height / 2.0f), olc::vf2d(ClockScale, ClockScale));
-        // inventory Drawing
-        SetDrawTarget(nullptr);
-        Clear(olc::BLANK);
+
         bool isFirstPass = true;
 
         if (UIManager[UIFlags::isPlayerInventoryDisplayed])
