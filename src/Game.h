@@ -45,7 +45,7 @@ public:
         return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    WhichScreen ScreenMode = WhichScreen::MAIN_MENU;
+    
 
     int NodeMapSize = 128;
 
@@ -119,7 +119,7 @@ public:
         fSeconds = 0;
 
         World.GenerateTerrain(TileManager.TileNameMap,MapSize);
-        ScreenMode = WhichScreen::GAMEPLAY;
+        UIManager.SetUIMode(WhichScreen::GAMEPLAY);
     }
 
     void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)

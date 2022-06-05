@@ -4,7 +4,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
 #include "DebugControls.h"
 
-    switch (ScreenMode)
+    switch (UIManager.GetUIMode())
     {
     case WhichScreen::GAMEPLAY:
     {
@@ -132,7 +132,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 
             DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), GetMouseX() / TileSize + EntityManager.Player.GetX(), GetMouseY() / TileSize + EntityManager.Player.GetY())));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
-            DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(ScreenMode)));
+            DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(UIManager.GetUIMode())));
         }
 
         ++ElapsedFrames;

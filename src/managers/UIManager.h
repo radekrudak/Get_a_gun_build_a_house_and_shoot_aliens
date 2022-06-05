@@ -16,7 +16,8 @@ class cUIManager : public cFlagManager<UIFlags>
 {
     // std::vector<unsigned char> vFlags;
     float ProgressBarProgress =0.0f;
-    std::string MouseText;
+    std::string m_MouseText;
+    WhichScreen m_ScreenMode = WhichScreen::MAIN_MENU;
 public:
     using cFlagManager::cFlagManager;
     cUIManager()
@@ -25,49 +26,21 @@ public:
        // vFlags.resize(size,false);
     }
 
-    // bool &operator[](int Offset)
-    // {
-    //     return (bool&)(vFlags[Offset]);
-    // }
-    // bool &operator[](UIFlags Flag)
-    // {
-    //     return (bool&)(vFlags[static_cast<int>(Flag)]);
-
-    // }
-
-    // bool Get(int Offset)
-    // {
-    //     return vFlags[Offset];
-    // }
-    // bool Get(UIFlags Flag)
-    // {
-    //     return vFlags[static_cast<int>(Flag)];
-    // }
-
-    // void Set(int Offset,bool value)
-    // {
-    //     vFlags[Offset] = value;
-    // }
-    // void Set(UIFlags Flag,bool value)
-    // {
-    //     vFlags[static_cast<int>(Flag)] = value ;
-    // }
-    // void Flip(int Offset)
-    // {
-    //     vFlags[Offset] = !vFlags[Offset];
-    // }
-    // void Flip(UIFlags Flag)
-    // {
-    //     vFlags[static_cast<int>(Flag)] = !vFlags[static_cast<int>(Flag)] ;
-    // }
-
+    void SetUIMode(WhichScreen ScreenMode)
+    {
+        m_ScreenMode = ScreenMode;
+    }
+    auto GetUIMode()
+    {
+        return m_ScreenMode;
+    }
     const auto &GetMouseText()
     {
-        return MouseText;
+        return m_MouseText;
     }
     void SetMouseText(std::string val)
     {
-        MouseText=val;
+        m_MouseText=val;
     }
     void SetProgressBar(float val)
     {
