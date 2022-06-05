@@ -113,7 +113,7 @@ public:
         // Add "generating terrain" screen
 
         // seting player(and time) values to default
-         int MapSize = 2048;
+         int MapSize = 1024;
         //std::string temp_input;
         //std::cin >> MapSize;
         //MapSize = stoi(temp_input);
