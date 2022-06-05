@@ -11,7 +11,7 @@ void GameJam::GameUpdate(float fElapsedTime)
     bool IsMouseStillPointingAtTheSameTile = ((floor(InputManager.GetMouseWorldPosytionX()) == floor(InputManager.GetPreviousMouseWorldPosytionX()))&&  
                                                 (floor(InputManager.GetMouseWorldPosytionY()) == floor(InputManager.GetPreviousMouseWorldPosytionY()))  ) ;
 
-    std::cout<<isMouseInReachDistance<<" "<<IsMouseStillPointingAtTheSameTile<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<std::endl;
+    //std::cout<<isMouseInReachDistance<<" "<<IsMouseStillPointingAtTheSameTile<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<std::endl;
 
 
     if (InputManager[InputFlags::RightMouseButton])
