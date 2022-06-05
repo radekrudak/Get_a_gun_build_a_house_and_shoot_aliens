@@ -1,4 +1,5 @@
 
+#pragma once
 #include <vector>
 template <typename T>
 class cFlagManager
@@ -7,10 +8,26 @@ class cFlagManager
     std::vector<unsigned char> vFlags;
 
 public:
+
     cFlagManager()
     {
         int size = static_cast<int>(T::end);
         vFlags.resize(size, false);
+    }
+
+    void ClearAllFlags()
+    {
+        for(auto &i:vFlags)
+        {
+            i=false;
+        }
+    }
+    void SetAllFlags()
+    {
+        for(auto &i:vFlags)
+        {
+            i=true;
+        }
     }
 
     bool &operator[](int Offset)

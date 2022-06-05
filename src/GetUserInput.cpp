@@ -3,6 +3,8 @@
 
 void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 {
+    InputManager.ClearAllFlags();
+
     float MovingSpeed = 4.5f;
     if (GetKey(olc::Key::F1).bPressed)
     {
@@ -14,7 +16,6 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         UIManager.Flip(UIFlags::isPlayerInventoryDisplayed);
     }
 
-
     if (GetMouseWheel() > 0)
     {
         fTest += 1 * fElapsedTime;
@@ -23,8 +24,6 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
     {
         fTest -= 1 * fElapsedTime;
     }
-
-
 
     olc::vf2d PlayerMoveVector = {0, 0};
     if (GetKey(olc::Key::D).bHeld)
@@ -41,83 +40,20 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 
     olc::vf2d PreviousWorldMouse = WorldMouse;
     WorldMouse = ScreenPosToWorldPos(GetMouseX(), GetMouseY());
+    InputManager.SetMouseWorldPosytion(WorldMouse.x, WorldMouse.y);
 
     auto Floorvf2d = [](olc::vf2d Input)
     {
         return olc::vf2d(floor(Input.x), floor(Input.y));
     };
 
-    bool isMouseInReachDistance = (Distance(WorldMouse.x, WorldMouse.y, EntityManager.Player.GetX(), EntityManager.Player.GetY()) < EntityManager.Player.GetReachDistance());
-    bool IsMouseStillPointingAtTheSameTile = (Floorvf2d(PreviousWorldMouse) == Floorvf2d(WorldMouse));
     // constructionHandeling
     if (GetMouse(1).bHeld)
     {
-        if (isMouseInReachDistance)
-        {
-            if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
-                ManagersManager.IsPlayerAbleToConstructTile() &&
-                ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(WorldMouse.x, WorldMouse.y), EntityManager.Player.GetIDofTileToBuild()))
-            {
-                UIManager.SetMouseText("Construction");
-                UIManager.SetProgressBar(EntityManager.Player.GetConstructionProgress());
-
-                bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
-                if (didConstructionFinished)
-                {
-                    World.ConstructTileAtTopOf(WorldMouse.x, WorldMouse.y,
-                                               EntityManager.Player.GetIDofTileToBuild());
-                    ManagersManager.PlayerConstructedTile();
-                    UIManager.SetMouseText("");
-                    UIManager.SetProgressBar(0.0f);
-                    EntityManager.Player.ResetConstructionProgress();
-
-                }
-            }
-            else
-            {
-                UIManager.SetMouseText("");
-                UIManager.SetProgressBar(0);
-                EntityManager.Player.ResetConstructionProgress();
-
-            }
-        }
         
-    }
-    // DeconstructionHandeling Code
-    else if (GetMouse(0).bHeld)
-    {
-        if (isMouseInReachDistance)
-        {
-            if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
-                World.isPlayerAbleToDeconstructTopTileAt(WorldMouse.x, WorldMouse.y))
-            {
-                UIManager.SetMouseText("Deconstructon");
-                UIManager.SetProgressBar(EntityManager.Player.GetDeconstructionProgress());
-                bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
-                if (didDeconstructionFinished)
-                {
-                    World.DeconstructTopTileAt(WorldMouse.x, WorldMouse.y);
-                    UIManager.SetMouseText("");
-                    UIManager.SetProgressBar(0.0f);
-                    EntityManager.Player.ResetDeconstructionProgress();
-                }
-            }
-            else
-            {
-                UIManager.SetMouseText("");
-                UIManager.SetProgressBar(0);
-                EntityManager.Player.ResetDeconstructionProgress();
-
-            }
-        }
+        InputManager.Set(InputFlags::RightMouseButton, true);
     }
 
-    else
-    {
-        EntityManager.Player.ResetDeconstructionProgress();
-        EntityManager.Player.ResetConstructionProgress();
-
-        UIManager.SetMouseText("");
-        UIManager.SetProgressBar(0.0f);
-    }
+    if (GetMouse(0).bHeld)
+        InputManager.Set(InputFlags::LeftMouseButton, true);
 }

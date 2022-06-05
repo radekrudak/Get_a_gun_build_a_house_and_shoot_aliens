@@ -95,7 +95,7 @@ public:
     sTileManager TileManager;
     sEntityManager EntityManager;
     cManagersManager ManagersManager;
-
+    cInputManager InputManager;
     cUIManager UIManager;
 
     cWorld World;
@@ -107,26 +107,6 @@ public:
 public:
     void GameUpdate(float fElapsedTime);
 
-    inline auto WorldPosToScreenPos(int x, int y)
-    {
-        return olc::vf2d(
-            (static_cast<float>(x) - EntityManager.Player.GetCameraX()) * TileSize,
-            (static_cast<float>(y) - EntityManager.Player.GetCameraY()) * TileSize);
-    }
-    inline  auto WorldPosToScreenPos(float x, float y)
-    {
-        return olc::vf2d(
-            (x - EntityManager.Player.GetCameraX()) * TileSize,
-            (y - EntityManager.Player.GetCameraY()) * TileSize);
-    }
-    
-    inline  auto ScreenPosToWorldPos(float x, float y)
-    {
-        return olc::vf2d(
-            (x/ static_cast<float>(TileSize))+EntityManager.Player.GetCameraX(),
-            (y/static_cast<float>(TileSize))+EntityManager.Player.GetCameraY()
-        );
-    }
 
 
     inline void NewGame()

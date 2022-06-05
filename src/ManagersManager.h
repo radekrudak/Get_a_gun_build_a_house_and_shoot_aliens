@@ -4,6 +4,7 @@
 #include "managers/TextureManager.h"
 #include "managers/EntityManager.h"
 #include "managers/UIManager.h"
+#include "managers/InputManager.h"
 class cManagersManager
 {
 
