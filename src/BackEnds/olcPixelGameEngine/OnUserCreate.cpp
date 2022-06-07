@@ -28,7 +28,7 @@ bool olcPixelGameEngineBackend::OnUserCreate()
         dMoonAndSun = new olc::Decal(sMoonAndSun);
         dNight =      new olc::Decal (sNight);
         
-        OlcPopUpMenu["MainMenu"].SetTable(1,2);
+        OlcPopUpMenu["MainMenu"].SetTable(1,2).SetID(0);
        // OlcPopUpMenu["MainMenu"].SetID(0);
         OlcPopUpMenu["MainMenu"]["New Game"].SetID(1);
         OlcPopUpMenu["MainMenu"]["Load Game"].SetTable(1,1);
