@@ -76,13 +76,13 @@ struct sTileManager
         
         
         }
-        std::cout<<std::endl;
+        std::cout<<"BuildableTiles:"<<std::endl;
         for ( int i=0; i<vStaticTiles.size();i++)
         {
             if(vStaticTiles[i]->GetItemsRequiredToConstruct().size() > 0 )
             {
                 vBuildableTiles.push_back(i);
-                std::cout<<i<<std::endl;
+                std::cout<<i<<" "<<vStaticTiles[i]->GetTileName()<<std::endl;
             }
         }
 
@@ -97,5 +97,9 @@ struct sTileManager
         vStaticTiles.clear();
     }
 
+    const auto &GetBuildableTiles()
+    {
+        return vBuildableTiles;
+    }
 
 };

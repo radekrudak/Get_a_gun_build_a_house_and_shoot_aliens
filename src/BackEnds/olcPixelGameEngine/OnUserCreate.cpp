@@ -29,7 +29,13 @@ bool olcPixelGameEngineBackend::OnUserCreate()
         dNight =      new olc::Decal (sNight);
         OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
         (*OlcPopUpMenu)["MainMenu"].SetTable(1,2);
+       // (*OlcPopUpMenu)["MainMenu"].SetID(0);
         (*OlcPopUpMenu)["MainMenu"]["New Game"].SetID(1);
+        (*OlcPopUpMenu)["MainMenu"]["Load Game"].SetTable(1,1);
+        (*OlcPopUpMenu)["MainMenu"]["Load Game"].SetID(2);
+        (*OlcPopUpMenu)["Load Game"].SetID(3);
+        (*OlcPopUpMenu)["Load Game"].SetTable(1,1);
+        (*OlcPopUpMenu)["Load Game"]["Feature not avalible yet"];
         // (*OlcPopUpMenu)["MainMenu"]["Load Game"].SetTable(1,2);
         // (*OlcPopUpMenu)["MainMenu"]["Load Game"]["Map1"].SetID(2);
         // (*OlcPopUpMenu)["MainMenu"]["Load Game"]["Map2"].SetID(3);

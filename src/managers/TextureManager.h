@@ -6,7 +6,7 @@
 struct sTextureManager
 {
 
-    std::vector< std::unique_ptr<olc::Sprite>> vSprites;
+    std::vector<std::unique_ptr<olc::Sprite>> vSprites;
     std::vector<std::unique_ptr<olc::Decal>> vDecals;
     std::map<std::string, int> TextureNameMap;
 
@@ -29,11 +29,11 @@ struct sTextureManager
     }
     std::map<std::string, int> LoadGraphics(std::string TexturePackPath = "TexturePacks/Default/")
     {
-        vSprites.clear();
-        vDecals.clear();
-        TextureNameMap.clear();
-        std::string path = TexturePackPath + "tiles";
-        std::cout<<std::endl;
+
+
+        // Load files .png in given folder
+        std::string path = TexturePackPath;
+        std::cout << std::endl;
         for (const auto &entry : std::filesystem::directory_iterator(path))
         {
 
@@ -44,8 +44,8 @@ struct sTextureManager
             {
 
                 std::cout << "Loading: " << EntryPath;
-                vSprites.push_back( std::unique_ptr<olc::Sprite> (new olc::Sprite(EntryPath)));
-                vDecals.push_back(  std::unique_ptr<olc::Decal> (new olc::Decal(vSprites.back().get())));
+                vSprites.push_back(std::unique_ptr<olc::Sprite>(new olc::Sprite(EntryPath)));
+                vDecals.push_back(std::unique_ptr<olc::Decal>(new olc::Decal(vSprites.back().get())));
 
                 std::string FileName = EntryPath;
                 while (FileName.find("/") != FileName.npos)
@@ -58,34 +58,12 @@ struct sTextureManager
                 std::cout << "as: " << FileName << " " << (vSprites.size() - 1) << std::endl;
             }
         }
-
-        path = TexturePackPath + "characters";
-
-        for (const auto &entry : std::filesystem::directory_iterator(path))
+        //recursevly get all subdirectories in directory, and call LoadGraphics with path to each directory as argument
+        for (auto &p : std::filesystem::recursive_directory_iterator(s))
         {
-
-            std::string EntryPath = entry.path().string();
-            std::string extension = EntryPath.substr(EntryPath.size() - 3);
-
-            if (extension == "png")
-            {
-
-                std::cout << "Loading: " << EntryPath;
-                vSprites.push_back( std::unique_ptr<olc::Sprite>(new olc::Sprite(EntryPath)));
-                vDecals.push_back(std::unique_ptr<olc::Decal> (new olc::Decal(vSprites.back().get())));
-
-                std::string FileName = EntryPath;
-                while (FileName.find("/") != FileName.npos)
-                {
-                    FileName.erase(0, FileName.find("/") + 1);
-                }
-
-                FileName = FileName.substr(0, FileName.find("."));
-                TextureNameMap[FileName] = vSprites.size() - 1;
-                std::cout << " as: \"" << FileName << "\" Texture's ID: " << (vSprites.size() - 1) << std::endl;
-            }
+            if (p.is_directory())
+                LoadGraphics(p.path().string());
         }
-        std::cout<<std::endl;
         return TextureNameMap;
     }
 };

@@ -1,8 +1,8 @@
 License Information: Everything in this reposytory writen by me is under GPL 3 license, files not made by me have it's own licenses specyfied on top of file itself.
 Files not made by me:
  src/nlohmann/json.hpp : Json single heather file library 
- src/BackEnds/olcPixelGameEngine/olcPGEX_PopUpMenu.h : single file, cross platform graphics and userinput framework
- src/BackEnds/olcPixelGameEngine/olcPGEX_PopUpMenu.h extension to the olcPixelGameEngine (provides popup menu system)
+ src/BackEnds/olcPixelGameEngine/olcPixelGameEngine.h : single file, cross platform graphics and userinput framework
+ src/BackEnds/olcPixelGameEngine/olcPGEX_PopUpMenu.h : (Modyfied by me by adding Delete and DeleteAllChildren functions) extension to the olcPixelGameEngine (provides popup menu system)
 
 Coding project that started as CodeJam enterence (original enterence should still be present on my github)
 

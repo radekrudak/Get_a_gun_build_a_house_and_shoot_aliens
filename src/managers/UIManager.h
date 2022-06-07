@@ -6,6 +6,7 @@ enum class UIFlags{
     start = -1,
     isStatsDis,
     isPlayerInventoryDisplayed,
+    isPlayerTileToBuildSelectionDisplayed,
     end
 
 };
@@ -28,7 +29,7 @@ public:
     cUIManager()
     {
         int size = static_cast<int>(UIFlags::end);
-       // vFlags.resize(size,false);
+       
     }
 
     void SetUIMode(WhichScreen ScreenMode)

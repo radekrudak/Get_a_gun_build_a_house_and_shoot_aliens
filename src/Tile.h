@@ -34,6 +34,11 @@ public:
         TextureID = TextureNameMap.at(TextureName);
         Name = TileName;
     }
+
+    const auto GetTileName() const
+    {
+        return Name;
+    }
     void AddItemsRequiredToConstruct(int ItemID, int Quantity)
     {
         vItemsRequiredToConstruct.push_back(ItemSlot(ItemID, Quantity));

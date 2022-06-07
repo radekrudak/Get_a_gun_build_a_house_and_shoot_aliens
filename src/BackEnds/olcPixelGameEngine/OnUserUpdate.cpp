@@ -55,7 +55,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EntityManager.Player.SetAngle(fMouseMapX, fMouseMapY);
         // Draw Player
         DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(), EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
-      
+
         // UI Drawing
         SetDrawTarget(nullptr);
         Clear(olc::BLANK);
@@ -76,6 +76,8 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
                          dMoonAndSun, isNight ? fSeconds / fSecondsInDay * PI : fSeconds / fSecondsInDay * PI + PI,
                          olc::vf2d(sMoonAndSun->width / 2.0f, sMoonAndSun->height / 2.0f), olc::vf2d(ClockScale, ClockScale));
 
+        static bool BuildManuAlreadyBuild = false;
+
         bool isFirstPass = true;
 
         if (UIManager[UIFlags::isPlayerInventoryDisplayed])
@@ -83,7 +85,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             if (EntityManager.Player.GetInventory().isEmpty() == false)
             {
                 OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
-                (*OlcPopUpMenu)["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size());
+                (*OlcPopUpMenu)["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
                 int PlaceInInventory = 1;
                 for (const auto &i : EntityManager.Player.GetInventory())
                 {
@@ -108,12 +110,33 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
                 olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
             }
         }
+
+        else if (UIManager[UIFlags::isPlayerTileToBuildSelectionDisplayed])
+        {
+            if (BuildManuAlreadyBuild == false)
+            {
+                OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
+                (*OlcPopUpMenu)["BuildableTileSelection"].SetTable(1, 2 /* EntityManager.Player.GetInventory().size() */).SetID(1);
+                int BuildableTileIndex = 0;
+                for (auto const &i : TileManager.GetBuildableTiles())
+                {
+                    (*OlcPopUpMenu)["BuildableTileSelection"][TileManager[i]->GetTileName()].SetID(BuildableTileIndex);
+                }
+                (*OlcPopUpMenu).Build();
+                olcPopUpManager.Open(&((*OlcPopUpMenu)["BuildableTileSelection"]));
+                BuildManuAlreadyBuild = true;
+            }
+            olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+        }
+        if (UIManager[UIFlags::isPlayerTileToBuildSelectionDisplayed] == false)
+        {
+            BuildManuAlreadyBuild = false;
+        }
         SetDrawTarget(lNight);
 
         Clear(olc::BLANK);
         if (isNight)
             DrawDecal(olc::vf2d(0, 0), dNight, olc::vf2d(1.0f, 1.0f), olc::PixelF(1.0f, 1.0f, 1.0f, 0.25f));
-
 
         SetDrawTarget(nullptr);
         if (EntityManager.Player.GetHealth() < 0.0f)
@@ -160,7 +183,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         // why is it done this strange way ? Because evry "normal" one failed
         int ChosenOption = 0;
         olc::popup::Menu *command = nullptr;
-        static int Depth = 0;
         if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed)
             olcPopUpManager.OnUp();
         if (GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed)
@@ -172,24 +194,26 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         if (GetKey(olc::Key::SPACE).bPressed || GetKey(olc::Key::ENTER).bPressed)
         {
             command = olcPopUpManager.OnConfirm();
-            Depth++;
         }
         if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
         {
-            olcPopUpManager.OnBack();
-            Depth--;
-        }
-        if (Depth < 0)
-        {
             olcPopUpManager.Open(&((*OlcPopUpMenu)["MainMenu"]));
-            Depth = 0;
+            // olcPopUpManager.OnBack();
         }
+        // std::cout<<OlcPopUpMenu->GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu->GetSelectedItem()->GetID()<<std::endl;
 
         Clear(olc::GREY);
 
         olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
         if (command != nullptr)
+        {
             ChosenOption = command->GetID();
+            if (ChosenOption == 2)
+            {
+                olcPopUpManager.Open(&((*OlcPopUpMenu)["Load Game"]));
+            }
+        }
+
         Game::MainMenu(ChosenOption);
     }
     return true;

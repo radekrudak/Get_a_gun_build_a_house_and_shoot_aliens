@@ -9,7 +9,7 @@
 	What is this?
 	~~~~~~~~~~~~~
 	This is an extension to the olcPixelGameEngine, which provides
-	a quick and easy to use, flexible, skinnable context pop-up 
+	a quick and easy to use, flexible, skinnable context pop-up
 	menu system.
 
 	License (OLC-3)
@@ -59,7 +59,6 @@
 	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020
 */
 
-
 /*
 	Example
 	~~~~~~~
@@ -82,7 +81,7 @@
 
 	// Declaration (presumably inside class)
 	olc::popup::Menu m;
-	
+
 	// Construction (root menu is a 1x5 table)
 	m.SetTable(1, 5);
 
@@ -130,7 +129,7 @@
 	Interacting with menu
 	~~~~~~~~~~~~~~~~~~~~~
 
-	// Send key events to menu	
+	// Send key events to menu
 	if (GetKey(olc::Key::UP).bPressed)    man.OnUp();
 	if (GetKey(olc::Key::DOWN).bPressed)  man.OnDown();
 	if (GetKey(olc::Key::LEFT).bPressed)  man.OnLeft();
@@ -144,8 +143,8 @@
 	if (GetKey(olc::Key::SPACE).bPressed) command = man.OnConfirm();
 	if (command != nullptr)
 	{
-		std::string sLastAction = 
-		"Selected: " + command->GetName() + 
+		std::string sLastAction =
+		"Selected: " + command->GetName() +
 		" ID: " + std::to_string(command->GetID());
 
 		// Optionally close menu?
@@ -171,42 +170,45 @@ namespace olc
 			Menu();
 			Menu(const std::string n);
 
-			Menu& SetTable(int32_t nColumns, int32_t nRows);
-			Menu& SetID(int32_t id);
-			Menu& Enable(bool b);
+			Menu &SetTable(int32_t nColumns, int32_t nRows);
+			Menu &SetID(int32_t id);
+			Menu &Enable(bool b);
 
 			int32_t GetID();
-			std::string& GetName();			
+			std::string &GetName();
 			bool Enabled();
 			bool HasChildren();
 			olc::vi2d GetSize();
-			olc::vi2d& GetCursorPosition();
-			Menu& operator[](const std::string& name);
+			olc::vi2d &GetCursorPosition();
+			Menu &operator[](const std::string &name);
 			void Build();
-			void DrawSelf(olc::PixelGameEngine& pge, olc::Sprite* sprGFX, olc::vi2d vScreenOffset);
+			void DrawSelf(olc::PixelGameEngine &pge, olc::Sprite *sprGFX, olc::vi2d vScreenOffset);
 			void ClampCursor();
 			void OnUp();
 			void OnDown();
 			void OnLeft();
 			void OnRight();
-			Menu* OnConfirm();
-			Menu* GetSelectedItem();
+			Menu *OnConfirm();
+			Menu *GetSelectedItem();
+
+			void Delete(const std::string &name);
+			void DeleteAllChildren();
 
 		protected:
 			int32_t nID = -1;
-			olc::vi2d vCellTable = { 1, 0 };
+			olc::vi2d vCellTable = {1, 0};
 			std::unordered_map<std::string, size_t> itemPointer;
 			std::vector<olc::popup::Menu> items;
-			olc::vi2d vSizeInPatches = { 0, 0 };
-			olc::vi2d vCellSize = { 0, 0 };
-			olc::vi2d vCellPadding = { 2, 0 };
-			olc::vi2d vCellCursor = { 0, 0 };
+			olc::vi2d vSizeInPatches = {0, 0};
+			olc::vi2d vCellSize = {0, 0};
+			olc::vi2d vCellPadding = {2, 0};
+			olc::vi2d vCellCursor = {0, 0};
 			int32_t nCursorItem = 0;
 			int32_t nTopVisibleRow = 0;
 			int32_t nTotalRows = 0;
-			const olc::vi2d vPatchSize = { nPatch, nPatch };
+			const olc::vi2d vPatchSize = {nPatch, nPatch};
 			std::string sName;
-			olc::vi2d vCursorPos = { 0, 0 };
+			olc::vi2d vCursorPos = {0, 0};
 			bool bEnabled = true;
 		};
 
@@ -214,25 +216,22 @@ namespace olc
 		{
 		public:
 			Manager();
-			void Open(Menu* mo);
+			void Open(Menu *mo);
 			void Close();
 			void OnUp();
 			void OnDown();
 			void OnLeft();
 			void OnRight();
 			void OnBack();
-			Menu* OnConfirm();
-			void Draw(olc::Sprite* sprGFX, olc::vi2d vScreenOffset);
+			Menu *OnConfirm();
+			void Draw(olc::Sprite *sprGFX, olc::vi2d vScreenOffset);
 
 		private:
-			std::list<Menu*> panels;
+			std::list<Menu *> panels;
 		};
 
 	}
 };
-
-
-
 
 #ifdef OLC_PGEX_POPUPMENU
 #undef OLC_PGEX_POPUPMENU
@@ -250,20 +249,19 @@ namespace olc
 			sName = n;
 		}
 
-
-		Menu& Menu::SetTable(int32_t nColumns, int32_t nRows)
+		Menu &Menu::SetTable(int32_t nColumns, int32_t nRows)
 		{
-			vCellTable = { nColumns, nRows };
+			vCellTable = {nColumns, nRows};
 			return *this;
 		}
 
-		Menu& Menu::SetID(int32_t id)
+		Menu &Menu::SetID(int32_t id)
 		{
 			nID = id;
 			return *this;
 		}
 
-		Menu& Menu::Enable(bool b)
+		Menu &Menu::Enable(bool b)
 		{
 			bEnabled = b;
 			return *this;
@@ -274,7 +272,7 @@ namespace olc
 			return nID;
 		}
 
-		std::string& Menu::GetName()
+		std::string &Menu::GetName()
 		{
 			return sName;
 		}
@@ -291,15 +289,15 @@ namespace olc
 
 		olc::vi2d Menu::GetSize()
 		{
-			return { int32_t(sName.size()), 1 };
+			return {int32_t(sName.size()), 1};
 		}
 
-		olc::vi2d& Menu::GetCursorPosition()
+		olc::vi2d &Menu::GetCursorPosition()
 		{
 			return vCursorPos;
 		}
 
-		Menu& Menu::operator[](const std::string& name)
+		Menu &Menu::operator[](const std::string &name)
 		{
 			if (itemPointer.count(name) == 0)
 			{
@@ -313,19 +311,19 @@ namespace olc
 		void Menu::Build()
 		{
 			// Recursively build all children, so they can determine their size, use
-			// that size to indicate cell sizes if this object contains more than 
+			// that size to indicate cell sizes if this object contains more than
 			// one item
-				for (auto& m : items)
+			for (auto &m : items)
+			{
+				if (m.HasChildren())
 				{
-					if (m.HasChildren())
-					{
-						m.Build();
-					}
-
-					// Longest child name determines cell width
-					vCellSize.x = std::max(m.GetSize().x, vCellSize.x);
-					vCellSize.y = std::max(m.GetSize().y, vCellSize.y);
+					m.Build();
 				}
+
+				// Longest child name determines cell width
+				vCellSize.x = std::max(m.GetSize().x, vCellSize.x);
+				vCellSize.y = std::max(m.GetSize().y, vCellSize.y);
+			}
 
 			// Adjust size of this object (in patches) if it were rendered as a panel
 			vSizeInPatches.x = vCellTable.x * vCellSize.x + (vCellTable.x - 1) * vCellPadding.x + 2;
@@ -335,7 +333,7 @@ namespace olc
 			nTotalRows = (items.size() / vCellTable.x) + (((items.size() % vCellTable.x) > 0) ? 1 : 0);
 		}
 
-		void Menu::DrawSelf(olc::PixelGameEngine& pge, olc::Sprite* sprGFX, olc::vi2d vScreenOffset)
+		void Menu::DrawSelf(olc::PixelGameEngine &pge, olc::Sprite *sprGFX, olc::vi2d vScreenOffset)
 		{
 			// === Draw Panel
 
@@ -344,7 +342,7 @@ namespace olc
 			pge.SetPixelMode(olc::Pixel::MASK);
 
 			// Draw Panel & Border
-			olc::vi2d vPatchPos = { 0,0 };
+			olc::vi2d vPatchPos = {0, 0};
 			for (vPatchPos.x = 0; vPatchPos.x < vSizeInPatches.x; vPatchPos.x++)
 			{
 				for (vPatchPos.y = 0; vPatchPos.y < vSizeInPatches.y; vPatchPos.y++)
@@ -353,11 +351,15 @@ namespace olc
 					olc::vi2d vScreenLocation = vPatchPos * nPatch + vScreenOffset;
 
 					// Calculate which patch is needed
-					olc::vi2d vSourcePatch = { 0, 0 };
-					if (vPatchPos.x > 0) vSourcePatch.x = 1;
-					if (vPatchPos.x == vSizeInPatches.x - 1) vSourcePatch.x = 2;
-					if (vPatchPos.y > 0) vSourcePatch.y = 1;
-					if (vPatchPos.y == vSizeInPatches.y - 1) vSourcePatch.y = 2;
+					olc::vi2d vSourcePatch = {0, 0};
+					if (vPatchPos.x > 0)
+						vSourcePatch.x = 1;
+					if (vPatchPos.x == vSizeInPatches.x - 1)
+						vSourcePatch.x = 2;
+					if (vPatchPos.y > 0)
+						vSourcePatch.y = 1;
+					if (vPatchPos.y == vSizeInPatches.y - 1)
+						vSourcePatch.y = 2;
 
 					// Draw Actual Patch
 					pge.DrawPartialSprite(vScreenLocation, sprGFX, vSourcePatch * nPatch, vPatchSize);
@@ -365,8 +367,8 @@ namespace olc
 			}
 
 			// === Draw Panel Contents
-			olc::vi2d vCell = { 0,0 };
-			vPatchPos = { 1,1 };
+			olc::vi2d vCell = {0, 0};
+			vPatchPos = {1, 1};
 
 			// Work out visible items
 			int32_t nTopLeftItem = nTopVisibleRow * vCellTable.x;
@@ -379,17 +381,17 @@ namespace olc
 			// Draw Scroll Markers (if required)
 			if (nTopVisibleRow > 0)
 			{
-				vPatchPos = { vSizeInPatches.x - 2, 0 };
+				vPatchPos = {vSizeInPatches.x - 2, 0};
 				olc::vi2d vScreenLocation = vPatchPos * nPatch + vScreenOffset;
-				olc::vi2d vSourcePatch = { 3, 0 };
+				olc::vi2d vSourcePatch = {3, 0};
 				pge.DrawPartialSprite(vScreenLocation, sprGFX, vSourcePatch * nPatch, vPatchSize);
 			}
 
 			if ((nTotalRows - nTopVisibleRow) > vCellTable.y)
 			{
-				vPatchPos = { vSizeInPatches.x - 2, vSizeInPatches.y - 1 };
+				vPatchPos = {vSizeInPatches.x - 2, vSizeInPatches.y - 1};
 				olc::vi2d vScreenLocation = vPatchPos * nPatch + vScreenOffset;
-				olc::vi2d vSourcePatch = { 3, 2 };
+				olc::vi2d vSourcePatch = {3, 2};
 				pge.DrawPartialSprite(vScreenLocation, sprGFX, vSourcePatch * nPatch, vPatchSize);
 			}
 
@@ -415,7 +417,7 @@ namespace olc
 					// Display Indicator that panel has a sub panel
 					vPatchPos.x = vCell.x * (vCellSize.x + vCellPadding.x) + 1 + vCellSize.x;
 					vPatchPos.y = vCell.y * (vCellSize.y + vCellPadding.y) + 1;
-					olc::vi2d vSourcePatch = { 3, 1 };
+					olc::vi2d vSourcePatch = {3, 1};
 					vScreenLocation = vPatchPos * nPatch + vScreenOffset;
 					pge.DrawPartialSprite(vScreenLocation, sprGFX, vSourcePatch * nPatch, vPatchSize);
 				}
@@ -443,12 +445,14 @@ namespace olc
 		void Menu::OnUp()
 		{
 			vCellCursor.y--;
-			if (vCellCursor.y < 0) vCellCursor.y = 0;
+			if (vCellCursor.y < 0)
+				vCellCursor.y = 0;
 
 			if (vCellCursor.y < nTopVisibleRow)
 			{
 				nTopVisibleRow--;
-				if (nTopVisibleRow < 0) nTopVisibleRow = 0;
+				if (nTopVisibleRow < 0)
+					nTopVisibleRow = 0;
 			}
 
 			ClampCursor();
@@ -457,7 +461,8 @@ namespace olc
 		void Menu::OnDown()
 		{
 			vCellCursor.y++;
-			if (vCellCursor.y == nTotalRows) vCellCursor.y = nTotalRows - 1;
+			if (vCellCursor.y == nTotalRows)
+				vCellCursor.y = nTotalRows - 1;
 
 			if (vCellCursor.y > (nTopVisibleRow + vCellTable.y - 1))
 			{
@@ -472,18 +477,20 @@ namespace olc
 		void Menu::OnLeft()
 		{
 			vCellCursor.x--;
-			if (vCellCursor.x < 0) vCellCursor.x = 0;
+			if (vCellCursor.x < 0)
+				vCellCursor.x = 0;
 			ClampCursor();
 		}
 
 		void Menu::OnRight()
 		{
 			vCellCursor.x++;
-			if (vCellCursor.x == vCellTable.x) vCellCursor.x = vCellTable.x - 1;
+			if (vCellCursor.x == vCellTable.x)
+				vCellCursor.x = vCellTable.x - 1;
 			ClampCursor();
 		}
 
-		Menu* Menu::OnConfirm()
+		Menu *Menu::OnConfirm()
 		{
 			// Check if selected item has children
 			if (items[nCursorItem].HasChildren())
@@ -494,9 +501,45 @@ namespace olc
 				return this;
 		}
 
-		Menu* Menu::GetSelectedItem()
+		Menu *Menu::GetSelectedItem()
 		{
 			return &items[nCursorItem];
+		}
+
+		void Menu::Delete(const std::string &name)
+		{
+			size_t index;
+			if (itemPointer.find(name) != itemPointer.end())
+			{
+
+				index = itemPointer[name];
+				itemPointer.erase(name);
+				
+				items[index].DeleteAllChildren(); // delete all children
+
+				auto TempItems = items;
+				items.clear();
+				int i = 0;
+				for (const auto &item : TempItems)
+				{
+					if (i != index)
+					{
+						items.push_back(item);
+					}
+					i++;
+				}
+			}
+
+		}
+		void Menu::DeleteAllChildren()
+		{
+			while (HasChildren())
+			{
+				items.back().DeleteAllChildren();
+				items.pop_back();
+			}
+			items.clear();
+			itemPointer.clear();
 		}
 
 		// =====================================================================
@@ -505,47 +548,53 @@ namespace olc
 		{
 		}
 
-		void Manager::Open(Menu* mo) 
-		{ 
-			Close(); 
-			panels.push_back(mo); 
+		void Manager::Open(Menu *mo)
+		{
+			Close();
+			panels.push_back(mo);
 		}
 
 		void Manager::Close()
 		{
-			panels.clear(); 
+			panels.clear();
 		}
 
-		void Manager::OnUp() 
-		{ 
-			if (!panels.empty()) panels.back()->OnUp(); 
+		void Manager::OnUp()
+		{
+			if (!panels.empty())
+				panels.back()->OnUp();
 		}
 
-		void Manager::OnDown() 
-		{ 
-			if (!panels.empty()) panels.back()->OnDown(); 
+		void Manager::OnDown()
+		{
+			if (!panels.empty())
+				panels.back()->OnDown();
 		}
 
 		void Manager::OnLeft()
-		{ 
-			if (!panels.empty()) panels.back()->OnLeft();
+		{
+			if (!panels.empty())
+				panels.back()->OnLeft();
 		}
 
 		void Manager::OnRight()
-		{ 
-			if (!panels.empty()) panels.back()->OnRight();
+		{
+			if (!panels.empty())
+				panels.back()->OnRight();
 		}
 
 		void Manager::OnBack()
 		{
-			if (!panels.empty()) panels.pop_back(); 
+			if (!panels.empty())
+				panels.pop_back();
 		}
 
-		Menu* Manager::OnConfirm()
+		Menu *Manager::OnConfirm()
 		{
-			if (panels.empty()) return nullptr;
+			if (panels.empty())
+				return nullptr;
 
-			Menu* next = panels.back()->OnConfirm();
+			Menu *next = panels.back()->OnConfirm();
 			if (next == panels.back())
 			{
 				if (panels.back()->GetSelectedItem()->Enabled())
@@ -560,12 +609,13 @@ namespace olc
 			return nullptr;
 		}
 
-		void Manager::Draw(olc::Sprite* sprGFX, olc::vi2d vScreenOffset)
+		void Manager::Draw(olc::Sprite *sprGFX, olc::vi2d vScreenOffset)
 		{
-			if (panels.empty()) return;
+			if (panels.empty())
+				return;
 
 			// Draw Visible Menu System
-			for (auto& p : panels)
+			for (auto &p : panels)
 			{
 				p->DrawSelf(*pge, sprGFX, vScreenOffset);
 				vScreenOffset += {10, 10};
@@ -574,12 +624,11 @@ namespace olc
 			// Draw Cursor
 			olc::Pixel::Mode currentPixelMode = pge->GetPixelMode();
 			pge->SetPixelMode(olc::Pixel::ALPHA);
-			pge->DrawPartialSprite(panels.back()->GetCursorPosition(), sprGFX, olc::vi2d(4, 0) * nPatch, { nPatch * 2, nPatch * 2 });
+			pge->DrawPartialSprite(panels.back()->GetCursorPosition(), sprGFX, olc::vi2d(4, 0) * nPatch, {nPatch * 2, nPatch * 2});
 			pge->SetPixelMode(currentPixelMode);
 		}
 	}
 };
-
 
 #endif
 #endif
