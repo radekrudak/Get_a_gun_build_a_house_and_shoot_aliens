@@ -64,7 +64,7 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         if (command != nullptr)
         {
             std::cout << "Item chosen: " << command->GetName() << " with id: " << command->GetID() << " In menu: ";
-            std::cout<<OlcPopUpMenu->GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu->GetSelectedItem()->GetID()<<std::endl;
+            std::cout<<OlcPopUpMenu.GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu.GetSelectedItem()->GetID()<<std::endl;
         }
     }
     MovePlayerWithColysionCheck(fElapsedTime, PlayerMoveVector.x, PlayerMoveVector.y);

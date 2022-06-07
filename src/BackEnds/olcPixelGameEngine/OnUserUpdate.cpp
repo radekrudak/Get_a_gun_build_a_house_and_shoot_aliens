@@ -84,8 +84,8 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         {
             if (EntityManager.Player.GetInventory().isEmpty() == false)
             {
-                OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
-                (*OlcPopUpMenu)["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
+                OlcPopUpMenu["Inventory"].DeleteAllChildren();
+                OlcPopUpMenu["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
                 int PlaceInInventory = 1;
                 for (const auto &i : EntityManager.Player.GetInventory())
                 {
@@ -94,19 +94,19 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
                         isFirstPass = false;
                         continue;
                     }
-                    (*OlcPopUpMenu)["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetID(PlaceInInventory);
+                    OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetID(PlaceInInventory);
                     PlaceInInventory++;
                 }
-                (*OlcPopUpMenu).Build();
-                olcPopUpManager.Open(&((*OlcPopUpMenu)["Inventory"]));
+                OlcPopUpMenu.Build();
+                olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
                 olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
             }
             else
             {
-                OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
-                (*OlcPopUpMenu)["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(1);
-                (*OlcPopUpMenu).Build();
-                olcPopUpManager.Open(&((*OlcPopUpMenu)["Inventory"]));
+                
+                OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(1);
+                OlcPopUpMenu.Build();
+                olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
                 olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
             }
         }
@@ -115,15 +115,15 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         {
             if (BuildManuAlreadyBuild == false)
             {
-                OlcPopUpMenu = std::make_unique<olc::popup::Menu>();
-                (*OlcPopUpMenu)["BuildableTileSelection"].SetTable(1, 2 /* EntityManager.Player.GetInventory().size() */).SetID(1);
+               
+                OlcPopUpMenu["BuildableTileSelection"].DeleteAllChildren() ;
                 int BuildableTileIndex = 0;
                 for (auto const &i : TileManager.GetBuildableTiles())
                 {
-                    (*OlcPopUpMenu)["BuildableTileSelection"][TileManager[i]->GetTileName()].SetID(BuildableTileIndex);
+                    OlcPopUpMenu["BuildableTileSelection"][TileManager[i]->GetTileName()].SetID(BuildableTileIndex);
                 }
-                (*OlcPopUpMenu).Build();
-                olcPopUpManager.Open(&((*OlcPopUpMenu)["BuildableTileSelection"]));
+                OlcPopUpMenu.Build();
+                olcPopUpManager.Open(&(OlcPopUpMenu["BuildableTileSelection"]));
                 BuildManuAlreadyBuild = true;
             }
             olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
@@ -197,7 +197,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         }
         if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
         {
-            olcPopUpManager.Open(&((*OlcPopUpMenu)["MainMenu"]));
+            olcPopUpManager.Open(&(OlcPopUpMenu["MainMenu"]));
             // olcPopUpManager.OnBack();
         }
         // std::cout<<OlcPopUpMenu->GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu->GetSelectedItem()->GetID()<<std::endl;
@@ -210,7 +210,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             ChosenOption = command->GetID();
             if (ChosenOption == 2)
             {
-                olcPopUpManager.Open(&((*OlcPopUpMenu)["Load Game"]));
+                olcPopUpManager.Open(&(OlcPopUpMenu["Load Game"]));
             }
         }
 

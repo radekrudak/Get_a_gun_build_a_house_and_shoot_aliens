@@ -59,7 +59,7 @@ struct sTextureManager
             }
         }
         //recursevly get all subdirectories in directory, and call LoadGraphics with path to each directory as argument
-        for (auto &p : std::filesystem::recursive_directory_iterator(s))
+        for (auto &p : std::filesystem::recursive_directory_iterator(path))
         {
             if (p.is_directory())
                 LoadGraphics(p.path().string());

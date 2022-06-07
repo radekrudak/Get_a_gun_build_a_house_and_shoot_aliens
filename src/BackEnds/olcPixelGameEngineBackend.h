@@ -14,7 +14,7 @@ class olcPixelGameEngineBackend : public olc::PixelGameEngine,public Game
     olc::Decal *dMoonAndSun = nullptr;
     olc::Sprite *sMT = nullptr;
 	olc::popup::Manager olcPopUpManager;
-	std::unique_ptr <olc::popup::Menu> OlcPopUpMenu;
+	olc::popup::Menu OlcPopUpMenu;
 
 
     public:
