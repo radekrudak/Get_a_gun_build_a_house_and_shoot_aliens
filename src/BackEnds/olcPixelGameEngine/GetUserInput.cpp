@@ -13,11 +13,21 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 
     if (GetKey(olc::Key::E).bPressed)
     {
-        UIManager.Flip(UIFlags::isPlayerInventoryDisplayed);
+        if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::INVENTORY)
+        {
+            UIManager.OpenWindow(WhichWindowIsOpen::NONE);
+        }
+        else
+            UIManager.OpenWindow(WhichWindowIsOpen::INVENTORY);
     }
     if (GetKey(olc::Key::Q).bPressed)
     {
-        UIManager.Flip(UIFlags::isPlayerTileToBuildSelectionDisplayed);
+        if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::BUILDABLE_TILES_SELECT)
+        {
+            UIManager.OpenWindow(WhichWindowIsOpen::NONE);
+        }
+        else
+            UIManager.OpenWindow(WhichWindowIsOpen::BUILDABLE_TILES_SELECT);
     }
     if (GetMouseWheel() > 0)
     {
@@ -31,8 +41,7 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
     olc::popup::Menu *command = nullptr;
 
     olc::vf2d PlayerMoveVector = {0, 0};
-    if (UIManager.Get(UIFlags::isPlayerInventoryDisplayed) == false &&
-        UIManager.Get(UIFlags::isPlayerTileToBuildSelectionDisplayed) == false)
+    if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::NONE)
     {
         if (GetKey(olc::Key::D).bHeld)
             PlayerMoveVector.x = 1;
@@ -57,14 +66,21 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         {
             command = olcPopUpManager.OnConfirm();
         }
-        if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
-        {
-            olcPopUpManager.OnBack();
-        }
+        // if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
+        // {
+        //     olcPopUpManager.OnBack();
+        // }
         if (command != nullptr)
         {
             std::cout << "Item chosen: " << command->GetName() << " with id: " << command->GetID() << " In menu: ";
-            std::cout<<OlcPopUpMenu.GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu.GetSelectedItem()->GetID()<<std::endl;
+            // UIManager.SetGUIInput(command->GetID() );
+            InputManager.SetGUIInput(command->GetID());
+            
+            std::cout << OlcPopUpMenu.GetSelectedItem()->GetName() << " " << OlcPopUpMenu.GetSelectedItem()->GetID() << std::endl;
+        }
+        else 
+        {
+            InputManager.SetGUIInput(GUIInput::NoInput);
         }
     }
     MovePlayerWithColysionCheck(fElapsedTime, PlayerMoveVector.x, PlayerMoveVector.y);

@@ -94,11 +94,12 @@ public:
 
 public:
     void GameUpdate(float fElapsedTime);
-    void MainMenu(int ChosenOption)
+
+    void MainMenu(GUIInput ChosenOption)
     {
         switch (ChosenOption)
         {
-        case 1:
+        case GUIInput::NewGame:
             NewGame();
             break;
         

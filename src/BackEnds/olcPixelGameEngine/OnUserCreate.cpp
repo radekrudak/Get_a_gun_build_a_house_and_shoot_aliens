@@ -29,17 +29,17 @@ bool olcPixelGameEngineBackend::OnUserCreate()
         dNight =      new olc::Decal (sNight);
         
         OlcPopUpMenu["MainMenu"].SetTable(1,2).SetID(0);
-       // OlcPopUpMenu["MainMenu"].SetID(0);
-        OlcPopUpMenu["MainMenu"]["New Game"].SetID(1);
-        OlcPopUpMenu["MainMenu"]["Load Game"].SetTable(1,1);
-        OlcPopUpMenu["MainMenu"]["Load Game"].SetID(2);
+        OlcPopUpMenu["Inventory"].SetID(1);
+        OlcPopUpMenu["BuildableTileSelection"].SetID(2);
+
+        OlcPopUpMenu["MainMenu"]["New Game"].SetID(static_cast<int>(GUIInput::NewGame));
+        OlcPopUpMenu["MainMenu"]["Load Game"].SetTable(1,1).SetID(static_cast<int>(GUIInput::LoadGame));
+
         OlcPopUpMenu["Load Game"].SetID(3);
         OlcPopUpMenu["Load Game"].SetTable(1,1);
         OlcPopUpMenu["Load Game"]["Feature not avalible yet"];
-          OlcPopUpMenu["BuildableTileSelection"].SetTable(1, 2 /* EntityManager.Player.GetInventory().size() */).SetID(1);
-        // OlcPopUpMenu["MainMenu"]["Load Game"].SetTable(1,2);
-        // OlcPopUpMenu["MainMenu"]["Load Game"]["Map1"].SetID(2);
-        // OlcPopUpMenu["MainMenu"]["Load Game"]["Map2"].SetID(3);
+        OlcPopUpMenu["BuildableTileSelection"].SetTable(1, 2).SetID(1);
+
         OlcPopUpMenu.Build();
         olcPopUpManager.Open( &(OlcPopUpMenu["MainMenu"]) );
         return true;

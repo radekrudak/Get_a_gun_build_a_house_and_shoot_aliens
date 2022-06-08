@@ -2,17 +2,19 @@
 
 void Game::GameUpdate(float fElapsedTime)
 {
+    if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::BUILDABLE_TILES_SELECT && InputManager.GetGUIInputInt() >= 0)
+    {
+        EntityManager.Player.SetIDofTileToBuild(
+            TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()]);
+    }
 
+    bool isMouseInReachDistance = (Distance(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(),
+                                            EntityManager.Player.GetX(), EntityManager.Player.GetY()) < EntityManager.Player.GetReachDistance());
 
+    bool IsMouseStillPointingAtTheSameTile = ((floor(InputManager.GetMouseWorldPosytionX()) == floor(InputManager.GetPreviousMouseWorldPosytionX())) &&
+                                              (floor(InputManager.GetMouseWorldPosytionY()) == floor(InputManager.GetPreviousMouseWorldPosytionY())));
 
-    bool isMouseInReachDistance = (Distance(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(), 
-                            EntityManager.Player.GetX(), EntityManager.Player.GetY()) < EntityManager.Player.GetReachDistance());
-
-    bool IsMouseStillPointingAtTheSameTile = ((floor(InputManager.GetMouseWorldPosytionX()) == floor(InputManager.GetPreviousMouseWorldPosytionX()))&&  
-                                                (floor(InputManager.GetMouseWorldPosytionY()) == floor(InputManager.GetPreviousMouseWorldPosytionY()))  ) ;
-
-    //std::cout<<isMouseInReachDistance<<" "<<IsMouseStillPointingAtTheSameTile<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<std::endl;
-
+    // std::cout<<isMouseInReachDistance<<" "<<IsMouseStillPointingAtTheSameTile<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<std::endl;
 
     if (InputManager[InputFlags::RightMouseButton])
     {
@@ -22,7 +24,7 @@ void Game::GameUpdate(float fElapsedTime)
                 ManagersManager.IsPlayerAbleToConstructTile() &&
                 ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY()), EntityManager.Player.GetIDofTileToBuild()))
             {
-                
+
                 UIManager.SetMouseText("Construction");
                 UIManager.SetProgressBar(EntityManager.Player.GetConstructionProgress());
 
@@ -45,7 +47,7 @@ void Game::GameUpdate(float fElapsedTime)
             }
         }
     }
-    
+
     // DeconstructionHandeling Code
     else if (InputManager[InputFlags::LeftMouseButton])
     {
@@ -82,5 +84,5 @@ void Game::GameUpdate(float fElapsedTime)
         UIManager.SetMouseText("");
         UIManager.SetProgressBar(0.0f);
     }
-   // std::cout<<std::endl;
+    // std::cout<<std::endl;
 }

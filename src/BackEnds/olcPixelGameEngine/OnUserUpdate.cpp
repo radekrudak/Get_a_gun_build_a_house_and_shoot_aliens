@@ -79,12 +79,13 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         static bool BuildManuAlreadyBuild = false;
 
         bool isFirstPass = true;
-
-        if (UIManager[UIFlags::isPlayerInventoryDisplayed])
+        switch (UIManager.GetWhichWindowIsOpen())
         {
+        case WhichWindowIsOpen::INVENTORY:
+            OlcPopUpMenu["Inventory"].DeleteAllChildren();
             if (EntityManager.Player.GetInventory().isEmpty() == false)
             {
-                OlcPopUpMenu["Inventory"].DeleteAllChildren();
+
                 OlcPopUpMenu["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
                 int PlaceInInventory = 1;
                 for (const auto &i : EntityManager.Player.GetInventory())
@@ -103,35 +104,39 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             }
             else
             {
-                
+
                 OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(1);
                 OlcPopUpMenu.Build();
                 olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
                 olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
             }
-        }
+            break;
 
-        else if (UIManager[UIFlags::isPlayerTileToBuildSelectionDisplayed])
-        {
+        case WhichWindowIsOpen::BUILDABLE_TILES_SELECT:
+
             if (BuildManuAlreadyBuild == false)
             {
-               
-                OlcPopUpMenu["BuildableTileSelection"].DeleteAllChildren() ;
+
+                OlcPopUpMenu["BuildableTileSelection"].DeleteAllChildren();
                 int BuildableTileIndex = 0;
                 for (auto const &i : TileManager.GetBuildableTiles())
                 {
                     OlcPopUpMenu["BuildableTileSelection"][TileManager[i]->GetTileName()].SetID(BuildableTileIndex);
+                    BuildableTileIndex++;
                 }
                 OlcPopUpMenu.Build();
                 olcPopUpManager.Open(&(OlcPopUpMenu["BuildableTileSelection"]));
                 BuildManuAlreadyBuild = true;
             }
             olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
-        }
-        if (UIManager[UIFlags::isPlayerTileToBuildSelectionDisplayed] == false)
-        {
+            break;
+
+        default:
+        case WhichWindowIsOpen::NONE:
             BuildManuAlreadyBuild = false;
+            break;
         }
+
         SetDrawTarget(lNight);
 
         Clear(olc::BLANK);
@@ -181,7 +186,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
     case WhichScreen::MAIN_MENU:
 
         // why is it done this strange way ? Because evry "normal" one failed
-        int ChosenOption = 0;
+        int ChosenOption = -1;
         olc::popup::Menu *command = nullptr;
         if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed)
             olcPopUpManager.OnUp();
@@ -200,7 +205,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             olcPopUpManager.Open(&(OlcPopUpMenu["MainMenu"]));
             // olcPopUpManager.OnBack();
         }
-        // std::cout<<OlcPopUpMenu->GetSelectedItem()->GetName()<<" "<<OlcPopUpMenu->GetSelectedItem()->GetID()<<std::endl;
 
         Clear(olc::GREY);
 
@@ -208,13 +212,13 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         if (command != nullptr)
         {
             ChosenOption = command->GetID();
-            if (ChosenOption == 2)
+            if (ChosenOption == static_cast<int>(GUIInput::LoadGame))
             {
                 olcPopUpManager.Open(&(OlcPopUpMenu["Load Game"]));
             }
         }
 
-        Game::MainMenu(ChosenOption);
+        Game::MainMenu(static_cast<GUIInput>(ChosenOption));
     }
     return true;
 }

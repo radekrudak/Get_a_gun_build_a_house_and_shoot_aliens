@@ -7,17 +7,41 @@ enum class InputFlags
     end
 
 };
-
+enum class GUIInput{
+    start=-1,
+    NoInput = start,
+    NewGame,
+    LoadGame,
+    end
+};
 class cInputManager : public cFlagManager<InputFlags>
 {
-private:
+private: 
     float m_MouseWorldPosytionX;
     float m_MouseWorldPosytionY;
     float m_PreviousMouseWorldPosytionX;
     float m_PreviousMouseWorldPosytionY;
-
+    GUIInput m_GUIInput;
 public:
 
+    void SetGUIInput(GUIInput val)
+    {
+        m_GUIInput = val;
+    }
+
+    void SetGUIInput(int val)
+    {
+        m_GUIInput = static_cast<GUIInput>(val);
+    }
+
+    auto GetGUIInput()
+    {
+        return m_GUIInput;
+    }
+    auto GetGUIInputInt()
+    {
+        return static_cast<int>(m_GUIInput);
+    }
     using cFlagManager::cFlagManager;
     auto GetMouseWorldPosytionX()
     {
