@@ -11,30 +11,33 @@ using json = nlohmann::json;
 
 struct sTileManager
 {
-    std::vector< std::unique_ptr<Tile> > vStaticTiles;
-    std::vector< std::unique_ptr<Tile> > vDynamicTiles;
+    std::vector<std::unique_ptr<Tile>> vTiles;
+    std::vector<std::unique_ptr<Tile>> vDynamicTiles;
     std::vector<int> vBuildableTiles;
-    std::map<std::string,int> TileNameMap;
+    std::map<std::string, int> TileNameMap;
 
+    sTileManager()
+    {
+        vDynamicTiles.resize(1);
+    }
     const auto &operator[](const int &i)
     {
-        if (i >=0)
-            return vStaticTiles[i];
-        else 
-            return vStaticTiles[i];
+        if (i >= 0)
+            return vTiles[i];
+        else
+            return vDynamicTiles[i*-1];
     }
 
     const auto &operator[](const std::string &i)
     {
         if (TileNameMap[i] >= 0)
-            return vStaticTiles[TileNameMap[i]];
-        else 
+            return vTiles[TileNameMap[i]];
+        else
             return vDynamicTiles[TileNameMap[i]];
     }
 
-
-    void LoadStaticTiles(std::map<std::string,int> TextureNameMap,std::map<std::string,int>ItemNameMap,std::string PathToTileFile = "configs/tiles.json")
-    { 
+    void LoadStaticTiles(std::map<std::string, int> TextureNameMap, std::map<std::string, int> ItemNameMap, std::string PathToTileFile = "configs/tiles.json")
+    {
         std::string JsonText;
         std::string line;
         std::ifstream JsonFile(PathToTileFile);
@@ -51,55 +54,72 @@ struct sTileManager
         for (const auto &item : ParsedJson.items())
         {
             // TODO: SOME ERROR CHECKING
-            TileNameMap[item.key()] = vStaticTiles.size();
-            
-            vStaticTiles.push_back(std::unique_ptr<Tile>( 
+            TileNameMap[item.key()] = vTiles.size();
+            if( !(item.value().contains("isDynamic")) || item.value()["isDynamic"] == false)
+                vTiles.push_back(std::unique_ptr<Tile>(
                     new Tile(TextureNameMap,
-                            vStaticTiles.size(),
-                            static_cast<std::string> (item.value().value("TextureName","TextureMissing")),
-                            static_cast <bool> (item.value().value("isColisive",false)),
-                            static_cast <PositionOnTileStack>(item.value().value("PositionOnTileStack",1)),
-                            item.key()                        
-                               )));
-            
+                            vTiles.size(),
+                            static_cast<std::string>(item.value().value("TextureName", "TextureMissing")),
+                            static_cast<bool>(item.value().value("isColisive", false)),
+                            static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
+                            item.key())));
+            else 
+                vTiles.push_back(
+                    std::unique_ptr<DynamicTile>(
+                    new DynamicTile(TextureNameMap,
+                            vTiles.size(),
+                            static_cast<std::string>(item.value().value("TextureName", "TextureMissing")),
+                            static_cast<bool>(item.value().value("isColisive", false)),
+                            static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
+                            item.key())) );
+            std::cout<<item.key()<<std::endl;
             if (item.value().contains("ItemsDroped"))
-                for (const auto &ItemsDrioped: item.value()["ItemsDroped"].items())
-                    vStaticTiles.back()->AddItemsDroped( ItemNameMap[ItemsDrioped.key()]  ,ItemsDrioped.value());
-            
-            if (item.value().contains("ItemsRequiredToConstruct"))
-                for (const auto &ItemsRequired: item.value()["ItemsRequiredToConstruct"].items())
-                    vStaticTiles.back()->AddItemsRequiredToConstruct( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
-            if (item.value().contains("ItemsRequiredToDeconstruct"))
-                for (const auto &ItemsRequired: item.value()["ItemsRequiredToDeconstruct"].items())
-                    vStaticTiles.back()->AddItemsRequiredToDeconstruct( ItemNameMap[ItemsRequired.key()]  ,ItemsRequired.value());
+                for (const auto &ItemsDrioped : item.value()["ItemsDroped"].items())
+                    vTiles.back()->AddItemsDroped(ItemNameMap[ItemsDrioped.key()], ItemsDrioped.value());
 
-        
-        
+            if (item.value().contains("ItemsRequiredToConstruct"))
+                for (const auto &ItemsRequired : item.value()["ItemsRequiredToConstruct"].items())
+                    vTiles.back()->AddItemsRequiredToConstruct(ItemNameMap[ItemsRequired.key()], ItemsRequired.value());
+
+            if (item.value().contains("ItemsRequiredToDeconstruct"))
+                for (const auto &ItemsRequired : item.value()["ItemsRequiredToDeconstruct"].items())
+                    vTiles.back()->AddItemsRequiredToDeconstruct(ItemNameMap[ItemsRequired.key()], ItemsRequired.value());
         }
-        std::cout<<"BuildableTiles:"<<std::endl;
-        for ( int i=0; i<vStaticTiles.size();i++)
+        std::cout << "BuildableTiles:" << std::endl;
+        for (int i = 0; i < vTiles.size(); i++)
         {
-            if(vStaticTiles[i]->GetItemsRequiredToConstruct().size() > 0 )
+            if (vTiles[i]->GetItemsRequiredToConstruct().size() > 0)
             {
                 vBuildableTiles.push_back(i);
-                std::cout<<i<<" "<<vStaticTiles[i]->GetTileName()<<std::endl;
+                std::cout << i << " " << vTiles[i]->GetTileName() << std::endl;
             }
         }
-
     }
 
     void ClearStaticTiles()
     {
-        vStaticTiles.clear();
+        vTiles.clear();
     }
     void ClearDynamicTiles()
     {
-        vStaticTiles.clear();
+        vTiles.clear();
     }
 
     const auto &GetBuildableTiles()
     {
         return vBuildableTiles;
     }
-
+    bool IsTileDynamic(int TileID)
+    {
+        return vTiles[TileID]->isDynamic();
+    }
+    auto GetNewDynamicTile(int TileTemplateID)
+    {
+        vDynamicTiles.push_back(std::unique_ptr<Tile>( new DynamicTile(*((DynamicTile*)vTiles[TileTemplateID].get()))));
+        return (vDynamicTiles.size()-1)*-1;
+    }
+    void DeleteDynamicTile(int TileID)
+    {   
+        vDynamicTiles[TileID*-1].reset(nullptr);
+    }
 };

@@ -1,5 +1,13 @@
 {
-
+    "PLANT":{
+        "isDynamic":true,
+        "TextureName":"WoodWall",
+        "PositionOnTileStack":2,
+        "isColisive":true,
+        "ItemsDroped":{"WOOD":5},
+        "ItemsRequiredToDeconstruct":{"0":0},
+        "ItemsRequiredToConstruct": {"WOOD":10}
+    },
     "GRASS":{
         "TextureName":"Grass",
         "PositionOnTileStack":0
@@ -26,7 +34,6 @@
         "ItemsRequiredToDeconstruct":{"0":0},
         "ItemsRequiredToConstruct": {"WOOD":10}
     },
-
     "NULL_TILE":{
         "TextureName":"TextureMissing"
     }

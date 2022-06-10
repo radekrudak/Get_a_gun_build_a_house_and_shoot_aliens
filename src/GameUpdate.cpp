@@ -6,6 +6,7 @@ void Game::GameUpdate(float fElapsedTime)
     {
         EntityManager.Player.SetIDofTileToBuild(
             TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()]);
+            std::cout<<"Selected tile to build: "<<(TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()])<<std::endl;;
     }
 
     bool isMouseInReachDistance = (Distance(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(),
@@ -13,9 +14,7 @@ void Game::GameUpdate(float fElapsedTime)
 
     bool IsMouseStillPointingAtTheSameTile = ((floor(InputManager.GetMouseWorldPosytionX()) == floor(InputManager.GetPreviousMouseWorldPosytionX())) &&
                                               (floor(InputManager.GetMouseWorldPosytionY()) == floor(InputManager.GetPreviousMouseWorldPosytionY())));
-
-    // std::cout<<isMouseInReachDistance<<" "<<IsMouseStillPointingAtTheSameTile<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<" "<<InputManager.GetPreviousMouseWorldPosytionX()<<std::endl;
-
+    // construction handling
     if (InputManager[InputFlags::RightMouseButton])
     {
         if (isMouseInReachDistance)

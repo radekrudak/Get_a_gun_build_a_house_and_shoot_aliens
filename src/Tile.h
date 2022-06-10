@@ -26,6 +26,10 @@ protected:
     std::string TextureName;
 
 public:
+    Tile()
+    {
+        ;
+    }
     Tile(const std::map<std::string, int> &TextureNameMap, int id = 0, std::string TextureName = "TextureMissing", bool colisive = false, PositionOnTileStack Zlvl = PositionOnTileStack::wall, std::string TileName = "NULL")
     {
         ID = id;
@@ -100,5 +104,39 @@ public:
     PositionOnTileStack GetZLevel()
     {
         return ZLevel;
+    }
+    virtual bool isDynamic()
+    {
+        return false;
+    }
+};
+class DynamicTile : public Tile
+{
+    using Tile::Tile;
+
+public:
+    DynamicTile(const std::map<std::string, int> &TextureNameMap, int id = 0, std::string TextureName = "TextureMissing", bool colisive = false, PositionOnTileStack Zlvl = PositionOnTileStack::wall, std::string TileName = "NULL")
+    {
+        // Tile(TextureNameMap,  id , TextureName ,  colisive, Zlvl,  TileName );
+        ID = id;
+        isColide = colisive;
+        ZLevel = Zlvl;
+        TextureID = TextureNameMap.at(TextureName);
+        Name = TileName;
+    }
+    DynamicTile(DynamicTile &TileTemplate)
+    {
+        ID = TileTemplate.ID;
+        isColide = TileTemplate.isColide;
+        ZLevel = TileTemplate.ZLevel;
+        TextureID = TileTemplate.TextureID;
+        Name = TileTemplate.Name;
+        vItemsDroped = TileTemplate.vItemsDroped;
+        vItemsRequiredToConstruct = TileTemplate.vItemsRequiredToConstruct;
+        vItemsRequiredToDeconstruct = TileTemplate.vItemsRequiredToDeconstruct;
+    }
+    virtual bool isDynamic()
+    {
+        return true;
     }
 };

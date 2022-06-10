@@ -66,11 +66,17 @@ public:
     {
         int DeconstructedTile = GetTileStackAt(x, y).back();
         ManagersManager->PlayerDeconstructedTile(DeconstructedTile);
+        if( DeconstructedTile <0 )
+            ManagersManager->GetTileManager()->DeleteDynamicTile(DeconstructedTile);
         GetTileStackAt(x, y).pop_back();
     }
     void ConstructTileAtTopOf(int x, int y, int TileID)
     {
-
-        GetTileStackAt(x, y).push_back(TileID);
+        if( ManagersManager->GetTileManager()->IsTileDynamic(TileID))
+        {
+            GetTileStackAt(x, y).push_back(ManagersManager->GetTileManager()->GetNewDynamicTile(TileID));
+        }
+        else
+            GetTileStackAt(x, y).push_back(TileID);
     }
 };

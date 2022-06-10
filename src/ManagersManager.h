@@ -5,6 +5,7 @@
 #include "managers/EntityManager.h"
 #include "managers/UIManager.h"
 #include "managers/InputManager.h"
+
 class cManagersManager
 {
 
@@ -106,5 +107,9 @@ public:
     std::string GetItemUserVisibleName(int ItemID)
     {
         return (*ItemManager)[ItemID]->GetUserVisibleName();
+    }
+    auto GetTileManager()
+    {
+        return TileManager;
     }
 };
