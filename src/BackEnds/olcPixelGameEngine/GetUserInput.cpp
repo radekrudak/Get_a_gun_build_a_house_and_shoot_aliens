@@ -10,7 +10,10 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
     {
         UIManager.Flip(UIFlags::isStatsDis);
     }
-
+    if (GetKey(olc::Key::F2).bPressed)
+    {
+        TileManager.UpdateDynamicTiles();
+    }
     if (GetKey(olc::Key::E).bPressed)
     {
         if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::INVENTORY)

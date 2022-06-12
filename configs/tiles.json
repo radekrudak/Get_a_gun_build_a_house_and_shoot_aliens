@@ -1,12 +1,14 @@
 {
     "PLANT":{
         "isDynamic":true,
-        "TextureName":"WoodWall",
+        "Type":"PLANT",
+        "TextureName":["Plant0","Plant1","Plant2","Plant3"],
         "PositionOnTileStack":2,
         "isColisive":true,
-        "ItemsDroped":{"WOOD":5},
+        "ItemsDroped":{"ALIEN_WHEAT":5},
         "ItemsRequiredToDeconstruct":{"0":0},
-        "ItemsRequiredToConstruct": {"WOOD":10}
+        "ItemsRequiredToConstruct": {"WOOD":10},
+        "TimeToGrow":5
     },
     "GRASS":{
         "TextureName":"Grass",
@@ -33,9 +35,6 @@
         "ItemsDroped":{"WOOD":5},
         "ItemsRequiredToDeconstruct":{"0":0},
         "ItemsRequiredToConstruct": {"WOOD":10}
-    },
-    "NULL_TILE":{
-        "TextureName":"TextureMissing"
     }
 
 }

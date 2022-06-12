@@ -32,9 +32,22 @@ struct sItemManager
             JsonText.append(line);
             JsonText.append("\r\n");
         }
-
-        // parse and serialize JSON
+                // parse and serialize JSON
         json ParsedJson = json::parse(JsonText);
+
+
+        //push back null item as element with index 0
+        ItemNameMap["NULL_ITEM"]=0;
+        vItems.push_back( 
+                std::unique_ptr<Item>( 
+                    new Item(TextureNameMap,
+                             "TextureMissing",
+                             "You shouldn't see that !",
+                             "NULL_ITEM"
+
+
+            )));
+
 
         for (auto i : ParsedJson.items())
         {

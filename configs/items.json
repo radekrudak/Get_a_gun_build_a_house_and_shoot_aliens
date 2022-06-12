@@ -1,13 +1,15 @@
 {
-    "NULL_ITEM":{
-        "UserVisibleName":"U shouldn't see that !",
-        "TextureName":"TextureMissing",
-        "Type":"NULL"
-    },
+
   
     "WOOD":{
         "UserVisibleName":"wood",
         "TextureName":"WoodAlpha",
+        "Type":"NULL"
+    },
+    "ALIEN_WHEAT":
+    {
+        "UserVisibleName":"Alien Wheat",
+        "TextureName":"TextureMissing",
         "Type":"NULL"
     }
 

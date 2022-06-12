@@ -25,7 +25,7 @@ struct sTileManager
         if (i >= 0)
             return vTiles[i];
         else
-            return vDynamicTiles[i*-1];
+            return vDynamicTiles[i * -1];
     }
 
     const auto &operator[](const std::string &i)
@@ -51,28 +51,47 @@ struct sTileManager
         // parse and serialize JSON
         json ParsedJson = json::parse(JsonText);
 
+        if (vTiles.empty())
+            vTiles.push_back(std::unique_ptr<Tile>(new Tile(TextureNameMap,0)));
+        else    
+        {
+            vTiles[0].reset(new Tile(TextureNameMap,0));
+        }
+
         for (const auto &item : ParsedJson.items())
         {
             // TODO: SOME ERROR CHECKING
             TileNameMap[item.key()] = vTiles.size();
-            if( !(item.value().contains("isDynamic")) || item.value()["isDynamic"] == false)
+            if (!(item.value().contains("isDynamic")) || item.value()["isDynamic"] == false)
                 vTiles.push_back(std::unique_ptr<Tile>(
                     new Tile(TextureNameMap,
-                            vTiles.size(),
-                            static_cast<std::string>(item.value().value("TextureName", "TextureMissing")),
-                            static_cast<bool>(item.value().value("isColisive", false)),
-                            static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
-                            item.key())));
-            else 
-                vTiles.push_back(
-                    std::unique_ptr<DynamicTile>(
-                    new DynamicTile(TextureNameMap,
-                            vTiles.size(),
-                            static_cast<std::string>(item.value().value("TextureName", "TextureMissing")),
-                            static_cast<bool>(item.value().value("isColisive", false)),
-                            static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
-                            item.key())) );
-            std::cout<<item.key()<<std::endl;
+                             vTiles.size(),
+                             static_cast<std::string>(item.value().value("TextureName", "TextureMissing")),
+                             static_cast<bool>(item.value().value("isColisive", false)),
+                             static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
+                             item.key())));
+            else
+            {
+                std::string type = item.value().value("Type", "NULL");
+
+                if (type == "PLANT")
+                {
+
+                    vTiles.push_back(
+                        std::unique_ptr<PlantTile>(
+                            new PlantTile(TextureNameMap,
+                                          vTiles.size(),
+                                          static_cast<std::vector<std::string>>(item.value().value("TextureName", std::vector<std::string>{"TextureMissing"})),
+                                          static_cast<bool>(item.value().value("isColisive", false)),
+                                          static_cast<PositionOnTileStack>(item.value().value("PositionOnTileStack", 1)),
+                                          item.key(),
+                                          item.value().value("TimeToGrow", 6)
+                                          )));
+                    
+                }
+
+            }
+            std::cout << item.key() << std::endl;
             if (item.value().contains("ItemsDroped"))
                 for (const auto &ItemsDrioped : item.value()["ItemsDroped"].items())
                     vTiles.back()->AddItemsDroped(ItemNameMap[ItemsDrioped.key()], ItemsDrioped.value());
@@ -96,7 +115,8 @@ struct sTileManager
         }
     }
 
-    void ClearStaticTiles()
+    void
+    ClearStaticTiles()
     {
         vTiles.clear();
     }
@@ -115,11 +135,29 @@ struct sTileManager
     }
     auto GetNewDynamicTile(int TileTemplateID)
     {
-        vDynamicTiles.push_back(std::unique_ptr<Tile>( new DynamicTile(*((DynamicTile*)vTiles[TileTemplateID].get()))));
-        return (vDynamicTiles.size()-1)*-1;
+        auto TileType = vTiles[TileTemplateID]->GetType();
+        if ( TileType == "DYNAMIC_TYLE")
+        {
+            vDynamicTiles.push_back(std::unique_ptr<Tile>(new DynamicTile(*((DynamicTile *)vTiles[TileTemplateID].get()))));
+        }
+        else if (TileType == "PLANT_TILE")
+        {
+            vDynamicTiles.push_back(std::unique_ptr<Tile>(new PlantTile(*((PlantTile *)vTiles[TileTemplateID].get()))));
+        }
+        return (vDynamicTiles.size() - 1) * -1;
     }
     void DeleteDynamicTile(int TileID)
-    {   
-        vDynamicTiles[TileID*-1].reset(nullptr);
+    {
+        vDynamicTiles[TileID * -1].reset(nullptr);
+    }
+
+    void UpdateDynamicTiles()
+    {
+
+        for (const auto &i : vDynamicTiles)
+        {
+            if (i != nullptr)
+                i->Update();
+        }
     }
 };
