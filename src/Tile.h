@@ -2,6 +2,7 @@
 #include "Item.h"
 #include <string>
 #include <map>
+#include <vector>
 enum class PositionOnTileStack
 {
     dirt = 0,

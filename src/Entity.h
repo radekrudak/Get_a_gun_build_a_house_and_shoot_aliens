@@ -179,10 +179,17 @@ public:
         return Health;
     }
 
+    virtual void SetHealth(float val)
+    {
+       Health = val; 
+    }
+
+
     virtual float GetSpeed()
     {
         return Speed;
     }
+    
     virtual void SetSpeed(float s = 0.0f)
     {
         Speed = s;
@@ -195,6 +202,8 @@ public:
     {
          ReachDistance = val;
     }
+    
+
 };
 
 class Enemy : public Character
