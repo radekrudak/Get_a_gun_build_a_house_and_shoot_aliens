@@ -10,7 +10,7 @@
 #include "ManagersManager.h"
 
 
-// to do:
+//TODO:
 // Enemies
 // shooting
 // health
