@@ -12,6 +12,11 @@ endif
 
 
 default: GAG
+dr : debug
+	./GAG
+d: debug
+debug:
+		make all MODE=DEBUG -j4
 
 all: clean
 	mkdir obj -p

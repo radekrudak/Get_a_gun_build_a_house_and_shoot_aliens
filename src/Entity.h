@@ -229,8 +229,8 @@ public:
 
     inline void SyncCameraWithPlayer(int ScreenWidth, int ScreenHeight, int TileSize = 16)
     {
-        CameraX = GetX() - (ScreenWidth / 2) / TileSize;
-        CameraY = GetY() - (ScreenHeight / 2) / TileSize;
+        CameraX = GetX() - (static_cast<float>(ScreenWidth) / 2) / TileSize;
+        CameraY = GetY() - (static_cast<float>(ScreenHeight)/ 2) / TileSize;
     }
     auto GetCameraX()
     {

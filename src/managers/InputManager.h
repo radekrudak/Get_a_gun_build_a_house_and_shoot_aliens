@@ -1,4 +1,5 @@
 #include "FlagManager.h"
+#include <cstdint>
 enum class InputFlags
 {
     start = -1,
@@ -22,6 +23,7 @@ private:
     float m_PreviousMouseWorldPosytionX;
     float m_PreviousMouseWorldPosytionY;
     GUIInput m_GUIInput;
+    int m_GUIInputArgument;
 public:
 
     void SetGUIInput(GUIInput val)
@@ -66,5 +68,13 @@ public:
 
         m_MouseWorldPosytionX = X;
         m_MouseWorldPosytionY = Y;
+    }
+    auto GetGUIInputArgumet()
+    {
+        return m_GUIInputArgument;
+    }
+    void SetGUIInputArgument(int val)
+    {
+        m_GUIInputArgument = val;
     }
 };

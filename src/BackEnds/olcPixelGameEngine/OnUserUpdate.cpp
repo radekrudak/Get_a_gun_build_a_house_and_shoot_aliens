@@ -20,16 +20,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         GameUpdate(fElapsedTime);
         EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(), ScreenHeight(), TileSize);
 
-        if (fSeconds > fSecondsInDay)
-        {
-
-            // FindPath(olc::vf2d(fCameraX+1,fCameraY+1), olc::vf2d(fPlayerX,fPlayerY),vNodeMap,vEnemies[vEnemies.size()-1]->Path,vTileMap,FinishdEarly);
-
-            fSeconds = 0.0;
-            isNight = !isNight;
-        }
-
-        fSeconds += fElapsedTime;
 
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
@@ -70,11 +60,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
             DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
         }
-        float ClockScale = 4.0f;
-
-        DrawRotatedDecal(olc::vf2d(ScreenWidth() - sMoonAndSun->width / 2 + 5, sMoonAndSun->height * ClockScale),
-                         dMoonAndSun, isNight ? fSeconds / fSecondsInDay * PI : fSeconds / fSecondsInDay * PI + PI,
-                         olc::vf2d(sMoonAndSun->width / 2.0f, sMoonAndSun->height / 2.0f), olc::vf2d(ClockScale, ClockScale));
 
         static bool BuildManuAlreadyBuild = false;
 
@@ -95,7 +80,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
                         isFirstPass = false;
                         continue;
                     }
-                    OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetID(PlaceInInventory);
+                    OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetTable(1,1).SetID(PlaceInInventory<<4);
                     PlaceInInventory++;
                 }
                 OlcPopUpMenu.Build();
@@ -105,7 +90,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             else
             {
 
-                OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(1);
+                OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(0);
                 OlcPopUpMenu.Build();
                 olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
                 olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});

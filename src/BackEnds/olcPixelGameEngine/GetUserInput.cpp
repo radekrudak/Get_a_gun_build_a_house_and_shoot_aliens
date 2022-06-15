@@ -1,5 +1,5 @@
-
 #include "../olcPixelGameEngineBackend.h"
+#include <cstdint>
 
 void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 {
@@ -77,9 +77,10 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         {
             std::cout << "Item chosen: " << command->GetName() << " with id: " << command->GetID() << " In menu: ";
             // UIManager.SetGUIInput(command->GetID() );
-            InputManager.SetGUIInput(command->GetID());
-            
+            InputManager.SetGUIInput( command->GetID() & 0xf ); // get first nibble (half byte) of command's id
+            InputManager.SetGUIInputArgument(command->GetID() >> 4); // delete first nibble (half byte) of command's id        
             std::cout << OlcPopUpMenu.GetSelectedItem()->GetName() << " " << OlcPopUpMenu.GetSelectedItem()->GetID() << std::endl;
+            std::cout << InputManager.GetGUIInputInt()<<"("<< InputManager.GetGUIInputArgumet() <<")"<<std::endl;
         }
         else 
         {
