@@ -1,6 +1,5 @@
 {
-    "PLANT":{
-        "isDynamic":true,
+    "PLANT":{ "isDynamic":true,
         "Type":"PLANT",
         "TextureName":["Plant0","Plant1","Plant2","Plant3"],
         "PositionOnTileStack":2,

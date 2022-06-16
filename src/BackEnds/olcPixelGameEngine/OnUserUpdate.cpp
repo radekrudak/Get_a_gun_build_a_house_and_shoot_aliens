@@ -3,8 +3,10 @@
 bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
 
+    GetUserInput(fElapsedTime);
     switch (UIManager.GetUIMode())
     {
+        
     case WhichScreen::GAMEPLAY:
     {
         // enabling layers
@@ -12,11 +14,8 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EnableLayer(lGround, true);
         EnableLayer(lNight, true);
 
-        PreviousSecond = floor(fSeconds);
         Clear(olc::BLANK);
-        // it copy all the code in Controls.h and paste it here (in Controls.h i store input handeling code)
-        //#include "Controls.h"
-        GetUserInput(fElapsedTime);
+
         GameUpdate(fElapsedTime);
         EntityManager.Player.SyncCameraWithPlayer(ScreenWidth(), ScreenHeight(), TileSize);
 
@@ -60,46 +59,63 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
             DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
         }
-
-        static bool BuildManuAlreadyBuild = false;
+        
+        static auto PreviousWindowOpen = UIManager.GetWhichWindowIsOpen();
+        
+        bool RebuildMenu = (PreviousWindowOpen != UIManager.GetWhichWindowIsOpen());
+        
+        PreviousWindowOpen = UIManager.GetWhichWindowIsOpen();
 
         bool isFirstPass = true;
         switch (UIManager.GetWhichWindowIsOpen())
         {
         case WhichWindowIsOpen::INVENTORY:
+            if (RebuildMenu)
+            {
+            
             OlcPopUpMenu["Inventory"].DeleteAllChildren();
-            if (EntityManager.Player.GetInventory().isEmpty() == false)
-            {
-
-                OlcPopUpMenu["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
-                int PlaceInInventory = 1;
-                for (const auto &i : EntityManager.Player.GetInventory())
+                if (EntityManager.Player.GetInventory().isEmpty() == false)
                 {
-                    if (isFirstPass)
-                    {
-                        isFirstPass = false;
-                        continue;
-                    }
-                    OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetTable(1,1).SetID(PlaceInInventory<<4);
-                    PlaceInInventory++;
-                }
-                OlcPopUpMenu.Build();
-                olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
-                olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
-            }
-            else
-            {
 
-                OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(0);
-                OlcPopUpMenu.Build();
-                olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
-                olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+                    OlcPopUpMenu["Inventory"].SetTable(1, EntityManager.Player.GetInventory().size() - 1);
+                    int PlaceInInventory = 1;
+                    for (const auto &i : EntityManager.Player.GetInventory())
+                    {
+                        if (isFirstPass)
+                        {
+                            isFirstPass = false;
+                            continue;
+                        }
+                        int TableSize =0;
+                        OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)].SetTable(1,1).SetID(PlaceInInventory<<4);
+                        if (ItemManager[i.ItemID]->IsFood())
+                        {
+                            TableSize++;
+                            OlcPopUpMenu["Inventory"][ManagersManager.GetItemUserVisibleName(i.ItemID) + " x" + std::to_string(i.Quantity)
+                                ].SetTable(1,TableSize)["Eat"].SetID((PlaceInInventory<<4)+static_cast<int>(GUIInput::Eat));
+                        }        
+                        PlaceInInventory++;
+                    }
+                    OlcPopUpMenu.Build();
+                    olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
+                    olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+                }
+                else
+                {
+
+                    OlcPopUpMenu["Inventory"].SetTable(1, 1)["No Items in inventory"].SetID(0);
+                    OlcPopUpMenu.Build();
+                    olcPopUpManager.Open(&(OlcPopUpMenu["Inventory"]));
+                    olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+                }
             }
-            break;
+
+                olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
+                break;
 
         case WhichWindowIsOpen::BUILDABLE_TILES_SELECT:
 
-            if (BuildManuAlreadyBuild == false)
+            if (RebuildMenu)
             {
 
                 OlcPopUpMenu["BuildableTileSelection"].DeleteAllChildren();
@@ -111,22 +127,18 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
                 }
                 OlcPopUpMenu.Build();
                 olcPopUpManager.Open(&(OlcPopUpMenu["BuildableTileSelection"]));
-                BuildManuAlreadyBuild = true;
             }
             olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
             break;
 
         default:
         case WhichWindowIsOpen::NONE:
-            BuildManuAlreadyBuild = false;
             break;
         }
 
         SetDrawTarget(lNight);
 
         Clear(olc::BLANK);
-        if (isNight)
-            DrawDecal(olc::vf2d(0, 0), dNight, olc::vf2d(1.0f, 1.0f), olc::PixelF(1.0f, 1.0f, 1.0f, 0.25f));
 
         SetDrawTarget(nullptr);
         if (EntityManager.Player.GetHealth() < 0.0f)
@@ -170,40 +182,10 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
     break;
     case WhichScreen::MAIN_MENU:
 
-        // why is it done this strange way ? Because evry "normal" one failed
-        int ChosenOption = -1;
-        olc::popup::Menu *command = nullptr;
-        if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed)
-            olcPopUpManager.OnUp();
-        if (GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed)
-            olcPopUpManager.OnDown();
-        if (GetKey(olc::Key::LEFT).bPressed)
-            olcPopUpManager.OnLeft();
-        if (GetKey(olc::Key::RIGHT).bPressed)
-            olcPopUpManager.OnRight();
-        if (GetKey(olc::Key::SPACE).bPressed || GetKey(olc::Key::ENTER).bPressed)
-        {
-            command = olcPopUpManager.OnConfirm();
-        }
-        if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
-        {
-            olcPopUpManager.Open(&(OlcPopUpMenu["MainMenu"]));
-            // olcPopUpManager.OnBack();
-        }
-
         Clear(olc::GREY);
 
         olcPopUpManager.Draw(Game::TextureManager.GetSprite("PopUpMenu").get(), {30, 30});
-        if (command != nullptr)
-        {
-            ChosenOption = command->GetID();
-            if (ChosenOption == static_cast<int>(GUIInput::LoadGame))
-            {
-                olcPopUpManager.Open(&(OlcPopUpMenu["Load Game"]));
-            }
-        }
-
-        Game::MainMenu(static_cast<GUIInput>(ChosenOption));
+        Game::MainMenu();
     }
     return true;
 }

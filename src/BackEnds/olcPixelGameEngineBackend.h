@@ -5,6 +5,11 @@
 #include "olcPixelGameEngine/olcPGEX_PopUpMenu.h"
 class olcPixelGameEngineBackend : public olc::PixelGameEngine,public Game
 {
+    ////////////////////// layers
+    int lGround;
+    int lPlayer;
+    int lNight;
+
 
     //////////////////////////// Sprites
 

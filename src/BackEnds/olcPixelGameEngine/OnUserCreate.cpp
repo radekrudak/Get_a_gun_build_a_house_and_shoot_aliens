@@ -42,6 +42,9 @@ bool olcPixelGameEngineBackend::OnUserCreate()
 
         OlcPopUpMenu.Build();
         olcPopUpManager.Open( &(OlcPopUpMenu["MainMenu"]) );
+
+        UIManager.OpenWindow(WhichWindowIsOpen::MAIN_MENU);
+
         return true;
 
 

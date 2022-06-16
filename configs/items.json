@@ -10,8 +10,9 @@
     {
         "UserVisibleName":"Alien Wheat",
         "TextureName":"TextureMissing",
-        "Type":"NULL"
+        "Type":"NULL",
+        "Eat":{"Health":5,"Hunger":0}, 
+        "Comment":"If player ate this istem add 5 heath and 0 hunger"
+        
     }
-
-
 }

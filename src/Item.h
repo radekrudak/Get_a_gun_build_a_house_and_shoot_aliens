@@ -7,20 +7,25 @@ class Item
 {
 
 protected:
-    std::string Type = "GenericItem";
-    std::string UserVisibleName = "NULL";
-    std::string IdentifyingName = "NULL";
+    std::string m_Type = "GenericItem";
+    std::string m_UserVisibleName = "NULL";
+    std::string m_IdentifyingName = "NULL";
     
-    int ID = 0;
-    int TextureID = 0;
-    std::string TextureName;
+    int m_ID = 0;
+    int m_TextureID = 0;
+    std::string m_TextureName;
 public:
+    Item()
+    {
+        ;
+    }
+    
     Item(const std::map<std::string, int> &TextureNameMap, std::string tn = "black", std::string uvn = "NULL", std::string im ="NULL" )
     {
-        TextureName = tn;
-        TextureID = TextureNameMap.at(TextureName);
-        UserVisibleName = uvn;
-        IdentifyingName = im;
+        m_TextureName = tn;
+        m_TextureID = TextureNameMap.at(m_TextureName);
+        m_UserVisibleName = uvn;
+        m_IdentifyingName = im;
     }
 
     virtual int GetDamage()
@@ -29,27 +34,59 @@ public:
     }
     int GetTextureID()
     {
-        return TextureID;
+        return m_TextureID;
     }
 
     auto GetType()
     {
-        return Type;
+        return m_Type;
     }
     auto GetUserVisibleName()
     {
-        return UserVisibleName;
+        return m_UserVisibleName;
     }
 
     auto GetIdentifyingName()
     {
 
-        return IdentifyingName;
+        return m_IdentifyingName;
+    }
+    virtual bool IsFood()
+    {
+        return false;
+    }
+    virtual int GetHealthGainedAfterConsuption()
+    {
+        return 0;
+    }
+};
+
+class Food : public Item
+{
+    using Item::Item;    
+    
+    int m_HealthGained =0;
+    int m_HungerEreased =0;
+
+    public:
+
+    void SetFoodSpecyficStats(int Health, int Hunger )
+    {
+        m_HealthGained = Health;
+        m_HungerEreased = Hunger;
+    }
+
+    virtual int GetHealthGainedAfterConsuption() override
+    {
+        return m_HealthGained;
+    }
+
+    virtual bool IsFood() override
+    {
+        return true;
     }
 
 };
-
-
 
 
 class Gun : public Item

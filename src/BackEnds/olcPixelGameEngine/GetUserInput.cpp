@@ -32,14 +32,6 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
         else
             UIManager.OpenWindow(WhichWindowIsOpen::BUILDABLE_TILES_SELECT);
     }
-    if (GetMouseWheel() > 0)
-    {
-        fTest += 1 * fElapsedTime;
-    }
-    if (GetMouseWheel() < 0)
-    {
-        fTest -= 1 * fElapsedTime;
-    }
 
     olc::popup::Menu *command = nullptr;
 

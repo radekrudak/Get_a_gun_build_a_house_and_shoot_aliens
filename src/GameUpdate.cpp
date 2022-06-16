@@ -2,7 +2,11 @@
 
 void Game::GameUpdate(float fElapsedTime)
 {
-    if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::BUILDABLE_TILES_SELECT && InputManager.GetGUIInputInt() >= 0)
+    if (InputManager.GetGUIInput() == GUIInput::Eat)
+    {
+        ;
+    }
+        if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::BUILDABLE_TILES_SELECT && InputManager.GetGUIInputInt() >= 0)
     {
         EntityManager.Player.SetIDofTileToBuild(
             TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()]);

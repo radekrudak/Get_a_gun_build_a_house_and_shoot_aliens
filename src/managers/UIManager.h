@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "FlagManager.h"
 enum class UIFlags{
 
@@ -13,7 +14,8 @@ enum class UIFlags{
 enum class WhichWindowIsOpen{
     NONE,
     INVENTORY,
-    BUILDABLE_TILES_SELECT
+    BUILDABLE_TILES_SELECT,
+    MAIN_MENU
 };
 
 

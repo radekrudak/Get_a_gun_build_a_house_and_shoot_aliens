@@ -37,6 +37,8 @@ struct sItemManager
 
 
         //push back null item as element with index 0
+       if (vItems.size() == 0)
+       {
         ItemNameMap["NULL_ITEM"]=0;
         vItems.push_back( 
                 std::unique_ptr<Item>( 
@@ -47,21 +49,35 @@ struct sItemManager
 
 
             )));
-
+        }
 
         for (auto i : ParsedJson.items())
         {
             // TODO: SOME ERROR CHECKING
             std::cout << i.key() << " " << i.value() << std::endl;
+            
             ItemNameMap[i.key()] = vItems.size();
-            vItems.push_back(std::unique_ptr<Item>( 
+            auto item = i.value();
+            if (item.contains("Eat"))
+            {
+                std::unique_ptr<Food> food (new Food( TextureNameMap,
+                             i.value().value("TextureName","TextureMissing"),
+                             i.value().value("UserVisibleName","You shouldn't see that !"),
+                             i.key()
+                             ));
+                food->SetFoodSpecyficStats(item["Eat"].value("Health",0), item["Eat"].value("Hunger",0) );
+                vItems.push_back(std::unique_ptr<Food>(food.release() )); 
+            }
+            else
+                vItems.push_back(std::unique_ptr<Item>( 
+                        
                     new Item(TextureNameMap,
                              i.value().value("TextureName","TextureMissing"),
                              i.value().value("UserVisibleName","You shouldn't see that !"),
                              i.key()
 
 
-            )));
+                )));
             
         }
         for(const auto &i: vItems)

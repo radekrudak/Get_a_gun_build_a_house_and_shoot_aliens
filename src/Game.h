@@ -38,44 +38,12 @@ public:
     {
         return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
-
     
 
-    int NodeMapSize = 128;
-
     double fTileScale = 1.0f;
-    float fTest;
-    friend Enemy;
     /// BOOLS
-    bool isEnd = false;
-    bool isNight = false;
-    bool isNightStartSequence = false;
     bool isDebugMode = false;
         
-    /// player's Stuff
-
-
-
-    //std::string MouseText;
-  
-
-    // Game Clocks stuff;
-    double fSeconds = 0;
-    int PreviousSecond = 0;
-    double fSecondsInDay = 20.;
-
-
-    ////////////////////// layers
-    int lGround;
-    int lPlayer;
-    int lNight;
-
-
-    // ARRAYS/vectors
-    // std::vector<std::vector<std::vector<Tile *>>> vTileMap;
-
-    // body is at the end of this file, this fun. goes through vector and chechs if one of the tile is colisive if yes returnes true other wise false
-    // bool isColisivTileInIt(std::vector<Tile *> vTiless);
 
     // managers
     sTextureManager TextureManager;
@@ -95,11 +63,14 @@ public:
 public:
     void GameUpdate(float fElapsedTime);
 
-    void MainMenu(GUIInput ChosenOption)
+    void MainMenu()
     {
-        switch (ChosenOption)
+        
+        switch (InputManager.GetGUIInput())
         {
         case GUIInput::NewGame:
+            InputManager.SetGUIInput(GUIInput::start);
+            InputManager.SetGUIInputArgument(0);
             NewGame();
             break;
         
@@ -122,9 +93,10 @@ public:
         EntityManager.Player.SetY((float)MapSize/2+0.5f);
         EntityManager.Player.SetAngle(64.5f);
         EntityManager.Player.ClearInventory();
-        fSeconds = 0;
+        
 
         World.GenerateTerrain(TileManager.TileNameMap,MapSize);
+        UIManager.OpenWindow(WhichWindowIsOpen::NONE);
         UIManager.SetUIMode(WhichScreen::GAMEPLAY);
     }
 

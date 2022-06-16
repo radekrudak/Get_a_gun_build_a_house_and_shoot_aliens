@@ -12,6 +12,7 @@ enum class GUIInput{
     start=-1,
     NoInput = start,
     NewGame,
+    Eat=NewGame,
     LoadGame,
     end
 };
@@ -22,7 +23,7 @@ private:
     float m_MouseWorldPosytionY;
     float m_PreviousMouseWorldPosytionX;
     float m_PreviousMouseWorldPosytionY;
-    GUIInput m_GUIInput;
+    GUIInput m_GUIInput =GUIInput::NoInput;
     int m_GUIInputArgument;
 public:
 
