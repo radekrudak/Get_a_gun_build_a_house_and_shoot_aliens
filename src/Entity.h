@@ -105,16 +105,16 @@ public:
 class Character : public Entity
 {
 
-    float Speed = 0;
-    float Health = 0.0f;
-    float ConstructionProgress = 0.0f;
-    float DeconstructionProgress = 0.0f;
-    float ReachDistance =4.0f;
+    float m_Speed = 0;
+    float m_Health = 0.0f;
+    float m_ConstructionProgress = 0.0f;
+    float m_DeconstructionProgress = 0.0f;
+    float m_ReachDistance =4.0f;
 
 
-    float LevelofConstructionProgression = 1.0f; // how much second construction will take
-    float LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
-    cInventory Inventory;
+    float m_LevelofConstructionProgression = 1.0f; // how much second construction will take
+    float m_LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
+    cInventory m_Inventory;
 
 public:
 
@@ -123,28 +123,32 @@ public:
         cInventory TempInventory;
         GetInventory() = TempInventory;
     }
-
+    
+    void AddHealth(int health)
+    {
+        m_Health+=health;
+    }
     void ClearInventory()
     {
-        Inventory.clear();
+        m_Inventory.clear();
     }
 
     cInventory &GetInventory()
     {
-        return Inventory;
+        return m_Inventory;
     }
     float GetConstructionProgress()
     {
-        return ConstructionProgress;
+        return m_ConstructionProgress;
     }
     float GetDeconstructionProgress()
     {
-        return DeconstructionProgress;
+        return m_DeconstructionProgress;
     }
     bool ProgressConstruction(float fElapsedTime)
     {
-        ConstructionProgress += LevelofConstructionProgression * fElapsedTime;
-        if (ConstructionProgress >= 1.0f)
+        m_ConstructionProgress += m_LevelofConstructionProgression * fElapsedTime;
+        if (m_ConstructionProgress >= 1.0f)
         {
             ResetConstructionProgress();
             return true;
@@ -155,8 +159,8 @@ public:
 
     bool ProgressDeconstruction(float fElapsedTime)
     {
-        DeconstructionProgress += LevelofDeconstructionProgression * fElapsedTime;
-        if (DeconstructionProgress >= 1.0f)
+        m_DeconstructionProgress += m_LevelofDeconstructionProgression * fElapsedTime;
+        if (m_DeconstructionProgress >= 1.0f)
         {
             ResetDeconstructionProgress();
             return true;
@@ -167,40 +171,40 @@ public:
 
     void ResetConstructionProgress()
     {
-        ConstructionProgress = 0.0f;
+        m_ConstructionProgress = 0.0f;
     }
     void ResetDeconstructionProgress()
     {
-        DeconstructionProgress = 0.0f;
+        m_DeconstructionProgress = 0.0f;
     }
 
     virtual float GetHealth()
     {
-        return Health;
+        return m_Health;
     }
 
     virtual void SetHealth(float val)
     {
-       Health = val; 
+       m_Health = val; 
     }
 
 
     virtual float GetSpeed()
     {
-        return Speed;
+        return m_Speed;
     }
     
     virtual void SetSpeed(float s = 0.0f)
     {
-        Speed = s;
+        m_Speed = s;
     }
     auto GetReachDistance()
     {
-        return ReachDistance;
+        return m_ReachDistance;
     }
     void GetReachDistance(float val)
     {
-         ReachDistance = val;
+         m_ReachDistance = val;
     }
     
 

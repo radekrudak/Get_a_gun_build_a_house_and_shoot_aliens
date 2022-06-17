@@ -4,8 +4,21 @@ void Game::GameUpdate(float fElapsedTime)
 {
     if (InputManager.GetGUIInput() == GUIInput::Eat)
     {
-        ;
+        int  EatenItemID = EntityManager.Player.GetInventory()[
+            InputManager.GetGUIInputArgumet()
+        ].ItemID;
+        if(ItemManager[EatenItemID]->IsFood())
+        {
+            EntityManager.Player.GetInventory().DecreaseItemQuantity({EatenItemID,1});
+            EntityManager.Player.AddHealth(ItemManager[EatenItemID]->GetHealthGainedAfterConsuption());
+            std::cout<<"EatenItem"<<ItemManager[EatenItemID]->GetIdentifyingName()<<std::endl;
+            UIManager.OpenWindow(WhichWindowIsOpen::NONE);
+            InputManager.SetGUIInput(GUIInput::NoInput);
+            InputManager.SetGUIInputArgument(0);
+        }
+         
     }
+
         if (UIManager.GetWhichWindowIsOpen() == WhichWindowIsOpen::BUILDABLE_TILES_SELECT && InputManager.GetGUIInputInt() >= 0)
     {
         EntityManager.Player.SetIDofTileToBuild(
