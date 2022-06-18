@@ -24,7 +24,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         Clear(olc::CYAN);
 
         /// Tile Drawing
-        // y and x are cordinates of decals of tiles (-player cor offset) on screen, xx and yy are coordinates of position on tile map.
         int intCameraX = static_cast<int>(EntityManager.Player.GetCameraX());
         int intCameraY = static_cast<int>(EntityManager.Player.GetCameraY());
         for (int y = intCameraY; y < intCameraY + ScreenHeight() / TileSize + TileSize; y++)
@@ -48,7 +47,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         // UI Drawing
         SetDrawTarget(nullptr);
         Clear(olc::BLANK);
-
+// Progess bar drawing  
         constexpr int PROGRESS_BARR_W = 5;
         constexpr int PROGRESS_BARR_OFFSET = -30;
         constexpr int CHAR_SIZE_ON_SCREEN = 8;
@@ -59,7 +58,17 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             FillRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetPRogressBar() * UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::RED);
             DrawRect({GetMouseX() - (int)UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN / 2, GetMouseY() + PROGRESS_BARR_OFFSET}, {static_cast<int>(UIManager.GetMouseText().size() * CHAR_SIZE_ON_SCREEN), PROGRESS_BARR_W}, olc::BLACK);
         }
+        //Health bar drawing 
+        constexpr int HealthBarHeight = 10 ;
+        constexpr int HealthBarOffsetFromScreen = 2;
+        constexpr int HealthBarMaxWidth = 20;
         
+        int HealthBarWidth = static_cast<float>(EntityManager.Player.GetHealth())/static_cast<float>(EntityManager.Player.GetMaxHealth())*HealthBarMaxWidth;
+
+        FillRect({HealthBarOffsetFromScreen,ScreenHeight()-HealthBarHeight-HealthBarOffsetFromScreen},{HealthBarWidth,HealthBarHeight},olc::RED); 
+        DrawRect({HealthBarOffsetFromScreen,ScreenHeight()-HealthBarHeight-HealthBarOffsetFromScreen},{HealthBarMaxWidth,HealthBarHeight},olc::BLACK);
+        
+        // Windows drawing  
         static auto PreviousWindowOpen = UIManager.GetWhichWindowIsOpen();
         
         bool RebuildMenu = (PreviousWindowOpen != UIManager.GetWhichWindowIsOpen());
@@ -172,7 +181,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             else
                 DrawString(0, 90, "R2: Empty");
 
-            DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), GetMouseX() / TileSize + EntityManager.Player.GetX(), GetMouseY() / TileSize + EntityManager.Player.GetY())));
+            DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), static_cast<float>(GetMouseX()) / TileSize + EntityManager.Player.GetX(), static_cast<float>(GetMouseY()) / TileSize + EntityManager.Player.GetY())));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
             DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(UIManager.GetUIMode())));
         }
@@ -181,6 +190,27 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
     }
     break;
     case WhichScreen::MAIN_MENU:
+
+        // why is it done this strange way ? Because evry "normal" one failed
+        int ChosenOption = -1;
+        olc::popup::Menu *command = nullptr;
+        if (GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed)
+            olcPopUpManager.OnUp();
+        if (GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed)
+            olcPopUpManager.OnDown();
+        if (GetKey(olc::Key::LEFT).bPressed)
+            olcPopUpManager.OnLeft();
+        if (GetKey(olc::Key::RIGHT).bPressed)
+            olcPopUpManager.OnRight();
+        if (GetKey(olc::Key::SPACE).bPressed || GetKey(olc::Key::ENTER).bPressed)
+        {
+            command = olcPopUpManager.OnConfirm();
+        }
+        if (GetKey(olc::Key::Z).bPressed || GetKey(olc::Key::ESCAPE).bPressed)
+        {
+            olcPopUpManager.Open(&(OlcPopUpMenu["MainMenu"]));
+            // olcPopUpManager.OnBack();
+        }
 
         Clear(olc::GREY);
 

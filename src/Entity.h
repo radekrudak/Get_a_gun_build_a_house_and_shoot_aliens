@@ -76,13 +76,21 @@ public:
     {
         return 0;
     }
-    virtual float GetHealth()
+    virtual int GetHealth()
+    {
+        return 0;
+    }
+    virtual int GetMaxHealth ()
     {
         return 0;
     }
     virtual float GetSpeed()
     {
         return 0.0f;
+    }
+    virtual void SetHealth(int health)
+    {
+        ;
     }
     virtual void GetSpeed(float s = 0.0f)
     {
@@ -106,7 +114,8 @@ class Character : public Entity
 {
 
     float m_Speed = 0;
-    float m_Health = 0.0f;
+    int m_MaxHealth =10;
+    int m_Health = m_MaxHealth;
     float m_ConstructionProgress = 0.0f;
     float m_DeconstructionProgress = 0.0f;
     float m_ReachDistance =4.0f;
@@ -126,7 +135,8 @@ public:
     
     void AddHealth(int health)
     {
-        m_Health+=health;
+        if(m_Health+health <= m_MaxHealth)
+            m_Health+=health;
     }
     void ClearInventory()
     {
@@ -178,18 +188,22 @@ public:
         m_DeconstructionProgress = 0.0f;
     }
 
-    virtual float GetHealth()
+    virtual int GetHealth() override
     {
         return m_Health;
     }
 
-    virtual void SetHealth(float val)
+    virtual void SetHealth(int val) override
     {
        m_Health = val; 
     }
 
+    virtual int GetMaxHealth() override
+    {
+        return m_MaxHealth;
+    }
 
-    virtual float GetSpeed()
+    virtual float GetSpeed() override
     {
         return m_Speed;
     }

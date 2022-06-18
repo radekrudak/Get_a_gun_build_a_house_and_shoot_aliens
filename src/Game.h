@@ -93,7 +93,7 @@ public:
         EntityManager.Player.SetY((float)MapSize/2+0.5f);
         EntityManager.Player.SetAngle(64.5f);
         EntityManager.Player.ClearInventory();
-        
+    
 
         World.GenerateTerrain(TileManager.TileNameMap,MapSize);
         UIManager.OpenWindow(WhichWindowIsOpen::NONE);
