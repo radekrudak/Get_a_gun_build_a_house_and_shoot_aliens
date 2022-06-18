@@ -12,6 +12,7 @@ void Game::GameUpdate(float fElapsedTime)
             EntityManager.Player.GetInventory().DecreaseItemQuantity({EatenItemID,1});
             EntityManager.Player.AddHealth(ItemManager[EatenItemID]->GetHealthGainedAfterConsuption());
             std::cout<<"EatenItem"<<ItemManager[EatenItemID]->GetIdentifyingName()<<std::endl;
+
             UIManager.OpenWindow(WhichWindowIsOpen::NONE);
             InputManager.SetGUIInput(GUIInput::NoInput);
             InputManager.SetGUIInputArgument(0);
@@ -23,7 +24,11 @@ void Game::GameUpdate(float fElapsedTime)
     {
         EntityManager.Player.SetIDofTileToBuild(
             TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()]);
-            std::cout<<"Selected tile to build: "<<(TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()])<<std::endl;;
+            std::cout<<"Selected tile to build: "<<(TileManager.GetBuildableTiles()[InputManager.GetGUIInputInt()])<<std::endl;
+
+            UIManager.OpenWindow(WhichWindowIsOpen::NONE);
+            InputManager.SetGUIInput(GUIInput::NoInput);
+            InputManager.SetGUIInputArgument(0);
     }
 
     bool isMouseInReachDistance = (Distance(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(),
