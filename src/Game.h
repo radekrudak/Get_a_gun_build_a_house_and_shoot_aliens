@@ -2,7 +2,8 @@
 
 #include <mutex>
 #include <vector>
-
+#include <ctime>
+#include <climits>
 #include "Tile.h"
 #include "Entity.h"
 #include "Item.h"
@@ -83,7 +84,7 @@ public:
         // Add "generating terrain" screen
 
         // seting player(and time) values to default
-         int MapSize = 1024;
+         int MapSize = int(pow(2,20));
         //std::string temp_input;
         //std::cin >> MapSize;
         //MapSize = stoi(temp_input);
@@ -93,7 +94,7 @@ public:
         EntityManager.Player.ClearInventory();
     
 
-        World.GenerateTerrain(TileManager.TileNameMap,MapSize);
+        World.GenerateNewWorld(TileManager.TileNameMap,MapSize,time(NULL));
         UIManager.OpenWindow(WhichWindowIsOpen::NONE);
         UIManager.SetUIMode(WhichScreen::GAMEPLAY);
     }
@@ -106,7 +107,7 @@ public:
             ); 
         if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
         {
-            EntityManager.Player.MoveBack();
+        //    EntityManager.Player.MoveBack();
         }
     }
 

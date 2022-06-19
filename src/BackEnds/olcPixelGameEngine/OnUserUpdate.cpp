@@ -1,7 +1,8 @@
 #include "../olcPixelGameEngineBackend.h"
-
+#include <csignal>
 bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
+
 
     GetUserInput(fElapsedTime);
     switch (UIManager.GetUIMode())
@@ -23,11 +24,15 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         SetDrawTarget(lGround);
         Clear(olc::CYAN);
 
+
+        // if(EntityManager.Player.GetCameraX() <= 1)
+            // std::raise(SIGINT);
+
         /// Tile Drawing
         int intCameraX = static_cast<int>(EntityManager.Player.GetCameraX());
         int intCameraY = static_cast<int>(EntityManager.Player.GetCameraY());
-        for (int y = intCameraY; y < intCameraY + ScreenHeight() / TileSize + TileSize; y++)
-            for (int x = intCameraX; x < intCameraX + ScreenWidth() / TileSize + TileSize; x++)
+        for (int y = intCameraY-1; y < intCameraY + ScreenHeight() / TileSize + TileSize; y++)
+            for (int x = intCameraX-1; x < intCameraX + ScreenWidth() / TileSize + TileSize; x++)
                 for (auto &i : World.GetTileStackAt(x, y))
                 {
 
