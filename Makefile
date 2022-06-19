@@ -1,8 +1,11 @@
 MAKEFLAGS += --jobs=4
 CC = g++
-ARGS =  -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17 -I./ThirdPartyFiles
+ARGS =  -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17 
 OBJ_DIR = obj/
 MODE = RELEASE
+BACKEND = OLC_PIXEL_GAME_ENGINE
+
+ARGS += -DBACKEND=$(BACKEND)
 
 ifeq ($(MODE),DEBUG)
 	ARGS += -g
@@ -10,8 +13,8 @@ else
 	ARGS += -O2
 endif
 
+default:GAG
 
-default: GAG
 dr : debug
 	./GAG
 d: debug

@@ -1,28 +1,39 @@
 #pragma once
+#include <cstddef>
+#include <functional>
 #include <vector>
 #include <utility>
 #include <array>
 #include <unordered_map>
 #include "ManagersManager.h"
+#include "Math.h"
 
-/*
 constexpr int CHUNK_SIZE =256;
-
+class Hasher
+{
+    public:
+        size_t operator()(const VecInt2d &vec) const
+        {
+            size_t hash = static_cast<size_t>(vec.x) | (static_cast<size_t>(vec.y) <<(8*4));
+            
+            return hash; 
+        }
+};
 
 class cChunkPool{
-    std::unordered_map<  std::pair<int,int>, 
+    std::unordered_map<  VecInt2d, 
         // 2d array of std::vector of size CHUNK_SIZE
-            std::array< std::array< std::vector<int>, CHUNK_SIZE >, CHUNK_SIZE>> m_Chunks;
+            std::array< std::array< std::vector<int>, CHUNK_SIZE >, CHUNK_SIZE>,Hasher,std::equal_to<VecInt2d>> m_Chunks;
     std::vector<int> GetTileStackAt(int x, int y)
     {
         int ChunkX = x/CHUNK_SIZE;
         int ChunkY = y/CHUNK_SIZE;
         int TileStackX = x%CHUNK_SIZE;
         int TileStackY = y&CHUNK_SIZE;
-        return m_Chunks[std::pair<int,int>(ChunkX,ChunkY)][TileStackX][TileStackY];
+        return m_Chunks[{ChunkX,ChunkY}][TileStackX][TileStackY];
     }
 };
-*/
+
 
 class cWorld
 {

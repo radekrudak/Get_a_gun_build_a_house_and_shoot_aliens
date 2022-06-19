@@ -3,7 +3,6 @@
 #include "BackEnds/olcPixelGameEngineBackend.h"
 int main()
 {
-   
 #if defined ( __clang__)
     std::cout << "Compiled with Clang C++ compiler (clang++)" ;
 #elif defined ( __GNUC__)
