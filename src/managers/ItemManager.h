@@ -5,7 +5,7 @@
 #include <fstream>
 
 #include "../Item.h"
-#include "../nlohmann/json.hpp"
+#include "../ThirdPartyFiles/nlohmann/json.hpp"
 using json = nlohmann::json;
 
 struct sItemManager

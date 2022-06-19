@@ -1,8 +1,33 @@
 #pragma once
 #include <vector>
+#include <utility>
+#include <array>
+#include <unordered_map>
 #include "ManagersManager.h"
+
+/*
+constexpr int CHUNK_SIZE =256;
+
+
+class cChunkPool{
+    std::unordered_map<  std::pair<int,int>, 
+        // 2d array of std::vector of size CHUNK_SIZE
+            std::array< std::array< std::vector<int>, CHUNK_SIZE >, CHUNK_SIZE>> m_Chunks;
+    std::vector<int> GetTileStackAt(int x, int y)
+    {
+        int ChunkX = x/CHUNK_SIZE;
+        int ChunkY = y/CHUNK_SIZE;
+        int TileStackX = x%CHUNK_SIZE;
+        int TileStackY = y&CHUNK_SIZE;
+        return m_Chunks[std::pair<int,int>(ChunkX,ChunkY)][TileStackX][TileStackY];
+    }
+};
+*/
+
 class cWorld
 {
+    
+    // std::unordered_map<std::pair<int,itn>
     std::vector<std::vector<std::vector<int>>> vTerrain;
     std::vector<int> DefaultTileStack;
     int TileSize = 16;

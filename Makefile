@@ -1,6 +1,6 @@
 MAKEFLAGS += --jobs=4
 CC = g++
-ARGS =  -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17
+ARGS =  -lX11 -lGL -lpthread -lpng -lstdc++fs -std=c++17 -I./ThirdPartyFiles
 OBJ_DIR = obj/
 MODE = RELEASE
 

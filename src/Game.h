@@ -12,18 +12,16 @@
 
 //TODO:
 // Enemies
+//      Path finding 
+//      Damage
 // shooting
 // health
 // Hud:
 // HP
-// Resourses
 // ammo ?
 // items
 // cleaning up code
 // crafting
-// inventory
-// and freaking more
-// tile selected to build
 
 using TZpos = PositionOnTileStack;
 

@@ -1,8 +1,8 @@
 
 #pragma once
 #include "../Game.h"
-#include "olcPixelGameEngine/olcPixelGameEngine.h"
-#include "olcPixelGameEngine/olcPGEX_PopUpMenu.h"
+#include "../ThirdPartyFiles/olcPixelGameEngine/olcPixelGameEngine.h"
+#include "../ThirdPartyFiles/olcPixelGameEngine/olcPGEX_PopUpMenu.h"
 class olcPixelGameEngineBackend : public olc::PixelGameEngine,public Game
 {
     ////////////////////// layers
