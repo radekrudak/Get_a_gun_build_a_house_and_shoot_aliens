@@ -135,7 +135,11 @@ public:
     
     void AddHealth(int health)
     {
-        if(m_Health+health <= m_MaxHealth)
+       if (m_Health+health >= m_MaxHealth)
+       {
+           m_Health = m_MaxHealth;
+       }
+       else 
             m_Health+=health;
     }
     void ClearInventory()
