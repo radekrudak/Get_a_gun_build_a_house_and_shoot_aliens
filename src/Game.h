@@ -107,7 +107,7 @@ public:
             ); 
         if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
         {
-        //    EntityManager.Player.MoveBack();
+           EntityManager.Player.MoveBack();
         }
     }
 
