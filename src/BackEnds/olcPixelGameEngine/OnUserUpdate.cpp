@@ -33,7 +33,7 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         int intCameraY = static_cast<int>(EntityManager.Player.GetCameraY());
         for (int y = intCameraY-1; y < intCameraY + ScreenHeight() / TileSize + TileSize; y++)
             for (int x = intCameraX-1; x < intCameraX + ScreenWidth() / TileSize + TileSize; x++)
-                for (auto &i : World.GetTileStackAt(x, y))
+                for (auto &i : WorldManager.GetTileStack(x, y))
                 {
 
                     DrawDecal(WorldPosToScreenPos(x, y), TextureManager[TileManager[i]->GetTextureID()]);

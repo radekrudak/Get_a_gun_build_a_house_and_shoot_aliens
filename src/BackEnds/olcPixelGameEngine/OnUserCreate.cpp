@@ -9,12 +9,11 @@ bool olcPixelGameEngineBackend::OnUserCreate()
 
         Clear(olc::GREY);
         //vTileMap.reserve(MapSize);
-        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager);
+        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager,&WorldManager);
 
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
         TileManager.LoadStaticTiles(TextureManager.TextureNameMap,ItemManager.ItemNameMap);
-        World.ManagersManager = &ManagersManager;
 
         lNight = CreateLayer();
         lPlayer = CreateLayer();

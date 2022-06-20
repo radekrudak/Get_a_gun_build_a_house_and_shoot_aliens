@@ -33,10 +33,7 @@ class Game //: public olc::PixelGameEngine
 {
 
 public:
-    float Distance(float x1, float y1, float x2, float y2)
-    {
-        return sqrtf((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    }
+
     
 
     double fTileScale = 1.0f;
@@ -53,7 +50,7 @@ public:
     cInputManager InputManager;
     cUIManager UIManager;
 
-    cWorld World;
+    cWorldManager WorldManager;
 
 
     int ElapsedFrames = 0;
@@ -94,7 +91,7 @@ public:
         EntityManager.Player.ClearInventory();
     
 
-        World.GenerateNewWorld(TileManager.TileNameMap,MapSize,time(NULL));
+        WorldManager.GenerateNewWorld(TileManager.TileNameMap,MapSize,time(NULL));
         UIManager.OpenWindow(WhichWindowIsOpen::NONE);
         UIManager.SetUIMode(WhichScreen::GAMEPLAY);
     }
@@ -105,7 +102,7 @@ public:
             EntityManager.Player.GetSpeed()*fElapsedTime*VecX,
             EntityManager.Player.GetSpeed()*fElapsedTime*VecY
             ); 
-        if (World.isTileStackColisiveAt(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
+        if (ManagersManager.isTileStackColisive(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
         {
            EntityManager.Player.MoveBack();
         }

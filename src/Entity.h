@@ -1,9 +1,10 @@
 #pragma once
+// #include "ManagersManager.h"
+// #include "Game.h"
 #include "olcPixelGameEngine.h"
 #include "Item.h"
 #include <math.h>
 
-static const int MapSize = 1024;
 
 enum class EntityTypes
 {
@@ -24,6 +25,10 @@ protected:
 
 public:
     EntityTypes EntityType = EntityTypes::GenericEntity;
+    // virtual void Update(const cManagersManager &ManagersManager)
+    // {
+    //     ;
+    // }
     virtual void Move(float VecX, float VecY)
     {
         PreviousX = x;
@@ -42,11 +47,11 @@ public:
         x = xx;
         y = yy;
     }
-    auto GetX()
+    auto GetX() const
     {
         return x;
     }
-    auto GetY()
+    auto GetY() const
     {
         return y;
     }
@@ -230,14 +235,19 @@ public:
 
 class Enemy : public Character
 {
-    float DeconstructionProgress = 0.0f;
 
 public:
+   // virtual void Update(const Game *GameInstance) override
+   // {
+   //      auto PlayerX = GameInstance->EntityManager.Player.GetX();
+   //      auto PlayerY = GameInstance->EntityManager.Player.GetY();
+   //      
+   // }
 };
 
 class cPlayer : public Character
 {
-    float DeconstructionProgress = 0.0f;
+    // float DeconstructionProgress = 0.0f;
     float GatheringProgress = 0.0f;
     float CameraX = 0;
     float CameraY = 0;

@@ -5,7 +5,8 @@
 #include "managers/EntityManager.h"
 #include "managers/UIManager.h"
 #include "managers/InputManager.h"
-
+#include "managers/WorldManager.h"
+#include <vector>
 class cManagersManager
 {
 
@@ -14,19 +15,21 @@ class cManagersManager
     sTextureManager *TextureManager;
     sEntityManager *EntityManager;
     cUIManager *UIManager;
+    cWorldManager *WorldManager;
 
 public:
     cManagersManager(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr) : ItemManager(IM), TileManager(TiM), TextureManager(TeM)
     {
         ;
     }
-    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr, cUIManager *UIM = nullptr)
+    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr, cUIManager *UIM = nullptr, cWorldManager *WM = nullptr)
     {
         ItemManager = IM;
         TileManager = TiM;
         TextureManager = TeM;
         EntityManager = EnM;
         UIManager = UIM;
+        WorldManager = WM;
     }
 
     auto GetItemDecal(int ItemID)
@@ -42,9 +45,9 @@ public:
     {
         return (*TileManager)[TileId]->isColisive();
     }
-    auto isTileStackColisive(std::vector<int> TileStack)
+    auto isTileStackColisive(int x, int y )
     {
-
+        auto TileStack = WorldManager->GetTileStack(x, y);
         for (const auto &i : TileStack)
             if ((*TileManager)[i]->isColisive())
                 return true;
@@ -52,6 +55,14 @@ public:
         return false;
     }
 
+    auto isTileStackColisive(std::vector<int> TileStack )
+    {
+        for (const auto &i : TileStack)
+            if ((*TileManager)[i]->isColisive())
+                return true;
+
+        return false;
+    }
     bool IsPlayerAbleToDeconstructTile(int TileID)
     {
         auto vItems = (*TileManager)[TileID].get()->GetItemsRequiredToDeconstruct();
@@ -112,4 +123,29 @@ public:
     {
         return TileManager;
     }
+
+    bool isPlayerAbleToDeconstructTopTileAt(int x, int y)
+    {
+        return IsPlayerAbleToDeconstructTile(WorldManager->GetTileStack(x, y).back());
+    }
+
+    void DeconstructTopTileAt(int x, int y)
+    {
+        int DeconstructedTile = WorldManager->GetTileStack(x, y).back();
+        PlayerDeconstructedTile(DeconstructedTile);
+        if( DeconstructedTile <0 )
+            GetTileManager()->DeleteDynamicTile(DeconstructedTile);
+        WorldManager->GetTileStack(x, y).pop_back();
+    }
+    void ConstructTileAtTopOf(int x, int y, int TileID)
+    {
+        if( TileManager->IsTileDynamic(TileID))
+        {
+            WorldManager->GetTileStack(x, y).push_back(TileManager->GetNewDynamicTile(TileID));
+        }
+        else
+            WorldManager->GetTileStack(x, y).push_back(TileID);
+    }
+
+
 };

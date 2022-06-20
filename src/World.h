@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <csignal>
 #include <random>
-#include "ManagersManager.h"
 #include "Math.h"
 
 constexpr int CHUNK_SIZE =256;
@@ -26,7 +25,7 @@ class Hasher
         }
 };
 
-class cChunkPool{
+class cWorld{
     std::unordered_map<  VecInt2d, Chunk,Hasher,std::equal_to<VecInt2d>> m_Chunks;
     uint64_t m_Seed;
      std::map<std::string,int> m_TileNameMap;
@@ -38,7 +37,7 @@ class cChunkPool{
         m_Seed = Seed;
 
     }
-    cChunkPool& operator =(const cChunkPool& NewChunk)
+    cWorld& operator =(const cWorld& NewChunk)
     {
         m_Seed = NewChunk.m_Seed;
         m_TileNameMap =  NewChunk.m_TileNameMap;
@@ -46,7 +45,7 @@ class cChunkPool{
         return *this;
 
     }
-    cChunkPool(std::map<std::string,int> TileNameMap = std::map<std::string,int>(),int Seed = 1) : m_Seed(Seed),m_TileNameMap(TileNameMap)
+    cWorld(std::map<std::string,int> TileNameMap = std::map<std::string,int>(),int Seed = 1) : m_Seed(Seed),m_TileNameMap(TileNameMap)
     {}
     inline void LoadChunk(int x,int y)
     {
@@ -102,71 +101,73 @@ class cChunkPool{
     }
 };
 
-
-class cWorld
-{
-    
-    // std::unordered_map<std::pair<int,itn>
-    cChunkPool m_Chunks;
-    std::vector<std::vector<std::vector<int>>> vTerrain;
-    std::vector<int> DefaultTileStack;
-    int TileSize = 16;
-    int LenghtOfSide = 1024;
-
-public:
-    cManagersManager *ManagersManager;
-
-    std::vector<int> &GetTileStackAt(int x, int y)
-    {
-       if (0 <= x && x < LenghtOfSide && 0 <= y && y < LenghtOfSide)
-            
-            return  m_Chunks.GetTileStackAt(x,y);
-       else
-            return DefaultTileStack;
-    }
-
-    void GenerateNewWorld(std::map<std::string, int> &TileNameMap, int LenghtOfSideOfTerrain = 1024, int Seed = 1)
-    {
-        m_Chunks = cChunkPool(TileNameMap,Seed);
-        LenghtOfSide = LenghtOfSideOfTerrain;
-        
-        DefaultTileStack.resize(1, TileNameMap["GRASS"]);
-    }
-    bool isTileStackColisiveAt(int x, int y)
-    {
-        if (0 < x && x < LenghtOfSide && 0 < y && y < LenghtOfSide)
-            return ManagersManager->isTileStackColisive(GetTileStackAt(x, y));
-        else
-            return true;
-    }
-    auto GetTileSize()
-    {
-        return TileSize;
-    }
-
-    void SetTileSize(int TS)
-    {
-        TileSize = TS;
-    }
-    bool isPlayerAbleToDeconstructTopTileAt(int x, int y)
-    {
-        return ManagersManager->IsPlayerAbleToDeconstructTile(GetTileStackAt(x, y).back());
-    }
-    void DeconstructTopTileAt(int x, int y)
-    {
-        int DeconstructedTile = GetTileStackAt(x, y).back();
-        ManagersManager->PlayerDeconstructedTile(DeconstructedTile);
-        if( DeconstructedTile <0 )
-            ManagersManager->GetTileManager()->DeleteDynamicTile(DeconstructedTile);
-        GetTileStackAt(x, y).pop_back();
-    }
-    void ConstructTileAtTopOf(int x, int y, int TileID)
-    {
-        if( ManagersManager->GetTileManager()->IsTileDynamic(TileID))
-        {
-            GetTileStackAt(x, y).push_back(ManagersManager->GetTileManager()->GetNewDynamicTile(TileID));
-        }
-        else
-            GetTileStackAt(x, y).push_back(TileID);
-    }
-};
+//
+// class cWorld
+// {
+//     
+//     // std::unordered_map<std::pair<int,itn>
+//     cChunkPool m_Chunks;
+//     std::vector<int> DefaultTileStack;
+//     int TileSize = 16;
+//     int LenghtOfSide = 1024;
+//
+// public:
+//     // cManagersManager *ManagersManager;
+//
+//     std::vector<int> &GetTileStackAt(int x, int y)
+//     {
+//        if (0 <= x && x < LenghtOfSide && 0 <= y && y < LenghtOfSide)
+//             
+//             return  m_Chunks.GetTileStackAt(x,y);
+//        else
+//             return DefaultTileStack;
+//     }
+//
+//     void GenerateNewWorld(std::map<std::string, int> &TileNameMap, int LenghtOfSideOfTerrain = 1024, int Seed = 1)
+//     {
+//         m_Chunks = cChunkPool(TileNameMap,Seed);
+//         LenghtOfSide = LenghtOfSideOfTerrain;
+//         
+//         DefaultTileStack.resize(1, TileNameMap["GRASS"]);
+//     }
+//
+//     auto GetTileSize()
+//     {
+//         return TileSize;
+//     }
+//
+//     void SetTileSize(int TS)
+//     {
+//         TileSize = TS;
+//     }
+//
+//
+//     // bool isTileStackColisiveAt(int x, int y)
+//     // {
+//     //     if (0 < x && x < LenghtOfSide && 0 < y && y < LenghtOfSide)
+//     //         return ManagersManager->isTileStackColisive(GetTileStackAt(x, y));
+//     //     else
+//     //         return true;
+//     // }
+//     // bool isPlayerAbleToDeconstructTopTileAt(int x, int y)
+//     // {
+//     //     return ManagersManager->IsPlayerAbleToDeconstructTile(GetTileStackAt(x, y).back());
+//     // }
+//     // void DeconstructTopTileAt(int x, int y)
+//     // {
+//     //     int DeconstructedTile = GetTileStackAt(x, y).back();
+//     //     ManagersManager->PlayerDeconstructedTile(DeconstructedTile);
+//     //     if( DeconstructedTile <0 )
+//     //         ManagersManager->GetTileManager()->DeleteDynamicTile(DeconstructedTile);
+//     //     GetTileStackAt(x, y).pop_back();
+//     // }
+//     // void ConstructTileAtTopOf(int x, int y, int TileID)
+//     // {
+//     //     if( ManagersManager->GetTileManager()->IsTileDynamic(TileID))
+//     //     {
+//     //         GetTileStackAt(x, y).push_back(ManagersManager->GetTileManager()->GetNewDynamicTile(TileID));
+//     //     }
+//     //     else
+//     //         GetTileStackAt(x, y).push_back(TileID);
+//     // }
+// };

@@ -43,7 +43,7 @@ void Game::GameUpdate(float fElapsedTime)
         {
             if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
                 ManagersManager.IsPlayerAbleToConstructTile() &&
-                ManagersManager.CanTileFitOnTileStack(World.GetTileStackAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY()), EntityManager.Player.GetIDofTileToBuild()))
+                ManagersManager.CanTileFitOnTileStack(WorldManager.GetTileStack(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY()), EntityManager.Player.GetIDofTileToBuild()))
             {
 
                 UIManager.SetMouseText("Construction");
@@ -52,7 +52,7 @@ void Game::GameUpdate(float fElapsedTime)
                 bool didConstructionFinished = EntityManager.Player.ProgressConstruction(fElapsedTime);
                 if (didConstructionFinished)
                 {
-                    World.ConstructTileAtTopOf(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(),
+                    ManagersManager.ConstructTileAtTopOf(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY(),
                                                EntityManager.Player.GetIDofTileToBuild());
                     ManagersManager.PlayerConstructedTile();
                     UIManager.SetMouseText("");
@@ -75,14 +75,14 @@ void Game::GameUpdate(float fElapsedTime)
         if (isMouseInReachDistance)
         {
             if (IsMouseStillPointingAtTheSameTile && isMouseInReachDistance &&
-                World.isPlayerAbleToDeconstructTopTileAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY()))
+                ManagersManager.isPlayerAbleToDeconstructTopTileAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY()))
             {
                 UIManager.SetMouseText("Deconstructon");
                 UIManager.SetProgressBar(EntityManager.Player.GetDeconstructionProgress());
                 bool didDeconstructionFinished = EntityManager.Player.ProgressDeconstruction(fElapsedTime);
                 if (didDeconstructionFinished)
                 {
-                    World.DeconstructTopTileAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY());
+                    ManagersManager.DeconstructTopTileAt(InputManager.GetMouseWorldPosytionX(), InputManager.GetMouseWorldPosytionY());
                     UIManager.SetMouseText("");
                     UIManager.SetProgressBar(0.0f);
                     EntityManager.Player.ResetDeconstructionProgress();
