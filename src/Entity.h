@@ -19,6 +19,8 @@ protected:
     int TextureID = 0;
     float x = 0;
     float y = 0;
+    float VelocityX =0;
+    float VelocityY =0;
     float PreviousX = 0;
     float PreviousY = 0;
     float Angle = 0;
@@ -29,6 +31,10 @@ public:
     // {
     //     ;
     // }
+    virtual void Move(float fElapsedTime)
+    {
+        Move(VelocityX*fElapsedTime,VelocityY*fElapsedTime);
+    }
     virtual void Move(float VecX, float VecY)
     {
         PreviousX = x;

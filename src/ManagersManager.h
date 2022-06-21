@@ -1,4 +1,5 @@
 #pragma once
+#include "Entity.h"
 #include "managers/ItemManager.h"
 #include "managers/TileManager.h"
 #include "managers/TextureManager.h"
@@ -146,6 +147,21 @@ public:
         else
             WorldManager->GetTileStack(x, y).push_back(TileID);
     }
-
+    
+    bool MoveEntity(Entity Ent,float fElapsedTime)
+    {
+        
+    // void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)
+       
+        Ent.Move(
+            fElapsedTime
+            );
+        bool DidColysionHappen = (isTileStackColisive(Ent.GetX(),Ent.GetY()));
+        if (DidColysionHappen)
+        {
+           Ent.MoveBack();
+        }
+        return DidColysionHappen;
+    }
 
 };
