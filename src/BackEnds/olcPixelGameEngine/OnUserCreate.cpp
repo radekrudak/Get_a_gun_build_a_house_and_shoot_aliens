@@ -2,18 +2,17 @@
 #include <functional>
 #include <iostream>
 #include <map>
+#include <thread>
 #include <vector>
+
 
 bool olcPixelGameEngineBackend::OnUserCreate()
 {
 
         Clear(olc::GREY);
         //vTileMap.reserve(MapSize);
-        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager,&WorldManager);
-
-        TextureManager.LoadGraphics();
-        ItemManager.LoadItems(TextureManager.TextureNameMap);
-        TileManager.LoadStaticTiles(TextureManager.TextureNameMap,ItemManager.ItemNameMap);
+        
+        Game::GameStart();
 
         lNight = CreateLayer();
         lPlayer = CreateLayer();

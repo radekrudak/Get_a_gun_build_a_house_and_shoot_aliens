@@ -36,7 +36,9 @@ GetUserInput.o :src/BackEnds/olcPixelGameEngine/GetUserInput.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
 GameUpdate.o :src/GameUpdate.cpp
 	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
-GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o GameUpdate.o
+GameStart.o : src/GameStart.cpp
+	$(CC) -o $(OBJ_DIR)$@  $< -c $(ARGS)
+GAG: main.o OnUserUpdate.o OnUserCreate.o GetUserInput.o GameUpdate.o GameStart.o
 	$(CC) -o $@ $(OBJ_DIR)*.o   $(ARGS)
 	make clean
 clean:

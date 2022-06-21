@@ -1,6 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include <mutex>
+#include <thread>
 #include <vector>
 #include <ctime>
 #include <climits>
@@ -40,6 +42,7 @@ public:
     /// BOOLS
     bool isDebugMode = false;
         
+    std::thread ComandLineThread;
 
     // managers
     sTextureManager TextureManager;
@@ -57,6 +60,7 @@ public:
 
 
 public:
+    void GameStart(); 
     void GameUpdate(float fElapsedTime);
 
     void MainMenu()
@@ -109,7 +113,22 @@ public:
     }
 
 
-
     
 
 };
+
+
+    // void ComandLineTest(int a);
+
+// void ComandLineTest(int a)
+// {
+//     while (true) 
+//     {
+//     
+//     
+//     std::string a;
+//     std::getline(std::cin,a);
+//     std::cout<<a<<std::endl;
+//
+//     }
+// }
