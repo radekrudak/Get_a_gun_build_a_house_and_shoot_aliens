@@ -144,6 +144,26 @@ public:
             {
                 m_GameInstance->EntityManager.SpawnEntity( stoi(args[0]) , stof(args[1]) , stof(args[2]));
             }
+            else if (comand=="hurt") {
+                if(args[0]=="p")
+                {
+                    m_GameInstance->EntityManager.Player.SubtractHealth(stoi(args[1]));
+                }
+                else if( std::isdigit(args[0][0]))
+                {
+                    m_GameInstance->EntityManager[stoi(args[0])]->SubtractHealth(stoi(args[1]));
+                }
+            }
+            else if (comand=="heal") {
+                if(args[0]=="p")
+                {
+                    m_GameInstance->EntityManager.Player.AddHealth(stoi(args[1]));
+                }
+                else if( std::isdigit(args[0][0]))
+                {
+                    m_GameInstance->EntityManager[stoi(args[0])]->AddHealth(stoi(args[1]));
+                }
+            }
             else
             {
                 std::cout<<"Unknown Comand"<<std::endl;

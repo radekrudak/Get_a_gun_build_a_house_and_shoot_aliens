@@ -10,7 +10,8 @@ enum class EntityTypes
 {
     GenericEntity = 0,
     Enemy,
-    Player
+    Player,
+    DamageGiver
 };
 
 class Entity
@@ -26,24 +27,19 @@ protected:
     float Angle = 0;
 
 public:
-    EntityTypes EntityType = EntityTypes::GenericEntity;
+    EntityTypes m_EntityType = EntityTypes::GenericEntity;
     // virtual void Update(const cManagersManager &ManagersManager)
     // {
     //     ;
     // }
     
-    Entity(int TextureID = 0, float xx = 0, float yy = 0)
+    Entity(int TextureID = 0, float xx = 0, float yy = 0,EntityTypes EntityType = EntityTypes::GenericEntity): 
+            m_TextureID(TextureID),m_x(xx),m_y(yy),m_EntityType(EntityTypes::GenericEntity)
     {
-        m_TextureID = TextureID;
-        m_x = xx;
-        m_y = yy;
     }
 
-    Entity(const Entity &TemplateEntity, float x, float y)
+    Entity(const Entity &TemplateEntity, float x, float y): m_TextureID(TemplateEntity.m_TextureID), m_x(x),m_y(y)
     {
-        m_TextureID = TemplateEntity.m_TextureID;
-        m_x = x;
-        m_y = y;
     }
 
     auto GetTextureID()
@@ -110,6 +106,14 @@ public:
     {
         return 0;
     }
+    virtual void SubtractHealth(int health)
+    {
+        ;
+    }
+    virtual void AddHealth(int health)
+    {
+
+    }
     virtual float GetSpeed()
     {
         return 0.0f;
@@ -136,9 +140,16 @@ public:
         ;
     }
 };
+
+class DamageGiver : public Entity
+{
+    
+};
+
+
 class Character : public Entity
 {
-
+    
     float m_Speed = 0;
     int m_MaxHealth =10;
     int m_Health = m_MaxHealth;
@@ -152,14 +163,15 @@ class Character : public Entity
     cInventory m_Inventory;
 
 public:
-
+    // Entity::m_Type;
+    using Entity::Entity;
     Character()
     {
         cInventory TempInventory;
         GetInventory() = TempInventory;
     }
     
-    void AddHealth(int health)
+    virtual void AddHealth(int health) override
     {
        if (m_Health+health >= m_MaxHealth)
        {
@@ -167,6 +179,16 @@ public:
        }
        else 
             m_Health+=health;
+    }
+    virtual void SubtractHealth(int health) override
+    {
+    
+       if (m_Health-health <= 0 )
+       {
+           m_Health = 0;
+       }
+       else 
+            m_Health-=health;
     }
     void ClearInventory()
     {
@@ -261,7 +283,10 @@ public:
     Enemy(){
 
     }
+    Enemy(int TextureID = 0, float xx = 0, float yy = 0): Character(TextureID,xx,yy,EntityTypes::Enemy) 
+    {
 
+    }
     // virtual void Update(const Game *GameInstance) override
    // {
    //      auto PlayerX = GameInstance->EntityManager.Player.GetX();
@@ -283,7 +308,6 @@ class cPlayer : public Character
 
 public:
     using Entity::SetAngle;
-
     inline void SyncCameraWithPlayer(int ScreenWidth, int ScreenHeight, int TileSize = 16)
     {
         CameraX = GetX() - (static_cast<float>(ScreenWidth) / 2) / TileSize;

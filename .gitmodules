@@ -1,0 +1,3 @@
+[submodule "src/ThirdPartyFiles/labrat"]
+	path = src/ThirdPartyFiles/labrat
+	url = https://github.com/squarewave/labrat.git

@@ -1,8 +1,9 @@
 #define OLC_PGE_APPLICATION
 #define OLC_PGEX_POPUPMENU
 #include "BackEnds/olcPixelGameEngineBackend.h"
-int main()
+int main(int argc,char const *argv[])
 {
+
 #if defined ( __clang__)
     std::cout << "Compiled with Clang C++ compiler (clang++)" ;
 #elif defined ( __GNUC__)
