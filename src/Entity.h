@@ -16,9 +16,9 @@ enum class EntityTypes
 class Entity
 {
 protected:
-    int TextureID = 0;
-    float x = 0;
-    float y = 0;
+    int m_TextureID = 0;
+    float m_x = 0;
+    float m_y = 0;
     float VelocityX =0;
     float VelocityY =0;
     float PreviousX = 0;
@@ -31,35 +31,50 @@ public:
     // {
     //     ;
     // }
+    
+    Entity(int TextureID = 0, float xx = 0, float yy = 0)
+    {
+        m_TextureID = TextureID;
+        m_x = xx;
+        m_y = yy;
+    }
+
+    Entity(const Entity &TemplateEntity, float x, float y)
+    {
+        m_TextureID = TemplateEntity.m_TextureID;
+        m_x = x;
+        m_y = y;
+    }
+
+    auto GetTextureID()
+    {
+        return m_TextureID;
+    }
     virtual void Move(float fElapsedTime)
     {
         Move(VelocityX*fElapsedTime,VelocityY*fElapsedTime);
     }
     virtual void Move(float VecX, float VecY)
     {
-        PreviousX = x;
-        PreviousY = y;
-        x += VecX;
-        y += VecY;
+        PreviousX = m_x;
+        PreviousY = m_y;
+        m_x += VecX;
+        m_y += VecY;
     }
     virtual void MoveBack()
     {
-        x = PreviousX;
-        y = PreviousY;
+        m_x = PreviousX;
+        m_y = PreviousY;
     }
 
-    Entity(int TextureID = 0, float xx = 0, float yy = 0)
-    {
-        x = xx;
-        y = yy;
-    }
+
     auto GetX() const
     {
-        return x;
+        return m_x;
     }
     auto GetY() const
     {
-        return y;
+        return m_y;
     }
     auto GetAngle()
     {
@@ -68,11 +83,11 @@ public:
 
     void SetX(float X)
     {
-        x = X;
+        m_x = X;
     }
     void SetY(float Y)
     {
-        y = Y;
+        m_y = Y;
     }
 
     void SetAngle(float a)
@@ -81,7 +96,7 @@ public:
     }
     olc::vf2d GetPosition()
     {
-        return olc::vf2d(x, y);
+        return olc::vf2d(m_x, m_y);
     }
     virtual float GetfDeconstruction()
     {
@@ -243,7 +258,11 @@ class Enemy : public Character
 {
 
 public:
-   // virtual void Update(const Game *GameInstance) override
+    Enemy(){
+
+    }
+
+    // virtual void Update(const Game *GameInstance) override
    // {
    //      auto PlayerX = GameInstance->EntityManager.Player.GetX();
    //      auto PlayerY = GameInstance->EntityManager.Player.GetY();

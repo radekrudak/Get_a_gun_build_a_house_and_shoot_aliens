@@ -48,7 +48,13 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EntityManager.Player.SetAngle(fMouseMapX, fMouseMapY);
         // Draw Player
         DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(), EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
-
+        //DrawEnemies
+        
+        for(const auto &i:EntityManager)
+        {
+            DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
+        }
+            
         // UI Drawing
         SetDrawTarget(nullptr);
         Clear(olc::BLANK);

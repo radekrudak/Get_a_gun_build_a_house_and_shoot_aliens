@@ -174,8 +174,8 @@ public:
 class PlantTile : public DynamicTile
 {
 
-    u_int64_t m_PlantGrowthTimer = 0;
-    u_int64_t m_PlantGrowthTime = 0;
+    uint64_t m_PlantGrowthTimer = 0;
+    uint64_t m_PlantGrowthTime = 0;
     std::vector<ItemSlot> m_vItemsHarvested;
     bool isPlantReadyToHarvest = false;
 

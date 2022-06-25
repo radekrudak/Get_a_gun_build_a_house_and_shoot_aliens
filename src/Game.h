@@ -1,7 +1,10 @@
 #pragma once
 
+#include <atomic>
+#include <cctype>
 #include <iostream>
 #include <mutex>
+#include <string>
 #include <thread>
 #include <vector>
 #include <ctime>
@@ -35,7 +38,6 @@ class Game //: public olc::PixelGameEngine
 {
 
 public:
-
     
 
     double fTileScale = 1.0f;
@@ -55,7 +57,102 @@ public:
 
     cWorldManager WorldManager;
 
+    struct sComandLineDebugUtil
+    {
+        Game *m_GameInstance;
+        std::atomic<bool> ContinueReadingInput = {true};
+        std::thread m_ComandLineDebugThread;
+        // ~sComandLineDebugUtil()
+        // {
+        //     std::cout<<"Closing ComandLineDebugUtil thread"<<std::endl;
+        //     std::cout<<"Thread Joined"<<std::endl;
+        // }
+        void StartThread(Game *GameInstance)
+        {
+            m_GameInstance = GameInstance;
+            ContinueReadingInput = true;
+            m_ComandLineDebugThread = std::thread(&sComandLineDebugUtil::ReadInput,this);
 
+        }
+        void JoinThread()
+        {
+            ContinueReadingInput = false;
+            m_ComandLineDebugThread.join();
+        }
+
+        void ReadInput()
+        {
+            while(ContinueReadingInput)
+            {
+                std::string line;
+                std::getline(std::cin,line);
+                InterpretLine(line);
+            }
+        }
+        void InterpretLine(std::string line)
+        {
+            while(line.front() == ' ')
+            {
+                line.erase(0,1);
+            }
+            
+            transform(line.begin(), line.end(), line.begin(), ::tolower);
+            std::vector<std::string> args;
+            
+            
+        
+            while(/* args.back() != */ line.find(' ') != std::string::npos )
+            {
+                args.push_back(line.substr(0,line.find(' ')));
+                line.erase(0,line.find(' ')+1);
+
+            } 
+
+            args.push_back(line.substr(0,line.find(' ')));
+            line.erase(0,line.find(' ')+1);
+
+            
+            auto comand = args.front();
+            args.erase(args.begin());
+
+            std::cout<<comand<<std::endl;
+
+            for(auto &i: args)
+            {
+                std::cout<<i<<std::endl;
+            }
+
+            if(comand == "tp")
+            {
+                if(args[0] == "p")
+                {
+                    m_GameInstance->EntityManager.Player.SetX(stof(args[1]));
+                    
+                    m_GameInstance->EntityManager.Player.SetY(stof(args[2]));
+                }
+                else if (std::isdigit(args[0][0]))
+                {
+                    auto &EntityPtr = m_GameInstance->EntityManager[stoi(args[0])];
+                    if (EntityPtr != nullptr)
+                    {
+                        EntityPtr->SetX(stof( args[1]));
+                        EntityPtr->SetY(stof(args[2]));
+                    }
+                }
+            }
+            else if (comand == "spawn")
+            {
+                m_GameInstance->EntityManager.SpawnEntity( stoi(args[0]) , stof(args[1]) , stof(args[2]));
+            }
+            else
+            {
+                std::cout<<"Unknown Comand"<<std::endl;
+            }
+        
+        }
+    } ComandLineDebugUtil;
+
+    friend sComandLineDebugUtil;
     int ElapsedFrames = 0;
 
 
