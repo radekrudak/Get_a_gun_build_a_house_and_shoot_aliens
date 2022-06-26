@@ -57,7 +57,7 @@ class cWorld{
                 y.push_back(m_TileNameMap["GRASS"]);
             }
         }
-        std::minstd_rand RandEngine(m_Seed ^ x+(y<<(int)(pow(2,32)-1)));
+        std::minstd_rand RandEngine(m_Seed ^ (x+(static_cast<uint64_t>(y)<<32)));
         std::uniform_int_distribution<int> TreeDistribution(1,254);
         
         auto CustomRand = std::bind(TreeDistribution,RandEngine);

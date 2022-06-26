@@ -48,11 +48,13 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         EntityManager.Player.SetAngle(fMouseMapX, fMouseMapY);
         // Draw Player
         DrawRotatedDecal(WorldPosToScreenPos(EntityManager.Player.GetX(), EntityManager.Player.GetY()), TextureManager["mc"], EntityManager.Player.GetAngle(), {float(TextureManager.GetSprite("mc")->width) / 2.0f, float(TextureManager.GetSprite("mc")->height) / 2.0f});
-        //DrawEnemies
+        //DrawEtieties
         
         for(const auto &i:EntityManager)
         {
-            DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
+
+            DrawRotatedDecal(WorldPosToScreenPos(i->GetX(),i->GetY()),TextureManager[i->GetTextureID()] , 0, {float(TextureManager.GetSprite(i->GetTextureID())->width) / 2.0f, float(TextureManager.GetSprite(i->GetTextureID())->height) / 2.0f});
+            // DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
         }
             
         // UI Drawing
@@ -176,22 +178,23 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             DrawString(0, 50, "MouseY: " + std::to_string(InputManager.GetMouseWorldPosytionY()));
             DrawString(0, 60, "Construction: " + std::to_string(EntityManager.Player.GetConstructionProgress()));
             DrawString(0, 70, "Deconstruction: " + std::to_string(EntityManager.Player.GetDeconstructionProgress()));
-            if (EntityManager.Player.GetInventory().isEmpty() == false)
-            {
-                DrawString(0, 80, "R1: " + std::to_string(EntityManager.Player.GetInventory()[0].Quantity));
-                DrawDecal({0, 80}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[0].ItemID]->GetTextureID()]);
-            }
-            else
-                DrawString(0, 80, "R1: Empty");
-
-            if (EntityManager.Player.GetInventory().isEmpty() == false)
-            {
-                DrawString(5, 90, "R2: " + std::to_string(EntityManager.Player.GetInventory()[1].Quantity));
-                DrawDecal({5, 90}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[1].ItemID]->GetTextureID()]);
-            }
-            else
-                DrawString(0, 90, "R2: Empty");
-
+            DrawString(0,80,"WorldTimeIn ms"+std::to_string(TimeManager.GetWorldTime()));
+            // if (EntityManager.Player.GetInventory().isEmpty() == false)
+            // {
+            //     DrawString(0, 80, "R1: " + std::to_string(EntityManager.Player.GetInventory()[0].Quantity));
+            //     DrawDecal({0, 80}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[0].ItemID]->GetTextureID()]);
+            // }
+            // else
+            //     DrawString(0, 80, "R1: Empty");
+            //
+            // if (EntityManager.Player.GetInventory().isEmpty() == false)
+            // {
+            //     DrawString(5, 90, "R2: " + std::to_string(EntityManager.Player.GetInventory()[1].Quantity));
+            //     DrawDecal({5, 90}, TextureManager[ItemManager[EntityManager.Player.GetInventory()[1].ItemID]->GetTextureID()]);
+            // }
+            // else
+            //     DrawString(0, 90, "R2: Empty");
+            //
             DrawString(0, 110, "Distance: " + std::to_string(Distance(EntityManager.Player.GetX(), EntityManager.Player.GetY(), static_cast<float>(GetMouseX()) / TileSize + EntityManager.Player.GetX(), static_cast<float>(GetMouseY()) / TileSize + EntityManager.Player.GetY())));
             DrawString(0, 120, "DebugMode: " + std::to_string(isDebugMode));
             DrawString(0, 130, "Screen: " + std::to_string(static_cast<int>(UIManager.GetUIMode())));

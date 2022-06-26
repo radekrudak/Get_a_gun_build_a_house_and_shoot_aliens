@@ -1,5 +1,6 @@
 #pragma once
 #include "../World.h"
+#include <cstdint>
 // std::unordered_map<std::pair<int,itn>
 class cWorldManager
 {

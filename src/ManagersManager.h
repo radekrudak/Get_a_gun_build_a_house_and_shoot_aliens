@@ -7,23 +7,25 @@
 #include "managers/UIManager.h"
 #include "managers/InputManager.h"
 #include "managers/WorldManager.h"
+#include "managers/TimeManager.h"
+#include <cstdint>
 #include <vector>
 class cManagersManager
 {
-
     sItemManager *ItemManager;
     sTileManager *TileManager;
     sTextureManager *TextureManager;
     sEntityManager *EntityManager;
     cUIManager *UIManager;
     cWorldManager *WorldManager;
+    cTimeManager *TimeManager;
 
 public:
-    cManagersManager(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr) : ItemManager(IM), TileManager(TiM), TextureManager(TeM)
-    {
-        ;
-    }
-    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr, cUIManager *UIM = nullptr, cWorldManager *WM = nullptr)
+    void init(sItemManager *IM = nullptr, sTileManager *TiM = nullptr, 
+                sTextureManager *TeM = nullptr, sEntityManager *EnM = nullptr,
+                cUIManager *UIM = nullptr, cWorldManager *WM = nullptr,
+                cTimeManager *TimeMan = nullptr
+                )
     {
         ItemManager = IM;
         TileManager = TiM;
@@ -31,6 +33,7 @@ public:
         EntityManager = EnM;
         UIManager = UIM;
         WorldManager = WM;
+        TimeManager= TimeMan;
     }
 
     auto GetItemDecal(int ItemID)

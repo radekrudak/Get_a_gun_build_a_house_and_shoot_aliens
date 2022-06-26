@@ -1,33 +1,33 @@
 #pragma once
 
+#include "Entity.h"
+#include "Item.h"
+#include "ManagersManager.h"
+#include "Tile.h"
+#include "World.h"
+#include "managers/TimeManager.h"
 #include <atomic>
 #include <cctype>
+#include <climits>
+#include <ctime>
 #include <iostream>
 #include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
-#include <ctime>
-#include <climits>
-#include "Tile.h"
-#include "Entity.h"
-#include "Item.h"
-#include "World.h"
-#include "ManagersManager.h"
 
-
-//TODO:
-// Enemies
-//      Path finding 
-//      Damage
-// shooting
-// health
-// Hud:
-// HP
-// ammo ?
-// items
-// cleaning up code
-// crafting
+// TODO:
+//  Enemies
+//       Path finding
+//       Damage
+//  shooting
+//  health
+//  Hud:
+//  HP
+//  ammo ?
+//  items
+//  cleaning up code
+//  crafting
 
 using TZpos = PositionOnTileStack;
 
@@ -38,211 +38,174 @@ class Game //: public olc::PixelGameEngine
 {
 
 public:
-    
+  double fTileScale = 1.0f;
+  /// BOOLS
+  bool isDebugMode = false;
 
-    double fTileScale = 1.0f;
-    /// BOOLS
-    bool isDebugMode = false;
-        
-    std::thread ComandLineThread;
+  std::thread ComandLineThread;
 
-    // managers
-    sTextureManager TextureManager;
-    sItemManager ItemManager;
-    sTileManager TileManager;
-    sEntityManager EntityManager;
-    cManagersManager ManagersManager;
-    cInputManager InputManager;
-    cUIManager UIManager;
+  // managers
+  cTimeManager TimeManager;
+  sTextureManager TextureManager;
+  sItemManager ItemManager;
+  sTileManager TileManager;
+  sEntityManager EntityManager;
+  cManagersManager ManagersManager;
+  cInputManager InputManager;
+  cUIManager UIManager;
 
-    cWorldManager WorldManager;
+  cWorldManager WorldManager;
 
-    struct sComandLineDebugUtil
-    {
-        Game *m_GameInstance;
-        std::atomic<bool> ContinueReadingInput = {true};
-        std::thread m_ComandLineDebugThread;
-        // ~sComandLineDebugUtil()
-        // {
-        //     std::cout<<"Closing ComandLineDebugUtil thread"<<std::endl;
-        //     std::cout<<"Thread Joined"<<std::endl;
-        // }
-        void StartThread(Game *GameInstance)
-        {
-            m_GameInstance = GameInstance;
-            ContinueReadingInput = true;
-            m_ComandLineDebugThread = std::thread(&sComandLineDebugUtil::ReadInput,this);
+  struct sComandLineDebugUtil {
+    Game *m_GameInstance;
+    std::atomic<bool> ContinueReadingInput = {true};
+    std::thread m_ComandLineDebugThread;
+    // ~sComandLineDebugUtil()
+    // {
+    //     std::cout<<"Closing ComandLineDebugUtil thread"<<std::endl;
+    //     std::cout<<"Thread Joined"<<std::endl;
+    // }
+    void StartThread(Game *GameInstance) {
+      m_GameInstance = GameInstance;
+      ContinueReadingInput = true;
+      m_ComandLineDebugThread =
+          std::thread(&sComandLineDebugUtil::ReadInput, this);
+    }
+    void JoinThread() {
+      ContinueReadingInput = false;
+      m_ComandLineDebugThread.join();
+    }
 
+    void ReadInput() {
+      while (ContinueReadingInput) {
+        std::string line;
+        std::getline(std::cin, line);
+        InterpretLine(line);
+      }
+    }
+    void InterpretLine(std::string line) {
+      while (line.front() == ' ') {
+        line.erase(0, 1);
+      }
+
+      transform(line.begin(), line.end(), line.begin(), ::tolower);
+      std::vector<std::string> args;
+
+      while (/* args.back() != */ line.find(' ') != std::string::npos) {
+        args.push_back(line.substr(0, line.find(' ')));
+        line.erase(0, line.find(' ') + 1);
+      }
+
+      args.push_back(line.substr(0, line.find(' ')));
+      line.erase(0, line.find(' ') + 1);
+
+      auto comand = args.front();
+      args.erase(args.begin());
+
+      std::cout << comand << std::endl;
+
+      for (auto &i : args) {
+        std::cout << i << std::endl;
+      }
+
+      if (comand == "tp") {
+        if (args[0] == "p") {
+          m_GameInstance->EntityManager.Player.SetX(stof(args[1]));
+
+          m_GameInstance->EntityManager.Player.SetY(stof(args[2]));
+        } else if (std::isdigit(args[0][0])) {
+          auto &EntityPtr = m_GameInstance->EntityManager[stoi(args[0])];
+          if (EntityPtr != nullptr) {
+            EntityPtr->SetX(stof(args[1]));
+            EntityPtr->SetY(stof(args[2]));
+          }
         }
-        void JoinThread()
-        {
-            ContinueReadingInput = false;
-            m_ComandLineDebugThread.join();
+      } else if (comand == "spawn") {
+        if (args[0] == "damagegiver") {
+          m_GameInstance->EntityManager.SpawnDamageGiver(
+              stof(args[1]), stof(args[2]), 1,
+              &(m_GameInstance->EntityManager.Player));
+        } else
+          m_GameInstance->EntityManager.SpawnEntity(
+              stoi(args[0]), stof(args[1]), stof(args[2]));
+
+      } else if (comand == "hurt") {
+        if (args[0] == "p") {
+          m_GameInstance->EntityManager.Player.SubtractHealth(stoi(args[1]));
+        } else if (std::isdigit(args[0][0])) {
+          m_GameInstance->EntityManager[stoi(args[0])]->SubtractHealth(
+              stoi(args[1]));
         }
-
-        void ReadInput()
-        {
-            while(ContinueReadingInput)
-            {
-                std::string line;
-                std::getline(std::cin,line);
-                InterpretLine(line);
-            }
+      } else if (comand == "heal") {
+        if (args[0] == "p") {
+          m_GameInstance->EntityManager.Player.AddHealth(stoi(args[1]));
+        } else if (std::isdigit(args[0][0])) {
+          m_GameInstance->EntityManager[stoi(args[0])]->AddHealth(
+              stoi(args[1]));
         }
-        void InterpretLine(std::string line)
-        {
-            while(line.front() == ' ')
-            {
-                line.erase(0,1);
-            }
-            
-            transform(line.begin(), line.end(), line.begin(), ::tolower);
-            std::vector<std::string> args;
-            
-            
-        
-            while(/* args.back() != */ line.find(' ') != std::string::npos )
-            {
-                args.push_back(line.substr(0,line.find(' ')));
-                line.erase(0,line.find(' ')+1);
+      } else {
+        std::cout << "Unknown Comand" << std::endl;
+      }
+    }
+  } ComandLineDebugUtil;
 
-            } 
-
-            args.push_back(line.substr(0,line.find(' ')));
-            line.erase(0,line.find(' ')+1);
-
-            
-            auto comand = args.front();
-            args.erase(args.begin());
-
-            std::cout<<comand<<std::endl;
-
-            for(auto &i: args)
-            {
-                std::cout<<i<<std::endl;
-            }
-
-            if(comand == "tp")
-            {
-                if(args[0] == "p")
-                {
-                    m_GameInstance->EntityManager.Player.SetX(stof(args[1]));
-                    
-                    m_GameInstance->EntityManager.Player.SetY(stof(args[2]));
-                }
-                else if (std::isdigit(args[0][0]))
-                {
-                    auto &EntityPtr = m_GameInstance->EntityManager[stoi(args[0])];
-                    if (EntityPtr != nullptr)
-                    {
-                        EntityPtr->SetX(stof( args[1]));
-                        EntityPtr->SetY(stof(args[2]));
-                    }
-                }
-            }
-            else if (comand == "spawn")
-            {
-                m_GameInstance->EntityManager.SpawnEntity( stoi(args[0]) , stof(args[1]) , stof(args[2]));
-            }
-            else if (comand=="hurt") {
-                if(args[0]=="p")
-                {
-                    m_GameInstance->EntityManager.Player.SubtractHealth(stoi(args[1]));
-                }
-                else if( std::isdigit(args[0][0]))
-                {
-                    m_GameInstance->EntityManager[stoi(args[0])]->SubtractHealth(stoi(args[1]));
-                }
-            }
-            else if (comand=="heal") {
-                if(args[0]=="p")
-                {
-                    m_GameInstance->EntityManager.Player.AddHealth(stoi(args[1]));
-                }
-                else if( std::isdigit(args[0][0]))
-                {
-                    m_GameInstance->EntityManager[stoi(args[0])]->AddHealth(stoi(args[1]));
-                }
-            }
-            else
-            {
-                std::cout<<"Unknown Comand"<<std::endl;
-            }
-        
-        }
-    } ComandLineDebugUtil;
-
-    friend sComandLineDebugUtil;
-    int ElapsedFrames = 0;
-
+  friend sComandLineDebugUtil;
+  int ElapsedFrames = 0;
 
 public:
-    void GameStart(); 
-    void GameUpdate(float fElapsedTime);
+  void GameStart();
+  void GameUpdate(float fElapsedTime);
 
-    void MainMenu()
-    {
-        
-        switch (InputManager.GetGUIInput())
-        {
-        case GUIInput::NewGame:
-            InputManager.SetGUIInput(GUIInput::start);
-            InputManager.SetGUIInputArgument(0);
-            NewGame();
-            break;
-        
-        default:
-            break;
-        }
+  void MainMenu() {
+
+    switch (InputManager.GetGUIInput()) {
+    case GUIInput::NewGame:
+      InputManager.SetGUIInput(GUIInput::start);
+      InputManager.SetGUIInputArgument(0);
+      NewGame();
+      break;
+
+    default:
+      break;
     }
-
-
-    inline void NewGame()
-    {
-        // Add "generating terrain" screen
-
-        // seting player(and time) values to default
-         int MapSize = int(pow(2,20));
-        //std::string temp_input;
-        //std::cin >> MapSize;
-        //MapSize = stoi(temp_input);
-        EntityManager.Player.SetX((float)MapSize/2+0.5f);
-        EntityManager.Player.SetY((float)MapSize/2+0.5f);
-        EntityManager.Player.SetAngle(64.5f);
-        EntityManager.Player.ClearInventory();
+  }
+    //Starts New Game
+    //TODO: EtityManager Reset
+    //TODO: TileManager Reset
     
+  inline void NewGame() {
 
-        WorldManager.GenerateNewWorld(TileManager.TileNameMap,MapSize,time(NULL));
-        UIManager.OpenWindow(WhichWindowIsOpen::NONE);
-        UIManager.SetUIMode(WhichScreen::GAMEPLAY);
+    int MapSize = int(pow(2, 20));
+    EntityManager.Player.SetX((float)MapSize / 2 + 0.5f);
+    EntityManager.Player.SetY((float)MapSize / 2 + 0.5f);
+    EntityManager.Player.SetAngle(64.5f);
+    EntityManager.Player.ClearInventory();
+    TimeManager.SetWorldTime(0);
+    WorldManager.GenerateNewWorld(TileManager.TileNameMap, MapSize, time(NULL));
+    UIManager.OpenWindow(WhichWindowIsOpen::NONE);
+    UIManager.SetUIMode(WhichScreen::GAMEPLAY);
+  }
+
+  void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f, float VecX = 0.0f,
+                                   float VecY = 0.0f) {
+    EntityManager.Player.Move(
+        EntityManager.Player.GetSpeed() * fElapsedTime * VecX,
+        EntityManager.Player.GetSpeed() * fElapsedTime * VecY);
+    if (ManagersManager.isTileStackColisive(EntityManager.Player.GetX(),
+                                            EntityManager.Player.GetY())) {
+      EntityManager.Player.MoveBack();
     }
-
-    void MovePlayerWithColysionCheck(float fElapsedTime = 1.0f,float VecX =0.0f,float VecY = 0.0f)
-    {   
-        EntityManager.Player.Move(
-            EntityManager.Player.GetSpeed()*fElapsedTime*VecX,
-            EntityManager.Player.GetSpeed()*fElapsedTime*VecY
-            ); 
-        if (ManagersManager.isTileStackColisive(EntityManager.Player.GetX()    ,EntityManager.Player.GetY()   ))
-        {
-           EntityManager.Player.MoveBack();
-        }
-    }
-
-
-    
-
+  }
 };
 
-
-    // void ComandLineTest(int a);
+// void ComandLineTest(int a);
 
 // void ComandLineTest(int a)
 // {
-//     while (true) 
+//     while (true)
 //     {
-//     
-//     
+//
+//
 //     std::string a;
 //     std::getline(std::cin,a);
 //     std::cout<<a<<std::endl;

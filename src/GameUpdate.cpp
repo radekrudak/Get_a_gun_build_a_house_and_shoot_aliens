@@ -1,7 +1,10 @@
 #include "Game.h"
+#include <cstdint>
 
 void Game::GameUpdate(float fElapsedTime)
 {
+    TimeManager.AddTime(static_cast<int64_t>(fElapsedTime*100));
+
     if (InputManager.GetGUIInput() == GUIInput::Eat)
     {
         int  EatenItemID = EntityManager.Player.GetInventory()[

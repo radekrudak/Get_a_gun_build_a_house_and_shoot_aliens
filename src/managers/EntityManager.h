@@ -34,7 +34,10 @@ struct sEntityManager
         vEntities.push_back(std::make_unique<Entity>( *vEntitiTemplates[TemplateID],PosX,PosY ) );
         return vEntities.size()-1;
     }
-
+    void SpawnDamageGiver(float x, float y,float Damage = 2,Entity* Owner = nullptr)
+    {
+        vEntities.push_back(std::make_unique<DamageGiver>(0,x,y,Damage,Owner));
+    }
     auto begin()
     {
         return vEntities.begin();
@@ -42,5 +45,22 @@ struct sEntityManager
     auto end()
     {
         return vEntities.end();
+    }
+    void UpdateEntites()
+    {
+
+        for (auto &i:vEntities)
+        {
+            i->Update();
+            if(i->GetEntityType() == EntityTypes::DamageGiver)
+            {
+                
+                ((DamageGiver*)i.get())->GiveDamage(&Player);
+                for (auto &Victim:vEntities)
+                {
+                    ((DamageGiver*)i.get())->GiveDamage(Victim.get());
+                }
+            }
+        }
     }
 };

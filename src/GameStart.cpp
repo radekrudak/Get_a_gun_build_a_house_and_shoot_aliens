@@ -4,7 +4,7 @@ void Game::GameStart()
 {
 
         ComandLineDebugUtil.StartThread(this);
-        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager,&WorldManager);
+        ManagersManager.init(&ItemManager,&TileManager,&TextureManager,&EntityManager,&UIManager,&WorldManager,&TimeManager);
 
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);

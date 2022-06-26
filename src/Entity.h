@@ -1,9 +1,11 @@
 #pragma once
 // #include "ManagersManager.h"
 // #include "Game.h"
+#include "Math.h"
 #include "olcPixelGameEngine.h"
 #include "Item.h"
 #include <math.h>
+#include <vector>
 
 
 enum class EntityTypes
@@ -34,14 +36,17 @@ public:
     // }
     
     Entity(int TextureID = 0, float xx = 0, float yy = 0,EntityTypes EntityType = EntityTypes::GenericEntity): 
-            m_TextureID(TextureID),m_x(xx),m_y(yy),m_EntityType(EntityTypes::GenericEntity)
+            m_TextureID(TextureID),m_x(xx),m_y(yy),m_EntityType(EntityType)
     {
     }
 
     Entity(const Entity &TemplateEntity, float x, float y): m_TextureID(TemplateEntity.m_TextureID), m_x(x),m_y(y)
     {
     }
-
+    auto GetEntityType()
+    {
+        return m_EntityType;
+    }
     auto GetTextureID()
     {
         return m_TextureID;
@@ -98,19 +103,19 @@ public:
     {
         return 0;
     }
-    virtual int GetHealth()
+    virtual float GetHealth()
     {
         return 0;
     }
-    virtual int GetMaxHealth ()
+    virtual float GetMaxHealth ()
     {
         return 0;
     }
-    virtual void SubtractHealth(int health)
+    virtual bool SubtractHealth(float health)
     {
-        ;
+        return false;
     }
-    virtual void AddHealth(int health)
+    virtual void AddHealth(float health)
     {
 
     }
@@ -118,7 +123,7 @@ public:
     {
         return 0.0f;
     }
-    virtual void SetHealth(int health)
+    virtual void SetHealth(float health)
     {
         ;
     }
@@ -139,11 +144,71 @@ public:
     {
         ;
     }
+    virtual float GetDamage()
+    {
+        return 0;
+    }
+    virtual bool IsPointInsideEntity(float x, float y)
+    {
+        return false;
+    }
+    virtual void Update()
+    {
+        ;
+    }
 };
 
 class DamageGiver : public Entity
 {
-    
+    protected:
+    float m_Damage;
+    Entity* m_Owner;
+    float m_Timer;
+    std::vector<VecInt2d> m_vOffsetList;
+    std::vector<Entity*> m_vAlreadyDamagedEntites;
+    public:
+    DamageGiver(int TextureID,float x, float y,float Damage,Entity* Owner) :Entity(TextureID,x,y,EntityTypes::DamageGiver), m_Damage(Damage),m_Owner(Owner)
+    {
+        m_vOffsetList.push_back({1,0});
+    }
+
+    virtual float GetDamage() override
+    {
+        return m_Damage;
+    }
+    void GiveDamage(Entity* Victim)
+    {
+        if (Victim != m_Owner)
+        {
+            for(auto &i: m_vAlreadyDamagedEntites )
+            {
+                if(i == Victim)
+                    return;
+
+
+            }
+
+            if(Victim->IsPointInsideEntity(m_x, m_y))
+            {
+
+                m_vAlreadyDamagedEntites.push_back(Victim);
+                Victim->SubtractHealth(GetDamage());
+            }
+                // if(isDead)
+            
+             //ll yourself or something;
+            
+        }
+    }
+    virtual void Update() override
+    {
+        m_x = m_Owner->GetX() +(m_vOffsetList[0].x*cos(m_Owner->GetAngle())-m_vOffsetList[0].y*sin(m_Owner->GetAngle()));
+        m_y = m_Owner->GetY() +(m_vOffsetList[0].y*cos(m_Owner->GetAngle())+m_vOffsetList[0].x*sin(m_Owner->GetAngle()));
+        // float mtrix[] = {
+        //     cos(Angle),-sin(Angle),
+        //     sin(Angle),cos(Angle)};
+    }
+
 };
 
 
@@ -151,12 +216,12 @@ class Character : public Entity
 {
     
     float m_Speed = 0;
-    int m_MaxHealth =10;
-    int m_Health = m_MaxHealth;
+    float m_MaxHealth =10;
+    float m_Health = m_MaxHealth;
     float m_ConstructionProgress = 0.0f;
     float m_DeconstructionProgress = 0.0f;
     float m_ReachDistance =4.0f;
-
+    float m_SizeOfEntityInTiles = 1;
 
     float m_LevelofConstructionProgression = 1.0f; // how much second construction will take
     float m_LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
@@ -171,7 +236,7 @@ public:
         GetInventory() = TempInventory;
     }
     
-    virtual void AddHealth(int health) override
+    virtual void AddHealth(float health) override
     {
        if (m_Health+health >= m_MaxHealth)
        {
@@ -180,15 +245,19 @@ public:
        else 
             m_Health+=health;
     }
-    virtual void SubtractHealth(int health) override
+    virtual bool SubtractHealth(float health) override
     {
     
        if (m_Health-health <= 0 )
        {
            m_Health = 0;
+            return true;
        }
        else 
             m_Health-=health;
+       
+       return false;
+        
     }
     void ClearInventory()
     {
@@ -240,17 +309,17 @@ public:
         m_DeconstructionProgress = 0.0f;
     }
 
-    virtual int GetHealth() override
+    virtual float GetHealth() override
     {
         return m_Health;
     }
 
-    virtual void SetHealth(int val) override
+    virtual void SetHealth( float val) override
     {
        m_Health = val; 
     }
 
-    virtual int GetMaxHealth() override
+    virtual float GetMaxHealth() override
     {
         return m_MaxHealth;
     }
@@ -272,7 +341,21 @@ public:
     {
          m_ReachDistance = val;
     }
-    
+
+    virtual bool IsPointInsideEntity(float x, float y) override
+    {
+        x-=m_x-m_SizeOfEntityInTiles/2;
+        y-=m_y-m_SizeOfEntityInTiles/2;
+
+        if (x<= m_SizeOfEntityInTiles && y<m_SizeOfEntityInTiles && x>=0 && y >=0 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 };
 

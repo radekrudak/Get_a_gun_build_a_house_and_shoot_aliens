@@ -13,6 +13,7 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
     if (GetKey(olc::Key::F2).bPressed)
     {
         TileManager.UpdateDynamicTiles();
+        EntityManager.UpdateEntites();
     }
     if (GetKey(olc::Key::E).bPressed)
     {
