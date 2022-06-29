@@ -102,4 +102,9 @@ void olcPixelGameEngineBackend::GetUserInput(float fElapsedTime)
 
     if (GetMouse(0).bHeld)
         InputManager.Set(InputFlags::LeftMouseButton, true);
+
+    if(GetMouse(0).bPressed)
+    {
+        ManagersManager.PlayerUseEquipedItem();
+    }
 }

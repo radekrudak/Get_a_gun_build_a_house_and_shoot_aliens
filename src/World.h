@@ -19,9 +19,9 @@ class Hasher
         size_t operator()(const VecInt2d &vec) const
         {
 
-            size_t hash = (static_cast<size_t>(vec.x)& (int)(std::pow(2,32)-1)) | (static_cast<size_t>(vec.y) <<(8*4));
-
-            return hash; 
+            size_t hash = (static_cast<size_t>(vec.x) | (static_cast<size_t>(vec.y) <<(32)));
+            std::hash<size_t> Std_Hash;
+            return Std_Hash(hash); 
         }
 };
 

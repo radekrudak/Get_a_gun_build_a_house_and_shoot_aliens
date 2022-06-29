@@ -20,7 +20,10 @@ struct sItemManager
     {
         return vItems[i];
     }
-
+    auto GetItemID(std::string ItemName)
+    {
+        return ItemNameMap[ItemName];
+    }
     void LoadItems(const std::map<std::string,int> &TextureNameMap,std::string PathToItemFile = "configs/items.json")
     {
         std::string JsonText;
@@ -67,6 +70,18 @@ struct sItemManager
                              ));
                 food->SetFoodSpecyficStats(item["Eat"].value("Health",0), item["Eat"].value("Hunger",0) );
                 vItems.push_back(std::unique_ptr<Food>(food.release() )); 
+            }
+            else if (item.contains("WeaponStats")) {
+                vItems.push_back(std::make_unique<Weapon>(
+                             TextureNameMap,
+                             i.value().value("TextureName","TextureMissing"),
+                             i.value().value("UserVisibleName","You shouldn't see that !"),
+                             i.key(),
+                             item["WeaponStats"].value("Damage",1),
+                             item["WeaponStats"].value("Range",1),
+                             static_cast<AttackType>(item["WeaponStats"].value("AttackType",0))
+                            ));
+            
             }
             else
                 vItems.push_back(std::unique_ptr<Item>( 

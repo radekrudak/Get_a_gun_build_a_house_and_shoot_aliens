@@ -52,8 +52,8 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         
         for(const auto &i:EntityManager)
         {
-
-            DrawRotatedDecal(WorldPosToScreenPos(i->GetX(),i->GetY()),TextureManager[i->GetTextureID()] , 0, {float(TextureManager.GetSprite(i->GetTextureID())->width) / 2.0f, float(TextureManager.GetSprite(i->GetTextureID())->height) / 2.0f});
+            if(i != nullptr)
+            DrawRotatedDecal(WorldPosToScreenPos(i->GetX(),i->GetY()),TextureManager[i->GetTextureID()] , i->GetAngle(), {float(TextureManager.GetSprite(i->GetTextureID())->width) / 2.0f, float(TextureManager.GetSprite(i->GetTextureID())->height) / 2.0f});
             // DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
         }
             
@@ -163,10 +163,6 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         Clear(olc::BLANK);
 
         SetDrawTarget(nullptr);
-        if (EntityManager.Player.GetHealth() < 0.0f)
-        {
-            DrawString(ScreenWidth() / 2 - 50, ScreenHeight() / 2, " Game over \n refresh page to start again");
-        }
         if (UIManager.Get(UIFlags::isStatsDis))
         {
             DrawString(0, 0, "PlayerX: " + std::to_string(EntityManager.Player.GetX()));
@@ -179,6 +175,9 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
             DrawString(0, 60, "Construction: " + std::to_string(EntityManager.Player.GetConstructionProgress()));
             DrawString(0, 70, "Deconstruction: " + std::to_string(EntityManager.Player.GetDeconstructionProgress()));
             DrawString(0,80,"WorldTimeIn ms"+std::to_string(TimeManager.GetWorldTime()));
+            DrawString(0,90,"fElapsedTime"+std::to_string(fElapsedTime));
+
+            DrawString(0,100,"SizeOfEntitesVector"+std::to_string(EntityManager.GetSizeOfvEntitesVector()));
             // if (EntityManager.Player.GetInventory().isEmpty() == false)
             // {
             //     DrawString(0, 80, "R1: " + std::to_string(EntityManager.Player.GetInventory()[0].Quantity));

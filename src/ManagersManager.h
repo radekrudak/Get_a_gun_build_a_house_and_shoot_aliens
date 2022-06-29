@@ -133,6 +133,18 @@ public:
         return IsPlayerAbleToDeconstructTile(WorldManager->GetTileStack(x, y).back());
     }
 
+    void PlayerUseEquipedItem()
+    {
+        auto ItemEquipedByPlayer = (*ItemManager)[EntityManager->Player.GetInventory().GetEquipedItemSlot().ItemID].get();
+        if( ItemEquipedByPlayer->isWapon() )
+        {
+            if( ((Weapon*)ItemEquipedByPlayer)->GetAttackType() == AttackType::Spear)
+            {
+                EntityManager->SpawnDamageGiver("SPEAR",ItemEquipedByPlayer->GetDamage(),1.0,&(EntityManager->Player),TimeManager->GetPtrToWorldTime());
+            }
+        }
+    }
+
     void DeconstructTopTileAt(int x, int y)
     {
         int DeconstructedTile = WorldManager->GetTileStack(x, y).back();
@@ -166,5 +178,5 @@ public:
         }
         return DidColysionHappen;
     }
-
+    
 };

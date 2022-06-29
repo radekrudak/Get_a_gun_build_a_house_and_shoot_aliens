@@ -124,8 +124,12 @@ public:
         if (args[0] == "damagegiver") {
           m_GameInstance->EntityManager.SpawnDamageGiver(
               stof(args[1]), stof(args[2]), 1,
-              &(m_GameInstance->EntityManager.Player));
-        } else
+              &(m_GameInstance->EntityManager.Player ),m_GameInstance->TimeManager.GetPtrToWorldTime());
+        }else if (args[0]=="spear_entity") {
+        // m_GameInstance->EntityManager.SpawnDamageGiver("SPEAR",&m_GameInstance->EntityManager.Player,m_GameInstance->TimeManager.GetPtrToWorldTime());
+        } 
+
+        else
           m_GameInstance->EntityManager.SpawnEntity(
               stoi(args[0]), stof(args[1]), stof(args[2]));
 
@@ -180,6 +184,7 @@ public:
     EntityManager.Player.SetY((float)MapSize / 2 + 0.5f);
     EntityManager.Player.SetAngle(64.5f);
     EntityManager.Player.ClearInventory();
+    EntityManager.Player.GetInventory().EquipItem(ItemSlot(ItemManager.GetItemID("DEFAULT_SPEAR"),1) );
     TimeManager.SetWorldTime(0);
     WorldManager.GenerateNewWorld(TileManager.TileNameMap, MapSize, time(NULL));
     UIManager.OpenWindow(WhichWindowIsOpen::NONE);

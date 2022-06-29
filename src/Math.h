@@ -3,6 +3,7 @@
 #if BACKEND == OLC_PIXEL_GAME_ENGINE
   #include "./ThirdPartyFiles/olcPixelGameEngine/olcPixelGameEngine.h"
   using VecInt2d = olc::vi2d ;
+  using VecFloat2d = olc::vf2d;
 #endif
 
 inline float Distance(float x1, float y1, float x2, float y2)

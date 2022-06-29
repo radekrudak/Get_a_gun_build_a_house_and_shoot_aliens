@@ -4,11 +4,11 @@ class cTimeManager{
   private:
     //time in miliseconds 
   uint64_t m_WorldTime =0;
-
+  uint64_t *m_WorldTimePtr = &m_WorldTime;
   public:
   const auto*GetPtrToWorldTime()
   {
-    return &m_WorldTime;
+    return m_WorldTimePtr;
   }
   const auto &GetWorldTime()
   {

@@ -14,5 +14,18 @@
         "Eat":{"Health":5,"Hunger":0}, 
         "Comment":"If player ate this istem add 5 heath and 0 hunger"
         
+    },
+    "DEFAULT_SPEAR":
+    {
+     
+        "UserVisibleName":"wood",
+        "TextureName":"WoodAlpha",
+        "Type":"NULL",
+        "WeaponStats":{
+            "Damage": 1.0,
+            "AttackType": 0,
+            "Range":1
+        }
+
     }
 }

@@ -1,8 +1,13 @@
-#pragma once
+#pragma  once
 #include <map>
 #include <string>
 #include <iostream>
 #include <vector>
+enum class AttackType {
+    Spear
+};
+
+
 class Item
 {
 
@@ -27,8 +32,11 @@ public:
         m_UserVisibleName = uvn;
         m_IdentifyingName = im;
     }
-
-    virtual int GetDamage()
+    virtual bool isWapon()
+    {
+        return false;
+    }
+    virtual float GetDamage()
     {
         return 0;
     }
@@ -88,16 +96,29 @@ class Food : public Item
 
 };
 
-
-class Gun : public Item
+class Weapon : public Item
 {
-    std::string Type = "GUN";
-    int Damage = 10;
-    //   virtual Tile* GetBuildTile() override{};
-public:
-    virtual int GetDamage() override
+
+    protected:
+    float m_Range = 1;
+    
+    float m_Damage = 1;
+    AttackType m_AttackType;
+    public:
+    // Item(const std::map<std::string, int> &TextureNameMap, std::string tn = "black", std::string uvn = "NULL", std::string im ="NULL" )
+    Weapon (const std::map<std::string, int> &TextureNameMap, std::string TextureName = "black", std::string UserVisibleName = "NULL", std::string IdentifyingName ="NULL",
+                float Damage = 1.0, float Range = 1.0,AttackType a_AttackType = AttackType::Spear):
+        Item(TextureNameMap,TextureName,UserVisibleName,IdentifyingName),m_Damage(Damage),m_Range(Range), m_AttackType(a_AttackType)
     {
-        return Damage;
+
+    }
+    float GetDamage() override {return m_Damage;} 
+    virtual bool isWapon() override{
+        return true;
+    }   
+    auto GetAttackType()
+    {
+        return m_AttackType;
     }
 };
 
@@ -203,6 +224,13 @@ public:
         }
         
     }
-
+    void EquipItem(ItemSlot ItemToEquip)
+    {
+        ItemEquiped = ItemToEquip;
+    }
+    auto GetEquipedItemSlot()
+    {
+        return ItemEquiped;
+    }
 
 };

@@ -4,6 +4,9 @@
 void Game::GameUpdate(float fElapsedTime)
 {
     TimeManager.AddTime(static_cast<int64_t>(fElapsedTime*100));
+    EntityManager.UpdateEntites();
+
+
 
     if (InputManager.GetGUIInput() == GUIInput::Eat)
     {

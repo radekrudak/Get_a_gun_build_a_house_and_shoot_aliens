@@ -9,7 +9,7 @@ void Game::GameStart()
         TextureManager.LoadGraphics();
         ItemManager.LoadItems(TextureManager.TextureNameMap);
         TileManager.LoadStaticTiles(TextureManager.TextureNameMap,ItemManager.ItemNameMap);
-        EntityManager.LoadEntites(TextureManager.TextureNameMap);
+        EntityManager.LoadEntites(TextureManager.TextureNameMap,TimeManager.GetPtrToWorldTime());
         // ComandLineThread = std::thread(ComandLineTest,0);
 }
 
