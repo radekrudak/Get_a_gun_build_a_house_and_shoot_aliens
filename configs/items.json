@@ -19,7 +19,7 @@
     {
      
         "UserVisibleName":"wood",
-        "TextureName":"WoodAlpha",
+        "TextureName":"Spear",
         "Type":"NULL",
         "WeaponStats":{
             "Damage": 1.0,

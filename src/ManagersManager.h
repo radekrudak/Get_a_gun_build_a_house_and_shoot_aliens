@@ -135,16 +135,29 @@ public:
 
     void PlayerUseEquipedItem()
     {
-        auto ItemEquipedByPlayer = (*ItemManager)[EntityManager->Player.GetInventory().GetEquipedItemSlot().ItemID].get();
-        if( ItemEquipedByPlayer->isWapon() )
+        EntityUseItem(&EntityManager->Player);
+        // auto ItemEquipedByPlayer = (*ItemManager)[EntityManager->Player.GetInventory().GetEquipedItemSlot().ItemID].get();
+        // if( ItemEquipedByPlayer->isWapon() )
+        // {
+        //     if( ((Weapon*)ItemEquipedByPlayer)->GetAttackType() == AttackType::Spear)
+        //     {
+        //         EntityManager->SpawnDamageGiver("SPEAR",ItemEquipedByPlayer->GetDamage(),1.0,&(EntityManager->Player),TimeManager->GetPtrToWorldTime());
+        //     }
+        // }
+    }
+
+    void EntityUseItem(Character* a_Entity)
+    {
+        auto ItemEquipedByPlayer = (*ItemManager)[a_Entity->GetInventory().GetEquipedItemSlot().ItemID].get();
+        if( ItemEquipedByPlayer->isWapon() && a_Entity->GetCanAttack())
         {
+            a_Entity->SetCanAttack(false);
             if( ((Weapon*)ItemEquipedByPlayer)->GetAttackType() == AttackType::Spear)
             {
-                EntityManager->SpawnDamageGiver("SPEAR",ItemEquipedByPlayer->GetDamage(),1.0,&(EntityManager->Player),TimeManager->GetPtrToWorldTime());
+                EntityManager->SpawnDamageGiver("SPEAR",ItemEquipedByPlayer->GetTextureID(),ItemEquipedByPlayer->GetDamage(),((Weapon*)ItemEquipedByPlayer)->GetRange(),(Entity*)a_Entity,TimeManager->GetPtrToWorldTime());
             }
         }
     }
-
     void DeconstructTopTileAt(int x, int y)
     {
         int DeconstructedTile = WorldManager->GetTileStack(x, y).back();

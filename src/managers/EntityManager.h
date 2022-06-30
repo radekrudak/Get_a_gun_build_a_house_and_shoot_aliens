@@ -52,11 +52,11 @@ struct sEntityManager
     {
         // AddEntity( new DamageGiver (0,Damage,Time));
     }
-    void SpawnDamageGiver(std::string TypeOfDamageGiver,float Damage = 1.0f,float Range = 1.0,Entity* Owner = nullptr,const uint64_t* Time= nullptr)
+    void SpawnDamageGiver(std::string TypeOfDamageGiver,int TextureID,float Damage = 1.0f,float Range = 1.0,Entity* Owner = nullptr,const uint64_t* Time= nullptr)
     {
         if (TypeOfDamageGiver == "SPEAR")
         {
-            AddEntity(new SpearEntity(0,Damage,Time,Owner));     
+            AddEntity(new SpearEntity(TextureID,Damage,Range,Time,Owner));     
         }
         // AddEntity(new SpearEntity ((DamageGiver*)vEntitiTemplates[m_EntityTemplatesNameMap["Spear"]].get(),Owner));
     }

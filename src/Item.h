@@ -120,6 +120,10 @@ class Weapon : public Item
     {
         return m_AttackType;
     }
+    auto GetRange()
+    {
+        return m_Range;
+    }
 };
 
 class BuildBlock : public Item

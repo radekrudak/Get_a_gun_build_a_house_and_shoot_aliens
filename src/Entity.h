@@ -163,131 +163,7 @@ public:
     }
 };
 
-class DamageGiver : public Entity
-{
-    protected:
-    float m_Damage;
-    Entity* m_Owner;
-    const uint64_t *m_Time;
-    uint64_t m_StartTime;
 
-    std::vector<VecFloat2d> m_vOffsetList;
-//     =  
-// {
-// { 0.0 , 0.0 },
-// { 0.09983341664682815 , 0.0 },
-// { 0.19866933079506122 , 0.0 },
-// { 0.29552020666133955 , 0.0 },
-// { 0.3894183423086505 , 0.0 },
-// { 0.479425538604203 , 0.0 },
-// { 0.5646424733950354 , 0.0 },
-// { 0.644217687237691 , 0.0 },
-// { 0.7173560908995228 , 0.0 },
-// { 0.7833269096274834 , 0.0 },
-// { 0.8414709848078965 , 0.0 },
-// { 0.8912073600614354 , 0.0 },
-// { 0.9320390859672263 , 0.0 },
-// { 0.963558185417193 , 0.0 },
-// { 0.9854497299884601 , 0.0 },
-// { 0.9974949866040544 , 0.0 },
-// { 0.9995736030415051 , 0.0 },
-// { 0.9916648104524686 , 0.0 },
-// { 0.9738476308781951 , 0.0 },
-// { 0.9463000876874145 , 0.0 },
-// { 0.9092974268256817 , 0.0 },
-// { 0.8632093666488737 , 0.0 },
-// { 0.8084964038195901 , 0.0 },
-// { 0.7457052121767203 , 0.0 },
-// { 0.675463180551151 , 0.0 },
-// { 0.5984721441039565 , 0.0 },
-// { 0.5155013718214642 , 0.0 },
-// { 0.4273798802338298 , 0.0 },
-// { 0.3349881501559051 , 0.0 },
-// { 0.23924932921398243 , 0.0 },
-// { 0.1411200080598672 , 0.0 },
-// };
-    std::vector<Entity*> m_vAlreadyDamagedEntites;
-    public:
-   //  DamageGiver(int TextureID,float Damage,const uint64_t *Time) :Entity(TextureID,0,0,EntityTypes::DamageGiver), m_Damage(Damage),m_Owner(nullptr),m_Time(Time)
-   //  {
-   //      m_StartTime = *Time;
-   // //      m_vOffsetList.push_back({1,0});
-   // // 
-   // //      m_vOffsetList.push_back({0.9,0});
-   // //
-   // //      m_vOffsetList.push_back({0.8,0});
-   //  }
-   //  DamageGiver(DamageGiver* TemplateEntity,Entity* Owner) :Entity(TemplateEntity->m_TextureID,TemplateEntity->m_x,TemplateEntity->m_y,EntityTypes::DamageGiver), m_Damage(TemplateEntity->m_Damage),m_Owner(Owner),m_Time(TemplateEntity->m_Time)
-   //  {
-   //      m_StartTime = *m_Time;
-   //  }
-    DamageGiver(int TextureID,float Damage,const uint64_t * Time, Entity* Owner ):Entity(TextureID,0,0,EntityTypes::DamageGiver), m_Damage(Damage),m_Owner(Owner),m_Time(Time)
-    {
-        m_StartTime = *m_Time;
-    }
-    virtual float GetDamage() override
-    {
-        return m_Damage; 
-    }
-    void GiveDamage(Entity* Victim)
-    {
-        if (Victim != m_Owner && Victim != nullptr)
-        {
-            for(auto &i: m_vAlreadyDamagedEntites )
-            {
-                if(i == Victim)
-                    return;
-
-
-            }
-
-            if(Victim->IsPointInsideEntity(m_x, m_y))
-            {
-
-                m_vAlreadyDamagedEntites.push_back(Victim);
-                Victim->SubtractHealth(GetDamage());
-            }
-                // if(isDead)
-            
-             //ll yourself or something;
-            
-        }
-    }
-    virtual void Update() override
-    {
-    
-        m_vOffsetList.push_back({1,0});
-        int i = (*m_Time-m_StartTime)/10;
-        if (i > m_vOffsetList.size()-1)
-            i=m_vOffsetList.size()-1;
-        Angle = m_Owner->GetAngle();
-        m_x = m_Owner->GetX() +(m_vOffsetList[i].x*cos(m_Owner->GetAngle())-m_vOffsetList[i].y*sin(m_Owner->GetAngle()));
-        m_y = m_Owner->GetY() +(m_vOffsetList[i].y*cos(m_Owner->GetAngle())+m_vOffsetList[i].x*sin(m_Owner->GetAngle()));
-        m_vOffsetList.clear();
-        // float mtrix[] = {
-        //     cos(Angle),-sin(Angle),
-        //     sin(Angle),cos(Angle)};
-    }
-
-};
-class SpearEntity : public DamageGiver
-{
-    using DamageGiver::DamageGiver;
-
-    virtual void Update() override
-    {
-        float i = sin(static_cast<float>(*m_Time-m_StartTime)/100*8*3.14);
-        // std::cout<<i<<" "<< *m_Time<<" "<<m_StartTime<<std::endl;
-        Angle = m_Owner->GetAngle();
-        m_x = m_Owner->GetX() +(i*cos(m_Owner->GetAngle())-0*sin(m_Owner->GetAngle()));
-        m_y = m_Owner->GetY() +(0*cos(m_Owner->GetAngle())+i*sin(m_Owner->GetAngle()));
-        if (*m_Time-m_StartTime > 1 && i <= 0)
-        {
-            // m_StartTime = *m_Time;
-            m_isDead = true;
-        }
-    }
-};
 
 
 class Character : public Entity
@@ -304,7 +180,7 @@ class Character : public Entity
     float m_LevelofConstructionProgression = 1.0f; // how much second construction will take
     float m_LevelofDeconstructionProgression = 1.0f;  // how much second deconstruction will take
     cInventory m_Inventory;
-
+    bool m_CanAttack = true;
 public:
     // Entity::m_Type;
     using Entity::Entity;
@@ -434,7 +310,111 @@ public:
             return false;
         }
     }
+    void SetCanAttack(bool a_CanAttack)
+    {
+        m_CanAttack = a_CanAttack;
+    }
+    auto GetCanAttack()
+    {
+        return m_CanAttack;
+    }
 
+};
+
+class DamageGiver : public Entity
+{
+    protected:
+    float m_Damage;
+    float m_Range;
+    Entity* m_Owner;
+    const uint64_t *m_Time;
+    uint64_t m_StartTime;
+
+    std::vector<VecFloat2d> m_vOffsetList;
+
+    std::vector<Entity*> m_vAlreadyDamagedEntites;
+    public:
+   //  DamageGiver(int TextureID,float Damage,const uint64_t *Time) :Entity(TextureID,0,0,EntityTypes::DamageGiver), m_Damage(Damage),m_Owner(nullptr),m_Time(Time)
+   //  {
+   //      m_StartTime = *Time;
+   // //      m_vOffsetList.push_back({1,0});
+   // // 
+   // //      m_vOffsetList.push_back({0.9,0});
+   // //
+   // //      m_vOffsetList.push_back({0.8,0});
+   //  }
+   //  DamageGiver(DamageGiver* TemplateEntity,Entity* Owner) :Entity(TemplateEntity->m_TextureID,TemplateEntity->m_x,TemplateEntity->m_y,EntityTypes::DamageGiver), m_Damage(TemplateEntity->m_Damage),m_Owner(Owner),m_Time(TemplateEntity->m_Time)
+   //  {
+   //      m_StartTime = *m_Time;
+   //  }
+    DamageGiver(int TextureID,float Damage,float Range,const uint64_t * Time, Entity* Owner ):Entity(TextureID,0,0,EntityTypes::DamageGiver), m_Damage(Damage),m_Range(Range),m_Owner(Owner),m_Time(Time)
+    {
+        m_StartTime = *m_Time;
+    }
+    virtual float GetDamage() override
+    {
+        return m_Damage; 
+    }
+    void GiveDamage(Entity* Victim)
+    {
+        if (Victim != m_Owner && Victim != nullptr)
+        {
+            for(auto &i: m_vAlreadyDamagedEntites )
+            {
+                if(i == Victim)
+                    return;
+
+
+            }
+
+            if(Victim->IsPointInsideEntity(m_x, m_y))
+            {
+
+                m_vAlreadyDamagedEntites.push_back(Victim);
+                Victim->SubtractHealth(GetDamage());
+            }
+                // if(isDead)
+            
+             //ll yourself or something;
+            
+        }
+    }
+    virtual void Update() override
+    {
+    
+        m_vOffsetList.push_back({1,0});
+        int i = (*m_Time-m_StartTime)/10;
+        if (i > m_vOffsetList.size()-1)
+            i=m_vOffsetList.size()-1;
+        Angle = m_Owner->GetAngle();
+        m_x = m_Owner->GetX() +(m_vOffsetList[i].x*cos(m_Owner->GetAngle())-m_vOffsetList[i].y*sin(m_Owner->GetAngle()));
+        m_y = m_Owner->GetY() +(m_vOffsetList[i].y*cos(m_Owner->GetAngle())+m_vOffsetList[i].x*sin(m_Owner->GetAngle()));
+        m_vOffsetList.clear();
+        ((Character*)m_Owner)->SetCanAttack(true);
+        // float mtrix[] = {
+        //     cos(Angle),-sin(Angle),
+        //     sin(Angle),cos(Angle)};
+    }
+
+};
+class SpearEntity : public DamageGiver
+{
+    using DamageGiver::DamageGiver;
+
+    virtual void Update() override
+    {
+        float i = sin(static_cast<float>(*m_Time-m_StartTime)/100*8*3.14)+m_Range;
+        // std::cout<<i<<" "<< *m_Time<<" "<<m_StartTime<<std::endl;
+        Angle = m_Owner->GetAngle();
+        m_x = m_Owner->GetX() +(i*cos(m_Owner->GetAngle())-0*sin(m_Owner->GetAngle()));
+        m_y = m_Owner->GetY() +(0*cos(m_Owner->GetAngle())+i*sin(m_Owner->GetAngle()));
+        if (*m_Time-m_StartTime > 1 && i <= m_Range)
+        {
+            // m_StartTime = *m_Time;AGPL
+            ((Character *)m_Owner)->SetCanAttack(true);
+            m_isDead = true;
+        }
+    }
 };
 
 class Enemy : public Character

@@ -185,6 +185,7 @@ public:
     EntityManager.Player.SetAngle(64.5f);
     EntityManager.Player.ClearInventory();
     EntityManager.Player.GetInventory().EquipItem(ItemSlot(ItemManager.GetItemID("DEFAULT_SPEAR"),1) );
+    std::cout<<ItemManager["DEFAULT_SPEAR"]->GetTextureID()<<std::endl;
     TimeManager.SetWorldTime(0);
     WorldManager.GenerateNewWorld(TileManager.TileNameMap, MapSize, time(NULL));
     UIManager.OpenWindow(WhichWindowIsOpen::NONE);
