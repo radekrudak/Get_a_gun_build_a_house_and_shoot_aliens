@@ -124,10 +124,18 @@ public:
         if (args[0] == "damagegiver") {
           m_GameInstance->EntityManager.SpawnDamageGiver(
               stof(args[1]), stof(args[2]), 1,
-              &(m_GameInstance->EntityManager.Player ),m_GameInstance->TimeManager.GetPtrToWorldTime());
-        }else if (args[0]=="spear_entity") {
-        // m_GameInstance->EntityManager.SpawnDamageGiver("SPEAR",&m_GameInstance->EntityManager.Player,m_GameInstance->TimeManager.GetPtrToWorldTime());
-        } 
+              &(m_GameInstance->EntityManager.Player),
+              m_GameInstance->TimeManager.GetPtrToWorldTime());
+        } else if (args[0] == "spear_entity") {
+          // m_GameInstance->EntityManager.SpawnDamageGiver("SPEAR",&m_GameInstance->EntityManager.Player,m_GameInstance->TimeManager.GetPtrToWorldTime());
+        } else if (args[0] == "character") {
+          m_GameInstance->EntityManager.SpawnCharacter(stof(args[1]),
+                                                       stof(args[2]));
+        }else if(args[0] == "Enemy")
+        {
+          // m_GameInstance->EntityManager.SpawnEnemy(0,stof(args[1]),stof(args[2]),
+          //     &(m_GameInstance->ManagersManager.EntityUseItem));
+        }
 
         else
           m_GameInstance->EntityManager.SpawnEntity(
@@ -173,10 +181,10 @@ public:
       break;
     }
   }
-    //Starts New Game
-    //TODO: EtityManager Reset
-    //TODO: TileManager Reset
-    
+  // Starts New Game
+  // TODO: EtityManager Reset
+  // TODO: TileManager Reset
+
   inline void NewGame() {
 
     int MapSize = int(pow(2, 20));
@@ -184,8 +192,9 @@ public:
     EntityManager.Player.SetY((float)MapSize / 2 + 0.5f);
     EntityManager.Player.SetAngle(64.5f);
     EntityManager.Player.ClearInventory();
-    EntityManager.Player.GetInventory().EquipItem(ItemSlot(ItemManager.GetItemID("DEFAULT_SPEAR"),1) );
-    std::cout<<ItemManager["DEFAULT_SPEAR"]->GetTextureID()<<std::endl;
+    EntityManager.Player.GetInventory().EquipItem(
+        ItemSlot(ItemManager.GetItemID("DEFAULT_SPEAR"), 1));
+    std::cout << ItemManager["DEFAULT_SPEAR"]->GetTextureID() << std::endl;
     TimeManager.SetWorldTime(0);
     WorldManager.GenerateNewWorld(TileManager.TileNameMap, MapSize, time(NULL));
     UIManager.OpenWindow(WhichWindowIsOpen::NONE);

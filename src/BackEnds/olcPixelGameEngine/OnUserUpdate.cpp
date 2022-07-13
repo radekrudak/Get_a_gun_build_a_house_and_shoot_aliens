@@ -1,5 +1,6 @@
 #include "../olcPixelGameEngineBackend.h"
 #include <csignal>
+#include <string>
 bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
 {
 
@@ -53,8 +54,13 @@ bool olcPixelGameEngineBackend::OnUserUpdate(float fElapsedTime)
         for(const auto &i:EntityManager)
         {
             if(i != nullptr)
-            DrawRotatedDecal(WorldPosToScreenPos(i->GetX(),i->GetY()),TextureManager[i->GetTextureID()] , i->GetAngle(), {float(TextureManager.GetSprite(i->GetTextureID())->width) / 2.0f, float(TextureManager.GetSprite(i->GetTextureID())->height) / 2.0f});
-            // DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
+            {
+
+                DrawRotatedDecal(WorldPosToScreenPos(i->GetX(),i->GetY()),TextureManager[i->GetTextureID()] , i->GetAngle(), {float(TextureManager.GetSprite(i->GetTextureID())->width) / 2.0f, float(TextureManager.GetSprite(i->GetTextureID())->height) / 2.0f});
+            
+                DrawStringDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), std::to_string(i->GetHealth()));
+            }
+                // DrawDecal(WorldPosToScreenPos(i->GetX(),i->GetY()), TextureManager[i->GetTextureID()]);
         }
             
         // UI Drawing

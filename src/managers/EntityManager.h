@@ -48,6 +48,11 @@ struct sEntityManager
         return vEntities.size()-1;
     }
 
+    int SpawnCharacter(int x,int y)
+    {
+        AddEntity(new Character(0,x,y));
+        return 0;
+    }
     void SpawnDamageGiver(float x, float y,float Damage = 2,Entity* Owner = nullptr, const uint64_t *Time = nullptr)
     {
         // AddEntity( new DamageGiver (0,Damage,Time));
@@ -60,7 +65,10 @@ struct sEntityManager
         }
         // AddEntity(new SpearEntity ((DamageGiver*)vEntitiTemplates[m_EntityTemplatesNameMap["Spear"]].get(),Owner));
     }
-
+    void SpawnEnemy(int TextureID, float x, float y,void ( * const Attack)(Character*)) 
+    {
+        AddEntity(new Enemy(TextureID,x,y,&Player,Attack));
+    }
     auto begin()
     {
         return vEntities.begin();
@@ -91,6 +99,7 @@ struct sEntityManager
                      i.reset();
                 }
             }
+
         }
     }
     auto GetSizeOfvEntitesVector()

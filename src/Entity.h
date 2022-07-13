@@ -13,7 +13,8 @@ enum class EntityTypes
     GenericEntity = 0,
     Enemy,
     Player,
-    DamageGiver
+    DamageGiver,
+    Character
 };
 
 class Entity
@@ -183,7 +184,12 @@ class Character : public Entity
     bool m_CanAttack = true;
 public:
     // Entity::m_Type;
-    using Entity::Entity;
+    Character(int TextureID = 0, float xx = 0, float yy = 0,EntityTypes EntityType = EntityTypes::GenericEntity): 
+            Entity(TextureID,xx,yy,EntityTypes::Character)
+    {
+        m_Health=m_MaxHealth;
+    }
+
     Character()
     {
         cInventory TempInventory;
@@ -205,6 +211,7 @@ public:
        if (m_Health-health <= 0 )
        {
            m_Health = 0;
+           m_isDead = true;
             return true;
        }
        else 
@@ -417,24 +424,7 @@ class SpearEntity : public DamageGiver
     }
 };
 
-class Enemy : public Character
-{
 
-public:
-    Enemy(){
-
-    }
-    Enemy(int TextureID = 0, float xx = 0, float yy = 0): Character(TextureID,xx,yy,EntityTypes::Enemy) 
-    {
-
-    }
-    // virtual void Update(const Game *GameInstance) override
-   // {
-   //      auto PlayerX = GameInstance->EntityManager.Player.GetX();
-   //      auto PlayerY = GameInstance->EntityManager.Player.GetY();
-   //      
-   // }
-};
 
 class cPlayer : public Character
 {
@@ -477,9 +467,9 @@ public:
         IDofTileSelectedToBuild = ID;
     }
     using Character::Character;
-    cPlayer()
+    cPlayer() : Character(0,0,0)
     {
-        
+       
         SetSpeed(4.0f);
 
     }
@@ -514,4 +504,40 @@ public:
         VelocityY = 0;
         Entity::MoveBack();
     }
+};
+
+
+class Enemy : public Character
+{
+    cPlayer* m_Player = nullptr;
+    void (*m_Attack)(Character*);
+public:
+    Enemy():Character(0,0,0){
+
+    }
+    Enemy(int TextureID = 0, float xx = 0, float yy = 0,cPlayer *Player = nullptr,
+            void (*Attack)(Character*) = nullptr): Character(TextureID,xx,yy,EntityTypes::Enemy) , m_Attack(Attack)
+    {
+        
+    }
+
+    virtual void Update() override
+    {
+        auto x1 = GetX();
+        auto y1 = GetY();
+        auto x2 = m_Player->GetX();
+        auto y2 = m_Player->GetY();
+        float DistanceToPlayerSquare = (x2-x1)*(x2-x1)+(y2-y1)*(y2-y1);
+        if (DistanceToPlayerSquare < 4)
+        {
+            m_Attack(this);
+        }
+    }
+
+    // virtual void Update(const Game *GameInstance) override
+   // {
+   //      auto PlayerX = GameInstance->EntityManager.Player.GetX();
+   //      auto PlayerY = GameInstance->EntityManager.Player.GetY();
+   //      
+   // }
 };
